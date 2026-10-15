@@ -1,160 +1,139 @@
-<h1 align="center" style="position: relative;">
-  <br>
-    <img src="./assets/shoppy-x-ray.svg" alt="logo" width="200">
-  <br>
-  Shopify Skeleton Theme
-</h1>
+# Rabisco: tema Shopify de portfólio
 
-A minimal, carefully structured Shopify theme designed to help you quickly get started. Designed with modularity, maintainability, and Shopify's best practices in mind.
+Tema Shopify (Online Store 2.0) de uma loja fictícia de presentes personalizados, feito para mostrar três coisas que lojistas e agências costumam pedir: **página de produto com personalização e prévia ao vivo**, **carrinho em gaveta com upsell e frete grátis** e **ajuste de velocidade medido com Lighthouse**.
 
-<p align="center">
-  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a>
-  <a href="./actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Shopify/skeleton-theme/actions/workflows/ci.yml/badge.svg"></a>
-</p>
+- Loja de demonstração: `rabisco-demo.myshopify.com` (loja de desenvolvimento, protegida por senha; peça a senha).
+- Produtos, preços e depoimentos são fictícios. Nenhum pedido é entregue.
+- Base: [Shopify Skeleton Theme](https://github.com/Shopify/skeleton-theme) v1.0.0 (commit `8b8a1f4`, licença em `LICENSE.md`). Todo o resto foi escrito do zero para este repositório.
 
-## Getting started
+> **In English:** a Shopify OS 2.0 theme for a fictional personalized-gifts store, built as a portfolio: a product page with live personalization preview, a cart drawer with upsell and free-shipping bar, and a speed fix measured with Lighthouse (mobile performance 42 → 63, LCP 10.8 s → 4.9 s). Details below are in Portuguese; the code and commit history tell the same story.
 
-### Prerequisites
+---
 
-Before starting, ensure you have the latest Shopify CLI installed:
+## 1. Produto personalizável com prévia ao vivo
 
-- [Shopify CLI](https://shopify.dev/docs/api/shopify-cli) – helps you download, upload, preview themes, and streamline your workflows
+![Página de produto no desktop](docs/01-produto-desktop.jpg)
 
-If you use VS Code:
+<img src="docs/03-produto-celular.jpg" alt="Página de produto no celular" width="260"> <img src="docs/04-produto-aviso-qualidade.jpg" alt="Aviso de foto com resolução baixa" width="560">
 
-- [Shopify Liquid VS Code Extension](https://shopify.dev/docs/storefronts/themes/tools/shopify-liquid-vscode) – provides syntax highlighting, linting, inline documentation, and auto-completion specifically designed for Liquid templates
+O cliente escreve um texto, escolhe fonte, cor e posição, manda uma foto, arrasta e dá zoom, e vê o mockup mudar na hora. No celular a prévia fica presa no topo enquanto ele preenche.
 
-### Clone
+- **Mockups em SVG** de caneca, camiseta e ecobag (`snippets/mockup.liquid`), pintados com a cor da variante escolhida. O lojista também pode usar uma imagem própria e marcar a área de impressão em porcentagem.
+- **Checagem de qualidade da foto:** o tema calcula os DPI pelo tamanho real da impressão (configurável) e avisa antes da compra quando a foto vai sair borrada.
+- **Aviso de contraste** quando a cor do texto quase some na cor da peça.
+- **Tudo vai para o pedido** como propriedade do item: texto, fonte, cor, a foto original (upload pela Shopify) e, escondidos do cliente, a posição, o ajuste da foto e uma **imagem da prévia gerada no navegador** (canvas), que aparece no carrinho e chega para a produção.
+- Teclado: a foto também se move pelas setas; os controles são `fieldset` com `legend`, e erros vão para `role="alert"`.
+- Configurável no editor de tema: fontes (3 seletores da biblioteca da Shopify), cores do texto, campos obrigatórios, limite de caracteres, DPI mínimo e tamanho máximo do arquivo.
 
-Clone this repository using Git or Shopify CLI:
+Arquivos: `sections/product.liquid`, `snippets/personalizer-controls.liquid`, `snippets/mockup.liquid`, `assets/product-personalizer.js`, `assets/product-form.js`, `assets/product.css`, `templates/product.personalizado.json`.
+
+## 2. Carrinho em gaveta com upsell e frete grátis
+
+![Carrinho com frete grátis atingido](docs/06-carrinho-frete-gratis.jpg)
+
+<img src="docs/07-carrinho-celular.jpg" alt="Carrinho no celular" width="260">
+
+- `<dialog>` nativo (foco preso, Esc fecha, foco volta para onde estava) atualizado pela **Section Rendering API**: adicionar, mudar quantidade e remover devolvem o HTML da gaveta na mesma resposta, sem recarregar a página.
+- **Barra de frete grátis** com o valor das configurações do tema, comparado ao total depois dos descontos.
+- **Upsell** de até 3 produtos escolhidos no editor, pulando o que já está no carrinho e o que está esgotado; produto com opções ou personalização leva para a página dele.
+- **Preço no Pix** ("ou R$ X no Pix") com o percentual das configurações. É só exibição: o desconto em si vem do meio de pagamento.
+- **Eventos:** `add_to_cart`, `remove_from_cart`, `view_cart`, `view_item_list`, `upsell_added` e `free_shipping_unlocked` são publicados nos eventos de cliente da Shopify (`Shopify.analytics.publish`) e, se a opção estiver ligada, no `dataLayer` no formato de e-commerce do GA4.
+- A página `/cart` usa os mesmos snippets e funciona sem JavaScript.
+
+Arquivos: `sections/cart-drawer.liquid`, `snippets/cart-items.liquid`, `snippets/cart-upsell.liquid`, `snippets/free-shipping-bar.liquid`, `snippets/cart-summary.liquid`, `assets/cart-drawer.js`, `assets/cart.css`, `assets/theme.js`.
+
+## 3. Velocidade: a mesma home, antes e depois
+
+![Home no desktop](docs/08-home-desktop.jpg)
+
+A home foi montada primeiro do jeito que muita loja lenta chega para um freelancer, medida, e depois ajustada. Não é a loja de um cliente.
+
+**O que a versão "antes" tinha** (commit `f901575`, tag `velocidade-antes`):
+- Google Fonts com todas as variações, sem `preconnect` e sem `font-display`, por cima das fontes do tema;
+- jQuery, Slick e AOS síncronos no `<head>`, e o Font Awesome inteiro só para alguns ícones;
+- banner com a imagem de 3840 px em `background-image`, que o navegador só descobre depois do CSS, e o título escondido pelo AOS até o JavaScript rodar;
+- vitrine com imagens de 1500 px sem `srcset`, sem `width`/`height` e sem `loading="lazy"`;
+- texto cinza claro sem contraste, imagem sem `alt` e ícone sem nome.
+
+**O que mudou** (commit `6613c96`, tag `velocidade-depois`, mais o ajuste do banner no celular em `dac6ad1`):
+- só as fontes da biblioteca da Shopify, com `font-display: swap` e preload das duas usadas acima da dobra;
+- sem jQuery, Slick, AOS e Font Awesome: depoimentos em `scroll-snap` com 30 linhas de JavaScript com `defer`, ícones em SVG inline;
+- banner com `<img>` responsiva (`srcset` de 600 a 2400 px, `sizes="100vw"`), `fetchpriority="high"`, preload e `width`/`height`; no celular o texto vem antes da imagem e aparece sem depender de JavaScript;
+- vitrine com `srcset`, `sizes`, `loading="lazy"` e `width`/`height`;
+- contraste corrigido, nome nos botões de ícone e nota dos depoimentos legível por leitor de tela.
+
+Theme Check: 4 erros e 8 avisos antes (`ParserBlockingScript`, `ImgWidthAndHeight`, `RemoteAsset`), nenhum depois.
+
+### Números medidos
+
+Lighthouse 13.5.0, 5 rodadas de cada lado, **mediana** (rodada escolhida por `computeMedianRun`), em 15/10/2026.
+
+| Celular | Antes | Depois |
+|---|---|---|
+| Performance | **42** (39–44) | **63** (54–64) |
+| LCP | **10,8 s** (10,8–11,9) | **4,9 s** (4,4–5,7) |
+| Total Blocking Time | **1.776 ms** (1.311–2.019) | **784 ms** (489–1.562) |
+| First Contentful Paint | 2,8 s | 2,2 s |
+| CLS | 0 | 0 |
+| Acessibilidade | **91** | **96** |
+| Peso da página | 4.194 KB | 3.172 KB |
+
+| Desktop | Antes | Depois |
+|---|---|---|
+| Performance | 78 (76–79) | 77 (75–90) |
+| LCP | 2,2 s | 1,3 s |
+| Total Blocking Time | 233 ms (225–280) | 418 ms (181–516) |
+| Acessibilidade | 91 | 96 |
+
+Entre parênteses, o menor e o maior valor das 5 rodadas. No desktop a nota de performance ficou igual e o TBT variou muito entre rodadas dos dois lados, então não dá para dizer que melhorou ou piorou ali; o ganho claro é no celular e no LCP.
+
+**Como foi medido.** As duas versões rodaram no mesmo tema de desenvolvimento, servido por `shopify theme dev --live-reload off` em `http://127.0.0.1:9292/`, com o Lighthouse simulando um celular (throttling simulado, padrão do Lighthouse). O "antes" medido é o branch `velocidade/antes` (commit `fd84bee`: o tema atual com o `theme.liquid` e as quatro seções da home de `velocidade-antes`); o "depois" é o `main` no commit `dac6ad1`. Os relatórios completos estão em `lighthouse/antes/` e `lighthouse/depois/` (HTML para abrir no navegador e JSON da rodada mediana, mais `resumo.json` com as 5 rodadas). Para medir de novo: `npm run medir -- <rótulo> <url> 5`.
+
+**O que sobra e não é do tema.** O servidor local do CLI entrega o HTML sem compressão e sem CDN, nas duas medições; na loja publicada os números absolutos tendem a ser melhores, mas não medi isso. E a maior parte do peso e do bloqueio que restou vem dos scripts que a própria Shopify injeta pelo `content_for_header`: o pré-carregamento do checkout (cerca de 2,3 MB), o perf-kit, o gerenciador de pixels e o analytics. Nenhum tema remove isso. No que o tema controla, o relatório de depois não aponta imagem grande, fonte bloqueando nem script de terceiros.
+
+---
+
+## Rodar localmente
+
+Precisa do [Shopify CLI](https://shopify.dev/docs/api/shopify-cli) e de uma loja de desenvolvimento.
 
 ```bash
-git clone git@github.com:Shopify/skeleton-theme.git
-# or
-shopify theme init
+shopify theme dev --store sua-loja.myshopify.com
 ```
-
-### Preview
-
-Preview this theme using Shopify CLI:
 
 ```bash
-shopify theme dev
+shopify theme check
 ```
 
-## Theme architecture
+Dados da loja de demonstração (produtos, fotos, banner e menu), depois de autorizar o CLI na loja com `shopify store auth`:
 
 ```bash
-.
-├── assets          # Stores static assets (CSS, JS, images, fonts, etc.)
-├── blocks          # Reusable, nestable, customizable UI components
-├── config          # Global theme settings and customization options
-├── layout          # Top-level wrappers for pages (layout templates)
-├── locales         # Translation files for theme internationalization
-├── sections        # Modular full-width page components
-├── snippets        # Reusable Liquid code or HTML fragments
-└── templates       # Templates combining sections to define page structures
+python demo/imagens.py
 ```
 
-To learn more, refer to the [theme architecture documentation](https://shopify.dev/docs/storefronts/themes/architecture).
+```bash
+python demo/semear.py sua-loja.myshopify.com
+```
 
-### Templates
+Prints das peças (Puppeteer com o Chrome instalado, contra o `theme dev`):
 
-[Templates](https://shopify.dev/docs/storefronts/themes/architecture/templates#template-types) control what's rendered on each type of page in a theme.
+```bash
+node demo/prints.mjs demo/prints
+```
 
-The Skeleton Theme scaffolds [JSON templates](https://shopify.dev/docs/storefronts/themes/architecture/templates/json-templates) to make it easy for merchants to customize their store.
+## Estrutura
 
-None of the template types are required, and not all of them are included in the Skeleton Theme. Refer to the [template types reference](https://shopify.dev/docs/storefronts/themes/architecture/templates#template-types) for a full list.
+```
+assets/      CSS e JavaScript de cada peça, ícones SVG
+config/      configurações do tema (cores, fontes, carrinho, Pix, rastreamento)
+layout/      theme.liquid
+locales/     pt-BR e inglês (textos da loja e do editor)
+sections/    produto, carrinho (página e gaveta), home, cabeçalho, rodapé
+snippets/    personalizador, mockups, itens do carrinho, upsell, barra de frete
+templates/   JSON (OS 2.0), incluindo product.personalizado.json
+demo/        imagens fictícias, criação dos produtos e prints
+lighthouse/  script de medição e relatórios de antes e depois
+scripts/     Shopify CLI com sessão separada (uso pessoal do autor)
+```
 
-### Sections
-
-[Sections](https://shopify.dev/docs/storefronts/themes/architecture/sections) are Liquid files that allow you to create reusable modules of content that can be customized by merchants. They can also include blocks which allow merchants to add, remove, and reorder content within a section.
-
-Sections are made customizable by including a `{% schema %}` in the body. For more information, refer to the [section schema documentation](https://shopify.dev/docs/storefronts/themes/architecture/sections/section-schema).
-
-### Blocks
-
-[Blocks](https://shopify.dev/docs/storefronts/themes/architecture/blocks) let developers create flexible layouts by breaking down sections into smaller, reusable pieces of Liquid. Each block has its own set of settings, and can be added, removed, and reordered within a section.
-
-Blocks are made customizable by including a `{% schema %}` in the body. For more information, refer to the [block schema documentation](https://shopify.dev/docs/storefronts/themes/architecture/blocks/theme-blocks/schema).
-
-## Schemas
-
-When developing components defined by schema settings, we recommend these guidelines to simplify your code:
-
-- **Single property settings**: For settings that correspond to a single CSS property, use CSS variables:
-
-  ```liquid
-  <div class="collection" style="--gap: {{ block.settings.gap }}px">
-    ...
-  </div>
-
-  {% stylesheet %}
-    .collection {
-      gap: var(--gap);
-    }
-  {% endstylesheet %}
-
-  {% schema %}
-  {
-    "settings": [{
-      "type": "range",
-      "label": "gap",
-      "id": "gap",
-      "min": 0,
-      "max": 100,
-      "unit": "px",
-      "default": 0,
-    }]
-  }
-  {% endschema %}
-  ```
-
-- **Multiple property settings**: For settings that control multiple CSS properties, use CSS classes:
-
-  ```liquid
-  <div class="collection {{ block.settings.layout }}">
-    ...
-  </div>
-
-  {% stylesheet %}
-    .collection--full-width {
-      /* multiple styles */
-    }
-    .collection--narrow {
-      /* multiple styles */
-    }
-  {% endstylesheet %}
-
-  {% schema %}
-  {
-    "settings": [{
-      "type": "select",
-      "id": "layout",
-      "label": "layout",
-      "values": [
-        { "value": "collection--full-width", "label": "t:options.full" },
-        { "value": "collection--narrow", "label": "t:options.narrow" }
-      ]
-    }]
-  }
-  {% endschema %}
-  ```
-
-## CSS & JavaScript
-
-For CSS and JavaScript, we recommend using the [`{% stylesheet %}`](https://shopify.dev/docs/api/liquid/tags#stylesheet) and [`{% javascript %}`](https://shopify.dev/docs/api/liquid/tags/javascript) tags. They can be included multiple times, but the code will only appear once.
-
-### `critical.css`
-
-The Skeleton Theme explicitly separates essential CSS necessary for every page into a dedicated `critical.css` file.
-
-## Contributing
-
-We're excited for your contributions to the Skeleton Theme! This repository aims to remain as lean, lightweight, and fundamental as possible, and we kindly ask your contributions to align with this intention.
-
-Visit our [CONTRIBUTING.md](./CONTRIBUTING.md) for a detailed overview of our process, guidelines, and recommendations.
-
-## License
-
-Skeleton Theme is open-sourced under the [MIT](./LICENSE.md) License.
+Autor: Gabriel Velozo.

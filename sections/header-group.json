@@ -13,10 +13,13 @@
   "sections": {
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "announcement": "Frete grátis acima de R$ 150 · 5% de desconto no Pix",
+        "menu": "main-menu"
+      }
     }
   },
   "order": [
     "header"
-  ],
+  ]
 }

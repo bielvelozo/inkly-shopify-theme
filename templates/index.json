@@ -8,6 +8,117 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "image": "shopify://shop_images/rabisco-hero.jpg",
+        "heading": "Presente com a sua cara",
+        "subheading": "Canecas, camisetas e ecobags com o seu texto e a sua foto. Você vê a prévia antes de comprar.",
+        "button_label": "Criar o meu",
+        "button_link": "/collections/all"
+      }
+    },
+    "featured": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "Mais pedidos",
+        "collection": "",
+        "products_to_show": 4
+      }
+    },
+    "steps": {
+      "type": "steps",
+      "blocks": {
+        "step-1": {
+          "type": "step",
+          "settings": {
+            "icon": "pick",
+            "title": "Escolha a peça",
+            "text": "Caneca, camiseta ou ecobag, na cor que quiser."
+          }
+        },
+        "step-2": {
+          "type": "step",
+          "settings": {
+            "icon": "edit",
+            "title": "Personalize na tela",
+            "text": "Escreva o texto, mande a foto e ajuste vendo a prévia."
+          }
+        },
+        "step-3": {
+          "type": "step",
+          "settings": {
+            "icon": "box",
+            "title": "Receba em casa",
+            "text": "A gente confere a arte e envia em até 3 dias úteis."
+          }
+        }
+      },
+      "block_order": [
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "settings": {
+        "heading": "Como funciona"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "t-1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "A caneca chegou igualzinha à prévia. Minha mãe chorou.",
+            "author": "Cliente fictícia",
+            "location": "Matão, SP",
+            "rating": 5
+          }
+        },
+        "t-2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Mandei uma foto meio escura e o site avisou antes de eu comprar. Troquei e ficou ótima.",
+            "author": "Cliente fictício",
+            "location": "Araraquara, SP",
+            "rating": 5
+          }
+        },
+        "t-3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Fiz as camisetas do aniversário do meu filho. Chegaram antes do prazo.",
+            "author": "Cliente fictícia",
+            "location": "São Carlos, SP",
+            "rating": 5
+          }
+        },
+        "t-4": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "A ecobag é grossa e a estampa não saiu na primeira lavagem.",
+            "author": "Cliente fictício",
+            "location": "Ribeirão Preto, SP",
+            "rating": 4
+          }
+        }
+      },
+      "block_order": [
+        "t-1",
+        "t-2",
+        "t-3",
+        "t-4"
+      ],
+      "settings": {
+        "heading": "Quem já fez"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "featured",
+    "steps",
+    "testimonials"
+  ]
 }

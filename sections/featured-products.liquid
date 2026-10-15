@@ -1,0 +1,99 @@
+{%- liquid
+  assign source = section.settings.collection
+  if source == blank
+    assign source = collections.all
+  endif
+-%}
+
+<div class="featured section-spacing">
+  <div class="featured__header" data-aos="fade-up">
+    <h2>{{ section.settings.heading }}</h2>
+    <a href="{{ source.url }}">{{ 'sections.featured_products.view_all' | t }} <i class="fa-solid fa-chevron-right"></i></a>
+  </div>
+
+  <div class="featured__grid">
+    {% for product in source.products limit: section.settings.products_to_show %}
+      <a class="featured__card" href="{{ product.url }}" data-aos="fade-up" data-aos-delay="{{ forloop.index | times: 150 }}">
+        <img src="{{ product.featured_image | image_url: width: 1500 }}">
+        <p class="featured__title">{{ product.title }}</p>
+        <p class="featured__price">{{ product.price | money }}</p>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .featured__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .featured__header a {
+    color: #b0a99f;
+    text-decoration: none;
+  }
+
+  .featured__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .featured__card {
+    text-decoration: none;
+  }
+
+  .featured__card img {
+    width: 100%;
+    border-radius: 18px;
+  }
+
+  .featured__title {
+    margin-top: 0.75rem;
+    font-weight: 600;
+  }
+
+  .featured__price {
+    color: #b0a99f;
+  }
+
+  @media (max-width: 749px) {
+    .featured__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.featured_products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:labels.collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "t:labels.products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.featured_products"
+    }
+  ]
+}
+{% endschema %}

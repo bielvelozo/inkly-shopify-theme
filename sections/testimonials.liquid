@@ -1,0 +1,117 @@
+<div class="testimonials section-spacing">
+  <h2 class="testimonials__heading" data-aos="fade-up">{{ section.settings.heading }}</h2>
+  <div class="testimonials__slider">
+    {% for block in section.blocks %}
+      <div class="testimonials__slide" {{ block.shopify_attributes }}>
+        <div class="testimonials__card">
+          <div class="testimonials__stars">
+            {% for i in (1..block.settings.rating) %}<i class="fa-solid fa-star"></i>{% endfor %}
+          </div>
+          <p class="testimonials__quote">“{{ block.settings.quote }}”</p>
+          <p class="testimonials__author">{{ block.settings.author }} · {{ block.settings.location }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  $(function () {
+    $('.testimonials__slider').slick({
+      dots: true,
+      arrows: true,
+      autoplay: true,
+      autoplaySpeed: 4000,
+      slidesToShow: 3,
+      responsive: [
+        { breakpoint: 990, settings: { slidesToShow: 2 } },
+        { breakpoint: 750, settings: { slidesToShow: 1 } }
+      ]
+    });
+  });
+</script>
+
+{% stylesheet %}
+  .testimonials__heading {
+    text-align: center;
+  }
+
+  .testimonials__slider {
+    margin-top: 2.5rem;
+  }
+
+  .testimonials__slide {
+    padding: 0 0.75rem;
+  }
+
+  .testimonials__card {
+    padding: 1.75rem;
+    border-radius: 20px;
+    background: #fff;
+  }
+
+  .testimonials__stars {
+    color: #f2b33d;
+  }
+
+  .testimonials__quote {
+    margin-top: 1rem;
+    font-size: 1.05rem;
+  }
+
+  .testimonials__author {
+    margin-top: 1rem;
+    color: #b0a99f;
+    font-size: 0.9rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "t:general.testimonial",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "t:labels.quote"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "t:labels.author"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "t:labels.location"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "t:labels.rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.testimonials"
+    }
+  ]
+}
+{% endschema %}

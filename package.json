@@ -1,0 +1,13 @@
+{
+  "name": "rabisco-shopify-theme",
+  "private": true,
+  "description": "Tema Shopify de portfólio: produto personalizável, carrinho em gaveta e velocidade medida",
+  "scripts": {
+    "check": "shopify theme check",
+    "medir": "node lighthouse/medir.mjs"
+  },
+  "devDependencies": {
+    "lighthouse": "^13.5.0",
+    "puppeteer-core": "^24.43.1"
+  }
+}

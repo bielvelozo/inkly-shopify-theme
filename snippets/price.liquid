@@ -1,0 +1,17 @@
+{% doc %}
+  Renders a price with the compare-at price when the variant is on sale.
+
+  @param {object} variant - The variant whose price is shown
+  @param {string} [class] - Extra class on the wrapper
+{% enddoc %}
+
+<span class="price {{ class }}" data-price>
+  {%- if variant.compare_at_price > variant.price -%}
+    <span class="visually-hidden">{{ 'products.product.sale_price' | t }}</span>
+    {{ variant.price | money }}
+    <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+    <s>{{ variant.compare_at_price | money }}</s>
+  {%- else -%}
+    {{ variant.price | money }}
+  {%- endif -%}
+</span>

@@ -1,9 +1,9 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Skeleton",
-    "theme_version": "0.1.0",
-    "theme_author": "Shopify",
+    "theme_name": "Rabisco",
+    "theme_version": "1.0.0",
+    "theme_author": "Gabriel Velozo",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
     "theme_support_url": "https://support.shopify.com/"
   },
@@ -16,10 +16,16 @@
       },
       {
         "type": "font_picker",
-        "id": "type_primary_font",
-        "default": "work_sans_n4",
-        "label": "t:general.primary"
+        "id": "type_heading_font",
+        "default": "bricolage_grotesque_n7",
+        "label": "t:labels.heading_font"
       },
+      {
+        "type": "font_picker",
+        "id": "type_primary_font",
+        "default": "dm_sans_n4",
+        "label": "t:labels.body_font"
+      }
     ]
   },
   {
@@ -59,24 +65,127 @@
       {
         "type": "color",
         "id": "background_color",
-        "default": "#FFFFFF",
+        "default": "#FBF7F1",
         "label": "t:labels.background"
       },
       {
         "type": "color",
+        "id": "surface_color",
+        "default": "#FFFFFF",
+        "label": "t:labels.surface"
+      },
+      {
+        "type": "color",
         "id": "foreground_color",
-        "default": "#333333",
+        "default": "#1D1A16",
         "label": "t:labels.foreground"
+      },
+      {
+        "type": "color",
+        "id": "muted_color",
+        "default": "#655E55",
+        "label": "t:labels.muted"
+      },
+      {
+        "type": "color",
+        "id": "accent_color",
+        "default": "#D9481F",
+        "label": "t:labels.accent"
+      },
+      {
+        "type": "color",
+        "id": "border_color",
+        "default": "#E6DDD0",
+        "label": "t:labels.border"
       },
       {
         "type": "range",
         "id": "input_corner_radius",
         "min": 0,
-        "max": 10,
+        "max": 20,
         "step": 1,
         "unit": "px",
         "label": "t:labels.input_corner_radius",
-        "default": 4
+        "default": 10
+      }
+    ]
+  },
+  {
+    "name": "t:general.cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "t:labels.cart_type",
+        "options": [
+          {
+            "value": "drawer",
+            "label": "t:options.cart_type.drawer"
+          },
+          {
+            "value": "page",
+            "label": "t:options.cart_type.page"
+          }
+        ],
+        "default": "drawer"
+      },
+      {
+        "type": "header",
+        "content": "t:labels.free_shipping"
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "t:labels.free_shipping_threshold",
+        "info": "t:info.free_shipping_threshold",
+        "default": 150
+      },
+      {
+        "type": "header",
+        "content": "t:labels.upsell"
+      },
+      {
+        "type": "text",
+        "id": "cart_upsell_heading",
+        "label": "t:labels.heading",
+        "info": "t:info.upsell_heading"
+      },
+      {
+        "type": "product_list",
+        "id": "cart_upsell_products",
+        "label": "t:labels.upsell_products",
+        "info": "t:info.upsell_products",
+        "limit": 8
+      },
+      {
+        "type": "header",
+        "content": "t:labels.pix"
+      },
+      {
+        "type": "range",
+        "id": "pix_discount_percent",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "%",
+        "label": "t:labels.pix_discount_percent",
+        "info": "t:info.pix_discount_percent",
+        "default": 5
+      }
+    ]
+  },
+  {
+    "name": "t:general.analytics",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:info.analytics"
+      },
+      {
+        "type": "checkbox",
+        "id": "analytics_datalayer",
+        "label": "t:labels.analytics_datalayer",
+        "default": false
       }
     ]
   }

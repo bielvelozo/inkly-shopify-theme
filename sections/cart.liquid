@@ -1,33 +1,31 @@
 {% comment %}
-  This section is used in the cart template to render /cart page with an
-  overview of the items in customer's cart.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/cart
+  Cart page. Uses the same snippets as the drawer, so it works without
+  JavaScript and when the theme setting switches the cart to a page.
 {% endcomment %}
 
-<h1>{{ 'cart.title' | t }}</h1>
+{{ 'cart.css' | asset_url | stylesheet_tag }}
 
-<form action="{{ routes.cart_url }}" method="post">
-  <table>
-    {% for item in cart.items %}
-      <tr>
-        <td>
-          {% render 'image', image: item.image, url: item.url %}
-        </td>
-        <td>
-          <p>{{ item.product.title }}</p>
-          {{ 'cart.remove' | t | link_to: item.url_to_remove }}
-        </td>
-        <td>
-          <input type="text" name="updates[]" value="{{ item.quantity }}">
-          <input type="submit" value="{{ 'cart.update' | t }}">
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
+<div class="section-spacing">
+  <h1>{{ 'cart.title' | t }}</h1>
+</div>
 
-  <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
-</form>
+{% if cart.item_count > 0 %}
+  <div class="cart-page">
+    <div class="cart-page__main">
+      {% render 'free-shipping-bar' %}
+      {% render 'cart-items' %}
+      {% render 'cart-upsell' %}
+    </div>
+    <aside class="cart-page__aside">
+      {% render 'cart-summary' %}
+    </aside>
+  </div>
+{% else %}
+  <div class="cart-page__empty">
+    <p>{{ 'cart.empty' | t }}</p>
+    <a class="button" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue_shopping' | t }}</a>
+  </div>
+{% endif %}
 
 {% schema %}
 {

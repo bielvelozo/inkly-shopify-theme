@@ -4,20 +4,50 @@
     {% # Inlined CSS Variables %}
     {% render 'css-variables' %}
 
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {{ settings.type_heading_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+    {{ settings.type_primary_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
 
+    <script>
+      window.theme = {
+        routes: {
+          root: {{ routes.root_url | json }},
+          cart: {{ routes.cart_url | json }},
+          cartAdd: {{ routes.cart_add_url | json }},
+          cartChange: {{ routes.cart_change_url | json }}
+        },
+        cartType: {{ settings.cart_type | json }},
+        currency: {{ cart.currency.iso_code | json }},
+        dataLayer: {{ settings.analytics_datalayer | json }}
+      };
+    </script>
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    {% if settings.cart_type == 'drawer' %}
+      <script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
+    {% endif %}
+
     {{ content_for_header }}
   </head>
 
   <body>
+    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+
     {% sections 'header-group' %}
 
-    {{ content_for_layout }}
+    <main id="MainContent" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
 
     {% sections 'footer-group' %}
+
+    {% if settings.cart_type == 'drawer' %}
+      {% section 'cart-drawer' %}
+    {% endif %}
   </body>
 </html>

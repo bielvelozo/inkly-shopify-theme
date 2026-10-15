@@ -1,0 +1,40 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "product",
+      "blocks": {
+        "personalizer": {
+          "type": "personalizer",
+          "settings": {
+            "mockup": "auto"
+          }
+        },
+        "prazo": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Produção em até 3 dias úteis.</strong> A nossa equipe confere a sua arte antes de imprimir e avisa por e-mail se algo precisar de ajuste.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "personalizer",
+        "prazo"
+      ],
+      "settings": {
+        "show_dynamic_checkout": false
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,54 +1,208 @@
-<header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
+{% if section.settings.announcement != blank %}
+  <p class="announcement full-width">{{ section.settings.announcement }}</p>
+{% endif %}
 
-  <div class="header__menu">
+<header class="header">
+  <details class="header__drawer">
+    <summary class="header__icon" aria-label="{{ 'header.menu' | t }}">
+      {{ 'icon-menu.svg' | inline_asset_content }}
+    </summary>
+    <nav class="header__drawer-nav" aria-label="{{ 'header.menu' | t }}">
+      {% for link in section.settings.menu.links %}
+        <a
+          href="{{ link.url }}"
+          {% if link.current %}
+            aria-current="page"
+          {% endif %}
+        >
+          {{- link.title -}}
+        </a>
+      {% endfor %}
+    </nav>
+  </details>
+
+  <a class="header__logo heading" href="{{ routes.root_url }}">
+    {%- if section.settings.logo -%}
+      {{
+        section.settings.logo
+        | image_url: width: 400
+        | image_tag: alt: shop.name, width: section.settings.logo_width, height: null, loading: 'eager'
+      }}
+    {%- else -%}
+      {{ shop.name }}
+    {%- endif -%}
+  </a>
+
+  <nav class="header__menu" aria-label="{{ 'header.menu' | t }}">
     {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
+      <a
+        href="{{ link.url }}"
+        {% if link.current %}
+          aria-current="page"
+        {% endif %}
+      >
+        {{- link.title -}}
+      </a>
     {% endfor %}
-  </div>
+  </nav>
 
   <div class="header__icons">
     {% if shop.customer_accounts_enabled %}
-      {{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
+      <a class="header__icon" href="{{ routes.account_url }}" aria-label="{{ 'header.account' | t }}">
+        {{ 'icon-account.svg' | inline_asset_content }}
+      </a>
     {% endif %}
 
-    <a href="{{ routes.cart_url }}">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
-      {% endif %}
-
+    <a
+      class="header__icon header__cart"
+      href="{{ routes.cart_url }}"
+      data-cart-toggle
+      aria-label="{{ 'header.cart_count' | t: count: cart.item_count }}"
+    >
       {{ 'icon-cart.svg' | inline_asset_content }}
+      <span class="header__cart-count" data-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>
+        {{- cart.item_count -}}
+      </span>
     </a>
   </div>
 </header>
 
 {% stylesheet %}
-  header {
-    height: 5rem;
-    display: flex;
+  .announcement {
+    padding: 0.55rem var(--page-margin);
+    background: var(--color-foreground);
+    color: var(--color-background);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
-  }
-  header a {
-    position: relative;
-    text-decoration: none;
-    color: var(--color-foreground);
-  }
-  header a sup {
-    position: absolute;
-    left: 100%;
-    overflow: hidden;
-    max-width: var(--page-margin);
-  }
-  header svg {
-    width: 2rem;
-  }
-  header .header__menu,
-  header .header__icons {
-    display: flex;
     gap: 1rem;
+    min-height: 4.5rem;
+  }
+
+  .header__logo {
+    grid-column: 2;
+    font-size: 1.6rem;
+    text-decoration: none;
+  }
+
+  .header__logo img {
+    width: auto;
+    max-height: 2.5rem;
+  }
+
+  .header__menu {
+    display: none;
+  }
+
+  .header__menu a,
+  .header__drawer-nav a {
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .header__menu a:hover,
+  .header__menu a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+
+  .header__icons {
+    grid-column: 3;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.25rem;
+  }
+
+  .header__icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    color: var(--color-foreground);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .header__icon::-webkit-details-marker {
+    display: none;
+  }
+
+  .header__icon:hover {
+    background: color-mix(in srgb, var(--color-foreground) 7%, transparent);
+  }
+
+  .header__icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .header__cart-count {
+    position: absolute;
+    top: 0.2rem;
+    right: 0.1rem;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.3rem;
+    border-radius: 999px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+    text-align: center;
+  }
+
+  .header__drawer {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .header__drawer-nav {
+    position: absolute;
+    z-index: 20;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: grid;
+    gap: 0.25rem;
+    padding: 1rem var(--page-margin) 1.5rem;
+    background: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+    font-size: 1.15rem;
+  }
+
+  .header__drawer-nav a {
+    padding: 0.6rem 0;
+  }
+
+  @media (min-width: 990px) {
+    .header {
+      grid-template-columns: auto 1fr auto;
+      gap: 2.5rem;
+    }
+
+    .header__logo {
+      grid-column: 1;
+    }
+
+    .header__drawer {
+      display: none;
+    }
+
+    .header__menu {
+      grid-column: 2;
+      display: flex;
+      gap: 1.75rem;
+    }
   }
 {% endstylesheet %}
 
@@ -57,9 +211,30 @@
   "name": "t:general.header",
   "settings": [
     {
+      "type": "text",
+      "id": "announcement",
+      "label": "t:labels.announcement"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:labels.logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 60,
+      "max": 240,
+      "step": 10,
+      "unit": "px",
+      "label": "t:labels.logo_width",
+      "default": 120
+    },
+    {
       "type": "link_list",
       "id": "menu",
-      "label": "t:labels.menu"
+      "label": "t:labels.menu",
+      "default": "main-menu"
     }
   ]
 }

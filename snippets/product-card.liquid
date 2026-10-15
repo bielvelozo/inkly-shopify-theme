@@ -1,0 +1,47 @@
+{% doc %}
+  Product card used in grids. The image is decorative because the title
+  link right below names the product.
+
+  @param {product} product - The product to show
+  @param {string} [sizes] - The sizes attribute for the image
+{% enddoc %}
+
+{%- liquid
+  assign image = product.featured_image
+  assign image_sizes = sizes | default: '(min-width: 990px) 22vw, 45vw'
+  assign price_min = product.price_min | money
+-%}
+
+<div class="product-card">
+  <div class="product-card__media">
+    {%- if image -%}
+      {{
+        image
+        | image_url: width: 900
+        | image_tag:
+          widths: '200, 300, 400, 500, 600, 700, 900',
+          sizes: image_sizes,
+          loading: 'lazy',
+          alt: ''
+      }}
+    {%- endif -%}
+  </div>
+
+  {%- if product.compare_at_price > product.price -%}
+    <span class="badge product-card__badge">{{ 'products.product.sale' | t }}</span>
+  {%- elsif product.template_suffix == 'personalizado' -%}
+    <span class="badge product-card__badge">{{ 'products.product.personalizable' | t }}</span>
+  {%- endif -%}
+
+  <h3 class="product-card__title">
+    <a class="product-card__link" href="{{ product.url }}">{{ product.title }}</a>
+  </h3>
+
+  <div class="product-card__meta">
+    {%- if product.price_varies -%}
+      <span class="price">{{ 'products.product.from_price_html' | t: price: price_min }}</span>
+    {%- else -%}
+      {% render 'price', variant: product.selected_or_first_available_variant %}
+    {%- endif -%}
+  </div>
+</div>

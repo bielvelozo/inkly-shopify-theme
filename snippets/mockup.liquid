@@ -1,0 +1,58 @@
+{% doc %}
+  Draws one layer of a product mockup in a 600x600 SVG coordinate space.
+  The base layer goes under the customer's print and the shade layer on top
+  of it, so the print looks wrapped around the product. Fabric and ceramic
+  use `currentColor`, which the parent <svg> sets from the selected variant.
+
+  @param {string} type - caneca, camiseta or ecobag
+  @param {string} layer - base or shade
+{% enddoc %}
+
+{%- case type -%}
+  {%- when 'camiseta' -%}
+    {%- if layer == 'base' -%}
+      <g data-layer="base">
+        <ellipse cx="300" cy="560" rx="200" ry="16" fill="#000" opacity=".08"/>
+        <path d="M222 66 168 84 62 150l46 98 54-24v314h276V224l54 24 46-98-106-66-54-18c-14 34-44 54-78 54s-64-20-78-54Z" fill="currentColor"/>
+        <path d="M222 66 168 84 62 150l46 98 54-24v314h276V224l54 24 46-98-106-66-54-18c-14 34-44 54-78 54s-64-20-78-54Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
+        <path d="M222 66c14 34 44 54 78 54s64-20 78-54" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="7"/>
+        <path d="M162 224v-56M438 224v-56" stroke="#000" stroke-opacity=".08" stroke-width="2"/>
+      </g>
+    {%- else -%}
+      <g data-layer="shade" pointer-events="none">
+        <path d="M162 224v314h276V224" fill="url(#MockupFabric)" opacity=".55"/>
+        <path d="M250 538c6-80 4-170-8-250M366 538c-4-60 0-130 14-200" fill="none" stroke="#000" stroke-opacity=".05" stroke-width="10" stroke-linecap="round"/>
+      </g>
+    {%- endif -%}
+  {%- when 'ecobag' -%}
+    {%- if layer == 'base' -%}
+      <g data-layer="base">
+        <ellipse cx="300" cy="560" rx="185" ry="15" fill="#000" opacity=".08"/>
+        <path d="M222 214c0-120 156-120 156 0" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round"/>
+        <path d="M222 214c0-120 156-120 156 0" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="24" stroke-linecap="round"/>
+        <path d="M128 200h344l14 346H114Z" fill="currentColor"/>
+        <path d="M128 200h344l14 346H114Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
+        <path d="M128 222h344" stroke="#000" stroke-opacity=".12" stroke-width="2" stroke-dasharray="6 6"/>
+      </g>
+    {%- else -%}
+      <g data-layer="shade" pointer-events="none">
+        <path d="M128 200h344l14 346H114Z" fill="url(#MockupFabric)" opacity=".5"/>
+      </g>
+    {%- endif -%}
+  {%- else -%}
+    {%- if layer == 'base' -%}
+      <g data-layer="base">
+        <ellipse cx="290" cy="528" rx="190" ry="20" fill="#000" opacity=".1"/>
+        <path d="M424 236c78-6 106 32 106 84s-32 92-112 88" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="44" stroke-linecap="round"/>
+        <path d="M424 236c78-6 106 32 106 84s-32 92-112 88" fill="none" stroke="currentColor" stroke-width="34" stroke-linecap="round"/>
+        <path d="M124 150h312v334c0 22-18 38-40 38H164c-22 0-40-16-40-38Z" fill="currentColor"/>
+        <path d="M124 150h312v334c0 22-18 38-40 38H164c-22 0-40-16-40-38Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
+        <ellipse cx="280" cy="150" rx="156" ry="18" fill="currentColor"/>
+        <ellipse cx="280" cy="151" rx="146" ry="12" fill="#000" opacity=".22"/>
+      </g>
+    {%- else -%}
+      <g data-layer="shade" pointer-events="none">
+        <path d="M124 166h312v318c0 22-18 38-40 38H164c-22 0-40-16-40-38Z" fill="url(#MockupCeramic)"/>
+      </g>
+    {%- endif -%}
+{%- endcase -%}

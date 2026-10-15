@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="{{ 'cart.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'cart.css' | asset_url | stylesheet_tag }}</noscript>
+
+<cart-drawer class="cart-drawer" data-cart-section="{{ section.id }}">
+  <dialog class="cart-drawer__dialog" scroll-lock aria-labelledby="CartDrawerTitle" data-cart-dialog>
+    <p class="cart-drawer__error" role="alert" data-cart-error hidden></p>
+
+    <div
+      class="cart-drawer__content"
+      data-cart-content
+      data-cart-count-value="{{ cart.item_count }}"
+      data-cart-label="{{ 'header.cart_count' | t: count: cart.item_count | escape }}"
+      data-cart-value="{{ cart.total_price | divided_by: 100.0 }}"
+    >
+      <div class="cart-drawer__header">
+        <h2 class="cart-drawer__title" id="CartDrawerTitle">
+          {{ 'cart.title' | t }}
+          {% if cart.item_count > 0 %}
+            <span class="cart-drawer__count">({{ cart.item_count }})</span>
+          {% endif %}
+        </h2>
+        <button type="button" class="cart-drawer__close" data-cart-close aria-label="{{ 'cart.close' | t }}">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </button>
+      </div>
+
+      {% if cart.item_count > 0 %}
+        <div class="cart-drawer__body">
+          {% render 'free-shipping-bar' %}
+          {% render 'cart-items' %}
+          {% render 'cart-upsell' %}
+        </div>
+        <div class="cart-drawer__footer">
+          {% render 'cart-summary', show_cart_link: true %}
+        </div>
+      {% else %}
+        <div class="cart-drawer__empty">
+          <p class="cart-drawer__empty-title">{{ 'cart.empty' | t }}</p>
+          <p>{{ 'cart.empty_hint' | t }}</p>
+          <a class="button" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue_shopping' | t }}</a>
+        </div>
+      {% endif %}
+    </div>
+  </dialog>
+  <p class="visually-hidden" aria-live="polite" data-cart-live></p>
+</cart-drawer>
+
+{% schema %}
+{
+  "name": "t:general.cart_drawer",
+  "settings": []
+}
+{% endschema %}

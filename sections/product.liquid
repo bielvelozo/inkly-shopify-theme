@@ -1,50 +1,536 @@
-{% comment %}
-  This section is used in the product template to render product page with
-  media, content, and add-to-cart form.
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'ProductForm-' | append: section.id
+  assign personalizer = section.blocks | where: 'type', 'personalizer' | first
+  assign swatch_entries = section.settings.swatch_colors | split: ','
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/product
-{% endcomment %}
+  if personalizer
+    assign mockup = personalizer.settings.mockup
+    if mockup == 'auto'
+      assign product_type = product.type | downcase
+      if product_type contains 'camiseta' or product_type contains 'shirt'
+        assign mockup = 'camiseta'
+      elsif product_type contains 'bag' or product_type contains 'bolsa'
+        assign mockup = 'ecobag'
+      else
+        assign mockup = 'caneca'
+      endif
+    endif
 
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
-</div>
+    case mockup
+      when 'camiseta'
+        assign print_x = 205
+        assign print_y = 160
+        assign print_w = 190
+        assign print_h = 240
+        assign print_cm = 28
+      when 'ecobag'
+        assign print_x = 170
+        assign print_y = 262
+        assign print_w = 260
+        assign print_h = 250
+        assign print_cm = 26
+      when 'imagem'
+        assign print_x = personalizer.settings.print_x | times: 6
+        assign print_y = personalizer.settings.print_y | times: 6
+        assign print_w = personalizer.settings.print_w | times: 6
+        assign print_h = personalizer.settings.print_h | times: 6
+        assign print_cm = 20
+      else
+        assign print_x = 164
+        assign print_y = 200
+        assign print_w = 232
+        assign print_h = 260
+        assign print_cm = 9
+    endcase
 
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
+    if personalizer.settings.print_width_cm > 0
+      assign print_cm = personalizer.settings.print_width_cm
+    endif
 
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
+    assign mockup_color = '#F6F4EF'
+    for option in product.options_with_values
+      for value in option.values
+        if value.selected
+          assign selected_swatch = value.swatch.color
+          if selected_swatch == blank
+            assign value_name = value.name | downcase | strip
+            for entry in swatch_entries
+              assign pair = entry | split: ':'
+              assign pair_name = pair.first | downcase | strip
+              if pair_name == value_name
+                assign selected_swatch = pair.last | strip
+              endif
+            endfor
+          endif
+          if selected_swatch != blank
+            assign mockup_color = selected_swatch
+          endif
+        endif
+      endfor
+    endfor
+  endif
+-%}
 
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
+{{ 'product.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer></script>
+{% if personalizer %}
+  <script src="{{ 'product-personalizer.js' | asset_url }}" defer></script>
+{% endif %}
+
+<div class="product section-spacing" data-section-id="{{ section.id }}">
+  <div class="product__media">
+    {% if personalizer %}
+      <div class="personalizer-stage" id="PersonalizerStage-{{ section.id }}">
+        <svg
+          class="mockup"
+          viewBox="0 0 600 600"
+          role="img"
+          aria-labelledby="PersonalizerStageTitle-{{ section.id }}"
+          style="color: {{ mockup_color }}"
+          data-mockup
         >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
+          <title id="PersonalizerStageTitle-{{ section.id }}">
+            {{- 'personalizer.preview_label' | t: product: product.title -}}
+          </title>
+          <defs>
+            <linearGradient id="MockupCeramic" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#000" stop-opacity=".24"/>
+              <stop offset=".16" stop-color="#000" stop-opacity=".04"/>
+              <stop offset=".32" stop-color="#fff" stop-opacity=".32"/>
+              <stop offset=".46" stop-color="#fff" stop-opacity="0"/>
+              <stop offset=".82" stop-color="#000" stop-opacity=".06"/>
+              <stop offset="1" stop-color="#000" stop-opacity=".28"/>
+            </linearGradient>
+            <linearGradient id="MockupFabric" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#000" stop-opacity=".14"/>
+              <stop offset=".4" stop-color="#fff" stop-opacity=".08"/>
+              <stop offset=".6" stop-color="#fff" stop-opacity="0"/>
+              <stop offset="1" stop-color="#000" stop-opacity=".16"/>
+            </linearGradient>
+            <clipPath id="PrintClip-{{ section.id }}">
+              <rect x="{{ print_x }}" y="{{ print_y }}" width="{{ print_w }}" height="{{ print_h }}" rx="8"/>
+            </clipPath>
+          </defs>
 
-    <input type="text" name="quantity" min="1" value="1">
+          {% if mockup == 'imagem' and personalizer.settings.mockup_image %}
+            <g data-layer="base">
+              <image
+                href="{{ personalizer.settings.mockup_image | image_url: width: 1200 }}"
+                width="600"
+                height="600"
+                preserveAspectRatio="xMidYMid meet"
+                crossorigin="anonymous"
+              />
+            </g>
+          {% else %}
+            {% render 'mockup', type: mockup, layer: 'base' %}
+          {% endif %}
 
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
+          <g
+            data-layer="print"
+            data-print-area="{{ print_x }} {{ print_y }} {{ print_w }} {{ print_h }}"
+            clip-path="url(#PrintClip-{{ section.id }})"
+          >
+            <rect
+              class="mockup__guide"
+              x="{{ print_x }}"
+              y="{{ print_y }}"
+              width="{{ print_w }}"
+              height="{{ print_h }}"
+              rx="8"
+              data-guide
+            />
+            <image data-photo display="none" preserveAspectRatio="none"/>
+            <text data-text text-anchor="middle" dominant-baseline="central"></text>
+          </g>
+
+          {% unless mockup == 'imagem' %}
+            {% render 'mockup', type: mockup, layer: 'shade' %}
+          {% endunless %}
+        </svg>
+        <p class="personalizer-stage__note">{{ 'personalizer.stage_note' | t }}</p>
+      </div>
+    {% endif %}
+
+    {% assign images = product.media | where: 'media_type', 'image' %}
+    {% if images.size > 0 %}
+      <div class="product__gallery {% if personalizer %}product__gallery--thumbs{% endif %}">
+        {% for media in images %}
+          {%- liquid
+            assign loading = 'lazy'
+            assign priority = 'auto'
+            if forloop.first and personalizer == blank
+              assign loading = 'eager'
+              assign priority = 'high'
+            endif
+            if personalizer
+              assign sizes = '(min-width: 990px) 15vw, 30vw'
+            else
+              assign sizes = '(min-width: 990px) 50vw, 100vw'
+            endif
+          -%}
+          <div class="product__gallery-item">
+            {{
+              media
+              | image_url: width: 1400
+              | image_tag:
+                widths: '240, 360, 540, 720, 960, 1200, 1400',
+                sizes: sizes,
+                loading: loading,
+                fetchpriority: priority,
+                alt: media.alt
+            }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="product__info">
+    <div class="product__header">
+      <h1 class="product__title">{{ product.title }}</h1>
+      <p class="product__price">
+        {% render 'price', variant: current_variant, class: 'price--large' %}
+      </p>
+    </div>
+
+    {% unless product.has_only_default_variant %}
+      <variant-picker class="variant-picker" data-form-id="{{ form_id }}" data-section-id="{{ section.id }}">
+        {% for option in product.options_with_values %}
+          <fieldset class="variant-picker__option">
+            <legend class="field__label">
+              {{ option.name }}: <span class="variant-picker__selected" data-option-selected>{{ option.selected_value }}</span>
+            </legend>
+            <div class="variant-picker__values">
+              {% for value in option.values %}
+                {%- liquid
+                  assign swatch = value.swatch.color
+                  if swatch == blank
+                    assign value_name = value.name | downcase | strip
+                    for entry in swatch_entries
+                      assign pair = entry | split: ':'
+                      assign pair_name = pair.first | downcase | strip
+                      if pair_name == value_name
+                        assign swatch = pair.last | strip
+                      endif
+                    endfor
+                  endif
+                  assign input_id = 'Option-' | append: section.id | append: '-' | append: forloop.parentloop.index | append: '-' | append: forloop.index
+                -%}
+                <input
+                  class="visually-hidden"
+                  type="radio"
+                  id="{{ input_id }}"
+                  name="option-{{ section.id }}-{{ forloop.parentloop.index }}"
+                  value="{{ value.name | escape }}"
+                  data-option-position="{{ option.position }}"
+                  {% if swatch != blank %}
+                    data-swatch="{{ swatch }}"
+                  {% endif %}
+                  {% if value.selected %}
+                    checked
+                  {% endif %}
+                >
+                <label
+                  for="{{ input_id }}"
+                  class="variant-picker__chip{% if swatch != blank %} variant-picker__chip--swatch{% endif %}{% unless value.available %} is-unavailable{% endunless %}"
+                  {% if swatch != blank %}
+                    style="--swatch: {{ swatch }}"
+                    title="{{ value.name | escape }}"
+                  {% endif %}
+                >
+                  {%- if swatch != blank -%}
+                    <span class="visually-hidden">{{ value.name }}</span>
+                  {%- else -%}
+                    {{ value.name }}
+                  {%- endif -%}
+                </label>
+              {% endfor %}
+            </div>
+          </fieldset>
+        {% endfor %}
+        <script type="application/json" data-variants>
+          {{ product.variants | json }}
+        </script>
+      </variant-picker>
+    {% endunless %}
+
+    <product-form class="product-form" data-section-id="{{ section.id }}">
+      {% form 'product', product, id: form_id, class: 'product-form__form', novalidate: 'novalidate' %}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'personalizer' %}
+              {% render 'personalizer-controls',
+                block: block,
+                section_id: section.id,
+                print_cm: print_cm
+              %}
+            {% when 'text' %}
+              <div class="product__text" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {% when '@app' %}
+              {% render block %}
+          {% endcase %}
+        {% endfor %}
+
+        <div class="product-form__buy">
+          <div class="quantity" data-quantity>
+            <label class="visually-hidden" for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
+            <button type="button" class="quantity__button" data-quantity-step="-1" aria-label="{{ 'products.product.quantity_decrease' | t }}">
+              {{- 'icon-minus.svg' | inline_asset_content -}}
+            </button>
+            <input
+              class="quantity__input"
+              type="number"
+              id="Quantity-{{ section.id }}"
+              name="quantity"
+              value="1"
+              min="1"
+              inputmode="numeric"
+            >
+            <button type="button" class="quantity__button" data-quantity-step="1" aria-label="{{ 'products.product.quantity_increase' | t }}">
+              {{- 'icon-plus.svg' | inline_asset_content -}}
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            name="add"
+            class="button product-form__submit"
+            data-add-button
+            data-label-add="{{ 'products.product.add_to_cart' | t | escape }}"
+            data-label-sold-out="{{ 'products.product.sold_out' | t | escape }}"
+            data-label-unavailable="{{ 'products.product.unavailable' | t | escape }}"
+            data-label-error="{{ 'products.product.add_error' | t | escape }}"
+            {% unless current_variant.available %}
+              disabled
+            {% endunless %}
+          >
+            <span data-add-label>
+              {%- if current_variant.available -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- endif -%}
+            </span>
+          </button>
+        </div>
+
+        <p class="product-form__error" role="alert" data-form-error hidden></p>
+
+        {% if section.settings.show_dynamic_checkout and personalizer == blank %}
+          {{ form | payment_button }}
+        {% endif %}
+      {% endform %}
+    </product-form>
+
+    {% if product.description != blank %}
+      <div class="product__description">
+        {{ product.description }}
+      </div>
+    {% endif %}
+  </div>
 </div>
 
 {% schema %}
 {
   "name": "t:general.product",
-  "settings": [],
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "swatch_colors",
+      "label": "t:labels.swatch_colors",
+      "info": "t:info.swatch_colors",
+      "default": "Branca:#F6F4EF, Branco:#F6F4EF, Preta:#26231F, Preto:#26231F, Areia:#E4D6BD, Verde:#4F6B55, Azul:#2F4A7A, Natural:#EFE6D2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "t:labels.show_dynamic_checkout",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "text",
+      "name": "t:general.text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:labels.text"
+        }
+      ]
+    },
+    {
+      "type": "personalizer",
+      "name": "t:general.personalizer",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "mockup",
+          "label": "t:labels.mockup",
+          "options": [
+            { "value": "auto", "label": "t:options.mockup.auto" },
+            { "value": "caneca", "label": "t:options.mockup.caneca" },
+            { "value": "camiseta", "label": "t:options.mockup.camiseta" },
+            { "value": "ecobag", "label": "t:options.mockup.ecobag" },
+            { "value": "imagem", "label": "t:options.mockup.imagem" }
+          ],
+          "default": "auto"
+        },
+        {
+          "type": "image_picker",
+          "id": "mockup_image",
+          "label": "t:labels.mockup_image",
+          "visible_if": "{{ block.settings.mockup == 'imagem' }}"
+        },
+        {
+          "type": "range",
+          "id": "print_x",
+          "label": "t:labels.print_x",
+          "min": 0,
+          "max": 90,
+          "step": 1,
+          "unit": "%",
+          "default": 30,
+          "visible_if": "{{ block.settings.mockup == 'imagem' }}"
+        },
+        {
+          "type": "range",
+          "id": "print_y",
+          "label": "t:labels.print_y",
+          "min": 0,
+          "max": 90,
+          "step": 1,
+          "unit": "%",
+          "default": 30,
+          "visible_if": "{{ block.settings.mockup == 'imagem' }}"
+        },
+        {
+          "type": "range",
+          "id": "print_w",
+          "label": "t:labels.print_w",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 40,
+          "visible_if": "{{ block.settings.mockup == 'imagem' }}"
+        },
+        {
+          "type": "range",
+          "id": "print_h",
+          "label": "t:labels.print_h",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 40,
+          "visible_if": "{{ block.settings.mockup == 'imagem' }}"
+        },
+        {
+          "type": "number",
+          "id": "print_width_cm",
+          "label": "t:labels.print_width_cm",
+          "info": "t:info.print_width_cm",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "t:labels.personalizer_text"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_text",
+          "label": "t:labels.enable_text",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "text_required",
+          "label": "t:labels.required",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "text_max",
+          "label": "t:labels.text_max",
+          "min": 4,
+          "max": 40,
+          "step": 1,
+          "default": 18
+        },
+        {
+          "type": "font_picker",
+          "id": "font_1",
+          "label": "t:labels.font_1",
+          "default": "pacifico_n4"
+        },
+        {
+          "type": "font_picker",
+          "id": "font_2",
+          "label": "t:labels.font_2",
+          "default": "bricolage_grotesque_n7"
+        },
+        {
+          "type": "font_picker",
+          "id": "font_3",
+          "label": "t:labels.font_3",
+          "default": "space_mono_n4"
+        },
+        {
+          "type": "textarea",
+          "id": "text_colors",
+          "label": "t:labels.text_colors",
+          "info": "t:info.text_colors",
+          "default": "Preto:#1D1A16, Branco:#FFFFFF, Laranja:#D9481F, Azul:#2747C7, Verde:#2F7A4F"
+        },
+        {
+          "type": "header",
+          "content": "t:labels.personalizer_photo"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_image",
+          "label": "t:labels.enable_image",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "image_required",
+          "label": "t:labels.required",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "min_dpi",
+          "label": "t:labels.min_dpi",
+          "info": "t:info.min_dpi",
+          "min": 72,
+          "max": 300,
+          "step": 6,
+          "default": 150
+        },
+        {
+          "type": "range",
+          "id": "max_file_mb",
+          "label": "t:labels.max_file_mb",
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "unit": "MB",
+          "default": 15
+        }
+      ]
+    }
+  ],
   "disabled_on": {
     "groups": ["header", "footer"]
   }

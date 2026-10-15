@@ -4,6 +4,9 @@
     "not_found": "Page not found.",
     "back_to_shopping": "Back to shopping"
   },
+  "accessibility": {
+    "skip_to_content": "Skip to content"
+  },
   "blog": {
     "article_comments": "Comments",
     "article_metadata_html": "{{ date }} by {{ author }}",
@@ -13,11 +16,100 @@
     "comment_form_submit": "Post",
     "comment_form_title": "Add a comment"
   },
+  "header": {
+    "menu": "Menu",
+    "account": "Account",
+    "cart_count": {
+      "one": "Cart, {{ count }} item",
+      "other": "Cart, {{ count }} items"
+    }
+  },
+  "footer": {
+    "menu": "Footer links",
+    "payment_methods": "Payment methods"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "add_error": "We couldn't add it right now. Please try again.",
+      "from_price_html": "from {{ price }}",
+      "personalizable": "Personalize",
+      "quantity": "Quantity",
+      "quantity_decrease": "Decrease quantity",
+      "quantity_increase": "Increase quantity",
+      "regular_price": "Regular price",
+      "sale": "Sale",
+      "sale_price": "Sale price",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable"
+    }
+  },
+  "personalizer": {
+    "title": "Make it yours",
+    "intro": "Add a line of text, a photo or both. The preview updates as you go.",
+    "preview_label": "Personalization preview of {{ product }}",
+    "stage_note": "Illustrative preview. Our team checks the artwork before printing.",
+    "optional": "(optional)",
+    "text_label": "Text",
+    "text_placeholder": "E.g. Best mom ever",
+    "chars_left": {
+      "one": "{{ count }} character left",
+      "other": "{{ count }} characters left"
+    },
+    "chars_left_js": "[count] characters left",
+    "font_label": "Font",
+    "color_label": "Text color",
+    "contrast_hint": "This color barely shows on this base. Try another one?",
+    "position_label": "Text position",
+    "position_top": "Top",
+    "position_middle": "Middle",
+    "position_bottom": "Bottom",
+    "photo_label": "Photo",
+    "photo_cta": "Choose a photo",
+    "photo_hint": "JPG, PNG or WebP up to {{ size }} MB. You can drop the file here.",
+    "zoom_label": "Photo zoom",
+    "drag_hint": "Drag the photo on the preview to adjust it. On a keyboard, use the arrow keys.",
+    "photo_remove": "Remove photo",
+    "quality_ok": "Good for printing at this size (about [dpi] DPI).",
+    "quality_low": "It may print blurry at this size (about [dpi] DPI). Use a larger photo or zoom out.",
+    "error_file_type": "This format doesn't work. Use JPG, PNG or WebP.",
+    "error_file_size": "The photo is larger than {{ size }} MB. Choose a smaller one.",
+    "error_file_read": "We couldn't open this photo. Try another one.",
+    "error_text_required": "Write the personalization text.",
+    "error_photo_required": "Choose the personalization photo.",
+    "property_text": "Text",
+    "property_font": "Font",
+    "property_color": "Text color",
+    "property_photo": "Photo",
+    "property_position": "Text position",
+    "property_adjust": "Photo adjustment",
+    "property_preview": "Preview"
+  },
   "cart": {
-    "checkout": "Checkout",
     "title": "Cart",
+    "checkout": "Check out",
     "update": "Update",
-    "remove": "Remove"
+    "remove": "Remove",
+    "close": "Close cart",
+    "empty": "Your cart is empty.",
+    "empty_hint": "How about starting with a mug with your photo?",
+    "continue_shopping": "Shop products",
+    "view_cart": "View cart",
+    "view_file": "view file",
+    "decrease": "Decrease quantity of {{ product }}",
+    "increase": "Increase quantity of {{ product }}",
+    "quantity_of": "{{ count }} units of {{ product }}",
+    "remove_item": "Remove {{ product }}",
+    "free_shipping_reached": "You've unlocked free shipping!",
+    "free_shipping_remaining_html": "You're <strong>{{ amount }}</strong> away from free shipping",
+    "free_shipping_progress": "Progress toward free shipping",
+    "upsell_heading_default": "Goes well with your order",
+    "upsell_add": "Add",
+    "upsell_add_label": "Add {{ product }} to cart",
+    "upsell_choose": "View",
+    "subtotal": "Subtotal",
+    "pix_html": "or <strong>{{ amount }}</strong> with Pix ({{ percent }}% off)",
+    "taxes_and_shipping": "Shipping and taxes calculated at checkout."
   },
   "customers": {
     "login": {
@@ -28,7 +120,8 @@
     }
   },
   "collections": {
-    "title": "Collections"
+    "title": "Collections",
+    "empty": "No products here yet."
   },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",
@@ -48,5 +141,15 @@
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
     "results_for_html": "{{ count }} results found for {{ terms }}"
+  },
+  "sections": {
+    "featured_products": {
+      "view_all": "View all"
+    },
+    "testimonials": {
+      "previous": "Previous testimonial",
+      "next": "Next testimonial",
+      "rating": "Rated {{ rating }} out of 5"
+    }
   }
 }

@@ -5,37 +5,51 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
-<h1>{{ collection.title }}</h1>
+<div class="collection section-spacing">
+  <header class="collection__header">
+    <h1>{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="collection__description">{{ collection.description }}</div>
+    {% endif %}
+  </header>
 
-<div class="collection-products">
-  {% paginate collection.products by 20 %}
-    {% for product in collection.products %}
-      <div class="collection-product">
-        {% if product.featured_image %}
-          {% render 'image',
-            class: 'collection-product__image',
-            image: product.featured_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
-        {% endif %}
-        <div class="collection-product__content">
-          <p>{{ product.title | escape | link_to: product.url }}</p>
-          <p>{{ product.price | money }}</p>
-        </div>
-      </div>
-    {% endfor %}
+  {% paginate collection.products by 24 %}
+    {% if collection.products.size > 0 %}
+      <ul class="product-grid" role="list">
+        {% for product in collection.products %}
+          <li>{% render 'product-card', product: product %}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>{{ 'collections.empty' | t }}</p>
+    {% endif %}
 
-    {{ paginate | default_pagination }}
+    {% if paginate.pages > 1 %}
+      <nav class="collection__pagination">{{ paginate | default_pagination }}</nav>
+    {% endif %}
   {% endpaginate %}
 </div>
 
 {% stylesheet %}
-  .collection-products {
+  .collection {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    gap: 2rem;
+  }
+
+  .collection__header {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .collection__description {
+    max-width: 60ch;
+    color: var(--color-muted);
+  }
+
+  .collection__pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
   }
 {% endstylesheet %}
 

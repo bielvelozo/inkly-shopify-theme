@@ -1,0 +1,40 @@
+{% doc %}
+  Cart totals, the optional Pix price and the checkout button. The Pix line
+  is informational: the discount itself is applied by the payment provider.
+
+  @param {string} [show_cart_link] - Shows the link to the cart page when set
+{% enddoc %}
+
+{%- liquid
+  assign pix_percent = settings.pix_discount_percent
+  assign pix_factor = 100 | minus: pix_percent
+  assign pix_total = cart.total_price | times: pix_factor | divided_by: 100
+  assign pix_money = pix_total | money
+-%}
+
+<div class="cart-summary">
+  {% for discount in cart.cart_level_discount_applications %}
+    <p class="cart-summary__row cart-summary__discount">
+      <span>{{ discount.title }}</span>
+      <span>−{{ discount.total_allocated_amount | money }}</span>
+    </p>
+  {% endfor %}
+
+  <p class="cart-summary__row cart-summary__total">
+    <span>{{ 'cart.subtotal' | t }}</span>
+    <span>{{ cart.total_price | money }}</span>
+  </p>
+
+  {% if pix_percent > 0 %}
+    <p class="cart-summary__pix">{{ 'cart.pix_html' | t: amount: pix_money, percent: pix_percent }}</p>
+  {% endif %}
+
+  <p class="cart-summary__note">{{ 'cart.taxes_and_shipping' | t }}</p>
+
+  <form action="{{ routes.cart_url }}" method="post" class="cart-summary__actions">
+    <button type="submit" name="checkout" class="button button--full">{{ 'cart.checkout' | t }}</button>
+    {% if show_cart_link %}
+      <a class="cart-summary__link" href="{{ routes.cart_url }}">{{ 'cart.view_cart' | t }}</a>
+    {% endif %}
+  </form>
+</div>

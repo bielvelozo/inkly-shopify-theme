@@ -1,0 +1,214 @@
+{% doc %}
+  Controls of the product personalizer: customer text, font, text color,
+  text position and photo upload. Every control posts as a line item
+  property, so the order arrives with what production needs.
+
+  @param {object} block - The personalizer block of the product section
+  @param {string} section_id - Id of the product section
+  @param {number} print_cm - Real print width, used for the photo quality check
+{% enddoc %}
+
+{%- liquid
+  assign text_label = 'personalizer.property_text' | t
+  assign font_label = 'personalizer.property_font' | t
+  assign color_label = 'personalizer.property_color' | t
+  assign photo_label = 'personalizer.property_photo' | t
+  assign text_colors = block.settings.text_colors | split: ','
+-%}
+
+{% style %}
+  {{ block.settings.font_1 | font_face: font_display: 'swap' }}
+  {{ block.settings.font_2 | font_face: font_display: 'swap' }}
+  {{ block.settings.font_3 | font_face: font_display: 'swap' }}
+{% endstyle %}
+
+<product-personalizer
+  class="personalizer"
+  data-stage-id="PersonalizerStage-{{ section_id }}"
+  data-print-cm="{{ print_cm }}"
+  data-min-dpi="{{ block.settings.min_dpi }}"
+  data-max-mb="{{ block.settings.max_file_mb }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="personalizer__header">
+    <h2 class="personalizer__title">{{ 'personalizer.title' | t }}</h2>
+    <p class="personalizer__intro">{{ 'personalizer.intro' | t }}</p>
+  </div>
+
+  {% if block.settings.enable_text %}
+    <div class="field">
+      <label class="field__label" for="PersonalizerText-{{ section_id }}">
+        {{- 'personalizer.text_label' | t -}}
+        {%- unless block.settings.text_required %} <span class="field__optional">{{ 'personalizer.optional' | t }}</span>{% endunless -%}
+      </label>
+      <input
+        class="field__input"
+        type="text"
+        id="PersonalizerText-{{ section_id }}"
+        name="properties[{{ text_label }}]"
+        maxlength="{{ block.settings.text_max }}"
+        autocomplete="off"
+        enterkeyhint="done"
+        placeholder="{{ 'personalizer.text_placeholder' | t }}"
+        aria-describedby="PersonalizerTextCount-{{ section_id }}"
+        data-text-input
+        {% if block.settings.text_required %}
+          required
+        {% endif %}
+      >
+      <p class="field__hint" id="PersonalizerTextCount-{{ section_id }}" data-text-count>
+        {{- 'personalizer.chars_left' | t: count: block.settings.text_max -}}
+      </p>
+    </div>
+
+    <fieldset class="personalizer__group">
+      <legend class="field__label">{{ 'personalizer.font_label' | t }}</legend>
+      <div class="personalizer__options personalizer__options--fonts">
+        {% for i in (1..3) %}
+          {%- liquid
+            assign font_key = 'font_' | append: i
+            assign font = block.settings[font_key]
+          -%}
+          <label class="personalizer__option personalizer__option--font">
+            <input
+              class="visually-hidden"
+              type="radio"
+              name="properties[{{ font_label }}]"
+              value="{{ font.family | escape }}"
+              data-font-name="{{ font.family | escape }}"
+              data-font-fallback="{{ font.fallback_families | escape }}"
+              data-font-weight="{{ font.weight }}"
+              data-font-style="{{ font.style }}"
+              {% if forloop.first %}
+                checked
+              {% endif %}
+            >
+            <span
+              class="personalizer__font-sample"
+              style="font-family: {{ font.family }}, {{ font.fallback_families }}; font-weight: {{ font.weight }}; font-style: {{ font.style }};"
+              aria-hidden="true"
+            >
+              Aa
+            </span>
+            <span class="personalizer__option-name">{{ font.family }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </fieldset>
+
+    <fieldset class="personalizer__group">
+      <legend class="field__label">{{ 'personalizer.color_label' | t }}</legend>
+      <div class="personalizer__options personalizer__options--colors">
+        {% for entry in text_colors %}
+          {%- liquid
+            assign pair = entry | split: ':'
+            assign color_name = pair.first | strip
+            assign color_hex = pair.last | strip
+          -%}
+          <label class="personalizer__swatch" style="--swatch: {{ color_hex }}" title="{{ color_name | escape }}">
+            <input
+              class="visually-hidden"
+              type="radio"
+              name="properties[{{ color_label }}]"
+              value="{{ color_name | escape }}"
+              data-color="{{ color_hex }}"
+              {% if forloop.first %}
+                checked
+              {% endif %}
+            >
+            <span class="visually-hidden">{{ color_name }}</span>
+          </label>
+        {% endfor %}
+      </div>
+      <p class="field__hint personalizer__contrast" data-contrast hidden>{{ 'personalizer.contrast_hint' | t }}</p>
+    </fieldset>
+
+    <fieldset class="personalizer__group">
+      <legend class="field__label">{{ 'personalizer.position_label' | t }}</legend>
+      <div class="personalizer__options personalizer__options--segmented">
+        {% assign positions = 'top,middle,bottom' | split: ',' %}
+        {% for position in positions %}
+          {%- assign position_key = 'personalizer.position_' | append: position -%}
+          <label class="personalizer__option personalizer__option--segment">
+            <input
+              class="visually-hidden"
+              type="radio"
+              name="properties[_{{ 'personalizer.property_position' | t }}]"
+              value="{{ position_key | t }}"
+              data-position="{{ position }}"
+              {% if position == 'bottom' %}
+                checked
+              {% endif %}
+            >
+            <span>{{ position_key | t }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </fieldset>
+  {% endif %}
+
+  {% if block.settings.enable_image %}
+    <div class="field personalizer__photo">
+      <span class="field__label" id="PersonalizerPhotoLabel-{{ section_id }}">
+        {{- 'personalizer.photo_label' | t -}}
+        {%- unless block.settings.image_required %} <span class="field__optional">{{ 'personalizer.optional' | t }}</span>{% endunless -%}
+      </span>
+
+      <label class="personalizer__dropzone" for="PersonalizerPhoto-{{ section_id }}" data-dropzone>
+        {{ 'icon-upload.svg' | inline_asset_content }}
+        <span class="personalizer__dropzone-title" data-photo-name>{{ 'personalizer.photo_cta' | t }}</span>
+        <span class="field__hint">{{ 'personalizer.photo_hint' | t: size: block.settings.max_file_mb }}</span>
+      </label>
+      <input
+        class="visually-hidden"
+        type="file"
+        id="PersonalizerPhoto-{{ section_id }}"
+        name="properties[{{ photo_label }}]"
+        accept="image/jpeg,image/png,image/webp"
+        aria-labelledby="PersonalizerPhotoLabel-{{ section_id }}"
+        data-photo-input
+        {% if block.settings.image_required %}
+          required
+        {% endif %}
+      >
+
+      <div class="personalizer__photo-tools" data-photo-tools hidden>
+        <label class="field__label" for="PersonalizerZoom-{{ section_id }}">{{ 'personalizer.zoom_label' | t }}</label>
+        <input
+          class="personalizer__range"
+          type="range"
+          id="PersonalizerZoom-{{ section_id }}"
+          min="1"
+          max="3"
+          step="0.01"
+          value="1"
+          data-zoom-input
+        >
+        <p class="field__hint">{{ 'personalizer.drag_hint' | t }}</p>
+        <button type="button" class="button button--secondary button--small" data-photo-remove>
+          {{- 'personalizer.photo_remove' | t -}}
+        </button>
+      </div>
+
+      <p class="personalizer__quality" role="status" data-quality hidden></p>
+    </div>
+    <input type="hidden" name="properties[_{{ 'personalizer.property_adjust' | t }}]" data-photo-adjust>
+  {% endif %}
+
+  <p class="personalizer__error" role="alert" data-error hidden></p>
+
+  <script type="application/json" data-messages>
+    {
+      "charsLeft": {{ 'personalizer.chars_left_js' | t | json }},
+      "fileType": {{ 'personalizer.error_file_type' | t | json }},
+      "fileSize": {{ 'personalizer.error_file_size' | t: size: block.settings.max_file_mb | json }},
+      "fileRead": {{ 'personalizer.error_file_read' | t | json }},
+      "textRequired": {{ 'personalizer.error_text_required' | t | json }},
+      "photoRequired": {{ 'personalizer.error_photo_required' | t | json }},
+      "qualityLow": {{ 'personalizer.quality_low' | t | json }},
+      "qualityOk": {{ 'personalizer.quality_ok' | t | json }},
+      "photoCta": {{ 'personalizer.photo_cta' | t | json }},
+      "previewProperty": {{ 'personalizer.property_preview' | t | json }}
+    }
+  </script>
+</product-personalizer>

@@ -1,39 +1,72 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
-  </div>
+<footer class="footer">
+  {% if section.settings.notice != blank %}
+    <p class="footer__notice">{{ section.settings.notice }}</p>
+  {% endif %}
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+  <div class="footer__row">
+    <div class="footer__copyright">
+      &copy;
+      {{ 'now' | date: '%Y' }}
+      {{ shop.name | link_to: routes.root_url }}
+    </div>
 
-  <div class="footer__payment">
+    {% if section.settings.menu.links.size > 0 %}
+      <nav class="footer__links" aria-label="{{ 'footer.menu' | t }}">
+        {% for link in section.settings.menu.links %}
+          {{ link.title | link_to: link.url }}
+        {% endfor %}
+      </nav>
+    {% endif %}
+
     {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
+      <ul class="footer__payment" aria-label="{{ 'footer.payment_methods' | t }}">
+        {% for type in shop.enabled_payment_types %}
+          <li>{{ type | payment_type_svg_tag }}</li>
+        {% endfor %}
+      </ul>
     {% endif %}
   </div>
 </footer>
 
 {% stylesheet %}
-  footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
+  .footer {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 4rem;
+    padding-block: 2.5rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: 0.9rem;
   }
-  footer a {
-    text-decoration: none;
+
+  .footer a {
     color: var(--color-foreground);
   }
-  footer .footer__links,
-  footer .footer__payment {
+
+  .footer__notice {
+    max-width: 60ch;
+  }
+
+  .footer__row {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+  }
+
+  .footer__links,
+  .footer__payment {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__payment svg {
+    width: 2.4rem;
+    height: auto;
   }
 {% endstylesheet %}
 
@@ -41,6 +74,11 @@
 {
   "name": "t:general.footer",
   "settings": [
+    {
+      "type": "textarea",
+      "id": "notice",
+      "label": "t:labels.footer_notice"
+    },
     {
       "type": "link_list",
       "id": "menu",

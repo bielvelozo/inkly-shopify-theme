@@ -11,7 +11,9 @@
   "sections": {
     "main": {
       "type": "product",
-      "settings": {}
+      "settings": {
+        "show_dynamic_checkout": true
+      }
     }
   },
   "order": [

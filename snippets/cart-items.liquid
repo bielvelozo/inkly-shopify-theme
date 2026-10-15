@@ -36,7 +36,7 @@
           <p class="cart-item__meta">{{ item.variant.title }}</p>
         {% endunless %}
 
-        {% if item.properties.size > 0 %}
+        {% if item.properties != empty %}
           <dl class="cart-item__properties">
             {% for property in item.properties %}
               {%- assign first_char = property.first | slice: 0 -%}

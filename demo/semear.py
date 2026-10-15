@@ -89,13 +89,13 @@ def gql(loja, query, variaveis=None, mutacao=False):
             comando.append("--allow-mutations")
         saida = subprocess.run(comando, capture_output=True, text=True, encoding="utf-8", timeout=180)
 
+    corpo = "\n".join(
+        linha for linha in saida.stdout.splitlines() if not linha.startswith('{"type":"progress"')
+    ).strip()
     try:
-        resposta = json.loads(saida.stdout)
+        resposta = json.loads(corpo)
     except json.JSONDecodeError:
-        linhas = [linha for linha in saida.stdout.splitlines() if linha.strip().startswith("{")]
-        if not linhas:
-            raise ErroLoja(f"sem resposta do CLI:\n{saida.stdout}\n{saida.stderr}") from None
-        resposta = json.loads(linhas[-1])
+        raise ErroLoja(f"resposta inesperada do CLI:\n{saida.stdout}\n{saida.stderr}") from None
     if "error" in resposta:
         raise ErroLoja(json.dumps(resposta["error"], ensure_ascii=False))
     if resposta.get("errors"):

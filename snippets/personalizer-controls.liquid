@@ -68,14 +68,15 @@
           {%- liquid
             assign font_key = 'font_' | append: i
             assign font = block.settings[font_key]
+            assign font_name = font.family | remove: '"' | remove: "'"
           -%}
           <label class="personalizer__option personalizer__option--font">
             <input
               class="visually-hidden"
               type="radio"
               name="properties[{{ font_label }}]"
-              value="{{ font.family | escape }}"
-              data-font-name="{{ font.family | escape }}"
+              value="{{ font_name | escape }}"
+              data-font-name="{{ font_name | escape }}"
               data-font-fallback="{{ font.fallback_families | escape }}"
               data-font-weight="{{ font.weight }}"
               data-font-style="{{ font.style }}"
@@ -85,12 +86,12 @@
             >
             <span
               class="personalizer__font-sample"
-              style="font-family: {{ font.family }}, {{ font.fallback_families }}; font-weight: {{ font.weight }}; font-style: {{ font.style }};"
+              style="font-family: '{{ font_name }}', {{ font.fallback_families }}; font-weight: {{ font.weight }}; font-style: {{ font.style }};"
               aria-hidden="true"
             >
               Aa
             </span>
-            <span class="personalizer__option-name">{{ font.family }}</span>
+            <span class="personalizer__option-name">{{ font_name }}</span>
           </label>
         {% endfor %}
       </div>

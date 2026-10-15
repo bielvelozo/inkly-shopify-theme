@@ -1,26 +1,15 @@
 <div class="steps section-spacing">
-  <h2 class="steps__heading" data-aos="fade-up">{{ section.settings.heading }}</h2>
-  <div class="steps__list">
+  <h2 class="steps__heading">{{ section.settings.heading }}</h2>
+  <ol class="steps__list" role="list">
     {% for block in section.blocks %}
-      {%- liquid
-        case block.settings.icon
-          when 'edit'
-            assign icon = 'fa-pen-nib'
-          when 'box'
-            assign icon = 'fa-box-open'
-          when 'heart'
-            assign icon = 'fa-heart'
-          else
-            assign icon = 'fa-hand-pointer'
-        endcase
-      -%}
-      <div class="steps__item" data-aos="zoom-in" data-aos-delay="{{ forloop.index | times: 200 }}" {{ block.shopify_attributes }}>
-        <i class="fa-solid {{ icon }} fa-2x"></i>
+      {%- assign icon = 'icon-step-' | append: block.settings.icon | append: '.svg' -%}
+      <li class="steps__item" {{ block.shopify_attributes }}>
+        <span class="steps__icon">{{ icon | inline_asset_content }}</span>
         <h3>{{ block.settings.title }}</h3>
         <p>{{ block.settings.text }}</p>
-      </div>
+      </li>
     {% endfor %}
-  </div>
+  </ol>
 </div>
 
 {% stylesheet %}
@@ -30,35 +19,40 @@
 
   .steps__list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+    gap: 1.25rem;
     margin-top: 2.5rem;
+    padding: 0;
+    list-style: none;
   }
 
   .steps__item {
-    padding: 2rem;
+    display: grid;
+    justify-items: center;
+    gap: 0.6rem;
+    padding: 2rem 1.5rem;
     border-radius: 20px;
-    background: #fff;
+    background: var(--color-surface);
     text-align: center;
   }
 
-  .steps__item i {
-    color: #e8643c;
+  .steps__icon {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+    color: var(--color-accent);
   }
 
-  .steps__item h3 {
-    margin-top: 1rem;
+  .steps__icon svg {
+    width: 1.75rem;
+    height: 1.75rem;
   }
 
   .steps__item p {
-    margin-top: 0.5rem;
-    color: #b0a99f;
-  }
-
-  @media (max-width: 749px) {
-    .steps__list {
-      grid-template-columns: 1fr;
-    }
+    color: var(--color-muted);
   }
 {% endstylesheet %}
 

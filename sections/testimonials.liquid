@@ -1,67 +1,120 @@
+<script src="{{ 'carousel.js' | asset_url }}" defer></script>
+
 <div class="testimonials section-spacing">
-  <h2 class="testimonials__heading" data-aos="fade-up">{{ section.settings.heading }}</h2>
-  <div class="testimonials__slider">
-    {% for block in section.blocks %}
-      <div class="testimonials__slide" {{ block.shopify_attributes }}>
-        <div class="testimonials__card">
-          <div class="testimonials__stars">
-            {% for i in (1..block.settings.rating) %}<i class="fa-solid fa-star"></i>{% endfor %}
-          </div>
-          <p class="testimonials__quote">“{{ block.settings.quote }}”</p>
-          <p class="testimonials__author">{{ block.settings.author }} · {{ block.settings.location }}</p>
-        </div>
+  <scroll-carousel class="testimonials__carousel">
+    <div class="testimonials__header">
+      <h2>{{ section.settings.heading }}</h2>
+      <div class="testimonials__controls">
+        <button type="button" class="testimonials__control" data-prev aria-label="{{ 'sections.testimonials.previous' | t }}">
+          {{- 'icon-chevron-left.svg' | inline_asset_content -}}
+        </button>
+        <button type="button" class="testimonials__control" data-next aria-label="{{ 'sections.testimonials.next' | t }}">
+          {{- 'icon-chevron-right.svg' | inline_asset_content -}}
+        </button>
       </div>
-    {% endfor %}
-  </div>
+    </div>
+
+    <ul class="testimonials__track" role="list" data-track>
+      {% for block in section.blocks %}
+        <li class="testimonials__card" {{ block.shopify_attributes }}>
+          <p class="testimonials__stars" role="img" aria-label="{{ 'sections.testimonials.rating' | t: rating: block.settings.rating }}">
+            {%- for i in (1..block.settings.rating) -%}
+              {{ 'icon-star.svg' | inline_asset_content }}
+            {%- endfor -%}
+          </p>
+          <blockquote class="testimonials__quote">“{{ block.settings.quote }}”</blockquote>
+          <p class="testimonials__author">{{ block.settings.author }} · {{ block.settings.location }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </scroll-carousel>
 </div>
 
-<script>
-  $(function () {
-    $('.testimonials__slider').slick({
-      dots: true,
-      arrows: true,
-      autoplay: true,
-      autoplaySpeed: 4000,
-      slidesToShow: 3,
-      responsive: [
-        { breakpoint: 990, settings: { slidesToShow: 2 } },
-        { breakpoint: 750, settings: { slidesToShow: 1 } }
-      ]
-    });
-  });
-</script>
-
 {% stylesheet %}
-  .testimonials__heading {
-    text-align: center;
+  .testimonials__carousel {
+    display: grid;
+    gap: 2rem;
   }
 
-  .testimonials__slider {
-    margin-top: 2.5rem;
+  .testimonials__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
   }
 
-  .testimonials__slide {
-    padding: 0 0.75rem;
+  .testimonials__controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .testimonials__control {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-surface);
+    cursor: pointer;
+  }
+
+  .testimonials__control:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .testimonials__control svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .testimonials__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(85%, 22rem);
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0 0 0.5rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    list-style: none;
+  }
+
+  .testimonials__track::-webkit-scrollbar {
+    display: none;
   }
 
   .testimonials__card {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
     padding: 1.75rem;
     border-radius: 20px;
-    background: #fff;
+    background: var(--color-surface);
+    scroll-snap-align: start;
   }
 
   .testimonials__stars {
-    color: #f2b33d;
+    display: flex;
+    gap: 0.15rem;
+    color: #c98a0b;
+  }
+
+  .testimonials__stars svg {
+    width: 1.1rem;
+    height: 1.1rem;
   }
 
   .testimonials__quote {
-    margin-top: 1rem;
+    margin: 0;
     font-size: 1.05rem;
   }
 
   .testimonials__author {
-    margin-top: 1rem;
-    color: #b0a99f;
+    color: var(--color-muted);
     font-size: 0.9rem;
   }
 {% endstylesheet %}

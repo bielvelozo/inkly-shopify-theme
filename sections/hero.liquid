@@ -1,13 +1,26 @@
-<div
-  class="hero full-width"
-  style="background-image: url('{{ section.settings.image | image_url: width: 3840 }}');"
->
-  <div class="hero__inner" data-aos="fade-up" data-aos-duration="1200">
+<div class="hero full-width">
+  {% if section.settings.image %}
+    {{
+      section.settings.image
+      | image_url: width: 2400
+      | image_tag:
+        widths: '600, 900, 1200, 1600, 2000, 2400',
+        sizes: '100vw',
+        loading: 'eager',
+        fetchpriority: 'high',
+        preload: true,
+        class: 'hero__image',
+        alt: section.settings.image.alt
+    }}
+  {% endif %}
+
+  <div class="hero__inner">
     <h1 class="hero__title">{{ section.settings.heading }}</h1>
     <p class="hero__text">{{ section.settings.subheading }}</p>
     {% if section.settings.button_label != blank %}
-      <a class="hero__button" href="{{ section.settings.button_link }}">
-        {{ section.settings.button_label }} <i class="fa-solid fa-arrow-right"></i>
+      <a class="button hero__button" href="{{ section.settings.button_link }}">
+        {{ section.settings.button_label }}
+        {{ 'icon-arrow-right.svg' | inline_asset_content }}
       </a>
     {% endif %}
   </div>
@@ -15,47 +28,61 @@
 
 {% stylesheet %}
   .hero {
-    display: flex;
-    align-items: center;
-    min-height: 82vh;
-    padding: 4rem var(--page-margin);
-    background-size: cover;
-    background-position: center;
+    display: grid;
+    min-height: min(82vh, 52rem);
+    background: #f1ebe2;
+  }
+
+  .hero > * {
+    grid-area: 1 / 1;
+  }
+
+  .hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% center;
   }
 
   .hero__inner {
-    max-width: 36rem;
+    z-index: 1;
+    align-self: center;
+    width: min(36rem, 100%);
+    padding: 4rem var(--page-margin);
+    margin-inline-start: max(var(--page-margin), calc((100% - var(--page-width)) / 2));
   }
 
   .hero__title {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 4rem;
-    font-weight: 800;
-    line-height: 1.05;
-    color: #1d1a16;
+    font-size: clamp(2.6rem, 1.6rem + 4vw, 4.25rem);
+    line-height: 1.02;
   }
 
   .hero__text {
     margin-top: 1.25rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1.25rem;
-    color: #9a948c;
+    font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
+    color: var(--color-muted);
   }
 
   .hero__button {
-    display: inline-block;
     margin-top: 2rem;
-    padding: 1rem 2rem;
-    border-radius: 999px;
-    background: #e8643c;
-    color: #fff;
-    font-weight: 700;
-    text-decoration: none;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .hero__button svg {
+    width: 1.2rem;
+    height: 1.2rem;
   }
 
   @media (max-width: 749px) {
-    .hero__title {
-      font-size: 2.6rem;
+    .hero {
+      align-content: start;
+    }
+
+    .hero__inner {
+      align-self: start;
+      margin-inline-start: 0;
+      padding-top: 2.5rem;
     }
   }
 {% endstylesheet %}

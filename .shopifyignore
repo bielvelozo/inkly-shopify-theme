@@ -12,11 +12,11 @@
 # Ignore templates and sections with a regular expression:
 #   /(templates|sections)/.*\.json/
 
-demo/
-docs/
-lighthouse/
-node_modules/
+demo/*
+docs/*
+lighthouse/*
+node_modules/*
+scripts/*
 README.md
 package.json
 package-lock.json
-scripts/

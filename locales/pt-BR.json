@@ -46,7 +46,7 @@
   },
   "personalizer": {
     "title": "Deixe do seu jeito",
-    "intro": "Escreva um texto, mande uma foto ou os dois. A prévia ao lado muda na hora.",
+    "intro": "Escreva um texto, mande uma foto ou os dois. A prévia muda na hora.",
     "preview_label": "Prévia da personalização de {{ product }}",
     "stage_note": "Prévia ilustrativa. A nossa equipe confere a arte antes de imprimir.",
     "optional": "(opcional)",

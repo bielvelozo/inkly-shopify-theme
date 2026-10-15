@@ -4,6 +4,10 @@
   align-items: start;
 }
 
+.product.section-spacing {
+  padding-top: clamp(1.25rem, 0.75rem + 2vw, 2.5rem);
+}
+
 @media (min-width: 990px) {
   .product {
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
@@ -189,6 +193,14 @@ input:focus-visible + .variant-picker__chip {
 }
 
 @media (max-width: 989px) {
+  .product:has(.personalizer-stage) .product__media {
+    display: contents;
+  }
+
+  .product:has(.personalizer-stage) .product__gallery {
+    order: 2;
+  }
+
   .personalizer-stage {
     position: sticky;
     z-index: 5;

@@ -6,41 +6,63 @@
 -%}
 
 <div class="featured section-spacing">
-  <div class="featured__header">
+  <div class="featured__header" data-aos="fade-up">
     <h2>{{ section.settings.heading }}</h2>
-    <a class="featured__link" href="{{ source.url }}">
-      {{- 'sections.featured_products.view_all' | t -}}
-      {{ 'icon-arrow-right.svg' | inline_asset_content }}
-    </a>
+    <a href="{{ source.url }}">{{ 'sections.featured_products.view_all' | t }} <i class="fa-solid fa-chevron-right"></i></a>
   </div>
 
-  <ul class="product-grid" role="list">
+  <div class="featured__grid">
     {% for product in source.products limit: section.settings.products_to_show %}
-      <li>{% render 'product-card', product: product %}</li>
+      <a class="featured__card" href="{{ product.url }}" data-aos="fade-up" data-aos-delay="{{ forloop.index | times: 150 }}">
+        <img src="{{ product.featured_image | image_url: width: 1500 }}">
+        <p class="featured__title">{{ product.title }}</p>
+        <p class="featured__price">{{ product.price | money }}</p>
+      </a>
     {% endfor %}
-  </ul>
+  </div>
 </div>
 
 {% stylesheet %}
   .featured__header {
     display: flex;
-    flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: 0.5rem 1rem;
     margin-bottom: 2rem;
   }
 
-  .featured__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
+  .featured__header a {
+    color: #b0a99f;
+    text-decoration: none;
+  }
+
+  .featured__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .featured__card {
+    text-decoration: none;
+  }
+
+  .featured__card img {
+    width: 100%;
+    border-radius: 18px;
+  }
+
+  .featured__title {
+    margin-top: 0.75rem;
     font-weight: 600;
   }
 
-  .featured__link svg {
-    width: 1.1rem;
-    height: 1.1rem;
+  .featured__price {
+    color: #b0a99f;
+  }
+
+  @media (max-width: 749px) {
+    .featured__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 {% endstylesheet %}
 

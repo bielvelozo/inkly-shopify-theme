@@ -1,139 +1,137 @@
-# Rabisco: tema Shopify de portfólio
+# Inkly: a Shopify portfolio theme
 
-Tema Shopify (Online Store 2.0) de uma loja fictícia de presentes personalizados, feito para mostrar três coisas que lojistas e agências costumam pedir: **página de produto com personalização e prévia ao vivo**, **carrinho em gaveta com upsell e frete grátis** e **ajuste de velocidade medido com Lighthouse**.
+A Shopify Online Store 2.0 theme for a fictional personalized-gifts store, built to show three things merchants and agencies keep asking for: **a product page with live personalization preview**, **a cart drawer with upsell and a free-shipping bar**, and **a speed fix measured with Lighthouse**.
 
-- Loja de demonstração: `rabisco-demo.myshopify.com` (loja de desenvolvimento, protegida por senha; peça a senha).
-- Produtos, preços e depoimentos são fictícios. Nenhum pedido é entregue.
-- Base: [Shopify Skeleton Theme](https://github.com/Shopify/skeleton-theme) v1.0.0 (commit `8b8a1f4`, licença em `LICENSE.md`). Todo o resto foi escrito do zero para este repositório.
-
-> **In English:** a Shopify OS 2.0 theme for a fictional personalized-gifts store, built as a portfolio: a product page with live personalization preview, a cart drawer with upsell and free-shipping bar, and a speed fix measured with Lighthouse (mobile performance 42 → 63, LCP 10.8 s → 4.9 s). Details below are in Portuguese; the code and commit history tell the same story.
+- Demo store: `inkly-demo.myshopify.com` (a development store, so it's password protected; ask for the password).
+- Products, prices and reviews are fictional. No orders are fulfilled.
+- Base: [Shopify Skeleton Theme](https://github.com/Shopify/skeleton-theme) v1.0.0 (commit `8b8a1f4`, license in `LICENSE.md`). Everything else was written from scratch for this repository.
+- Storefront strings ship in English (default) and Brazilian Portuguese.
 
 ---
 
-## 1. Produto personalizável com prévia ao vivo
+## 1. Product personalizer with live preview
 
-![Página de produto no desktop](docs/01-produto-desktop.jpg)
+![Product page on desktop](docs/01-product-desktop.jpg)
 
-<img src="docs/03-produto-celular.jpg" alt="Página de produto no celular" width="260"> <img src="docs/04-produto-aviso-qualidade.jpg" alt="Aviso de foto com resolução baixa" width="560">
+<img src="docs/03-product-mobile.jpg" alt="Product page on mobile" width="260"> <img src="docs/04-product-photo-quality.jpg" alt="Low-resolution photo warning" width="560">
 
-O cliente escreve um texto, escolhe fonte, cor e posição, manda uma foto, arrasta e dá zoom, e vê o mockup mudar na hora. No celular a prévia fica presa no topo enquanto ele preenche.
+The customer types a line of text, picks a font, a color and a position, uploads a photo, drags and zooms it, and watches the mockup update as they go. On mobile the preview stays pinned to the top while they fill in the form.
 
-- **Mockups em SVG** de caneca, camiseta e ecobag (`snippets/mockup.liquid`), pintados com a cor da variante escolhida. O lojista também pode usar uma imagem própria e marcar a área de impressão em porcentagem.
-- **Checagem de qualidade da foto:** o tema calcula os DPI pelo tamanho real da impressão (configurável) e avisa antes da compra quando a foto vai sair borrada.
-- **Aviso de contraste** quando a cor do texto quase some na cor da peça.
-- **Tudo vai para o pedido** como propriedade do item: texto, fonte, cor, a foto original (upload pela Shopify) e, escondidos do cliente, a posição, o ajuste da foto e uma **imagem da prévia gerada no navegador** (canvas), que aparece no carrinho e chega para a produção.
-- Teclado: a foto também se move pelas setas; os controles são `fieldset` com `legend`, e erros vão para `role="alert"`.
-- Configurável no editor de tema: fontes (3 seletores da biblioteca da Shopify), cores do texto, campos obrigatórios, limite de caracteres, DPI mínimo e tamanho máximo do arquivo.
+- **SVG mockups** of a mug, a tee and a tote bag (`snippets/mockup.liquid`), tinted with the selected variant color. A merchant can also use their own mockup image and mark the print area in percentages.
+- **Print quality check:** the theme computes DPI from the real print width (a setting) and warns before checkout when the photo will print blurry.
+- **Contrast warning** when the text color nearly disappears on the product color.
+- **Everything goes into the order** as line item properties: text, font, color, the original photo (uploaded through Shopify) and, hidden from the customer, the text position, the photo adjustment and a **preview image rendered in the browser** (canvas), which shows up in the cart and reaches production.
+- Keyboard support: the photo also moves with the arrow keys; controls are `fieldset`s with `legend`s and errors go to `role="alert"`.
+- Configurable in the theme editor: fonts (three pickers from the Shopify font library), text colors, required fields, character limit, minimum DPI and maximum file size.
 
-Arquivos: `sections/product.liquid`, `snippets/personalizer-controls.liquid`, `snippets/mockup.liquid`, `assets/product-personalizer.js`, `assets/product-form.js`, `assets/product.css`, `templates/product.personalizado.json`.
+Files: `sections/product.liquid`, `snippets/personalizer-controls.liquid`, `snippets/mockup.liquid`, `assets/product-personalizer.js`, `assets/product-form.js`, `assets/product.css`, `templates/product.personalized.json`.
 
-## 2. Carrinho em gaveta com upsell e frete grátis
+## 2. Cart drawer with upsell and free-shipping bar
 
-![Carrinho com frete grátis atingido](docs/06-carrinho-frete-gratis.jpg)
+![Cart drawer with free shipping unlocked](docs/06-cart-free-shipping.jpg)
 
-<img src="docs/07-carrinho-celular.jpg" alt="Carrinho no celular" width="260">
+<img src="docs/07-cart-mobile.jpg" alt="Cart drawer on mobile" width="260">
 
-- `<dialog>` nativo (foco preso, Esc fecha, foco volta para onde estava) atualizado pela **Section Rendering API**: adicionar, mudar quantidade e remover devolvem o HTML da gaveta na mesma resposta, sem recarregar a página.
-- **Barra de frete grátis** com o valor das configurações do tema, comparado ao total depois dos descontos.
-- **Upsell** de até 3 produtos escolhidos no editor, pulando o que já está no carrinho e o que está esgotado; produto com opções ou personalização leva para a página dele.
-- **Preço no Pix** ("ou R$ X no Pix") com o percentual das configurações. É só exibição: o desconto em si vem do meio de pagamento.
-- **Eventos:** `add_to_cart`, `remove_from_cart`, `view_cart`, `view_item_list`, `upsell_added` e `free_shipping_unlocked` são publicados nos eventos de cliente da Shopify (`Shopify.analytics.publish`) e, se a opção estiver ligada, no `dataLayer` no formato de e-commerce do GA4.
-- A página `/cart` usa os mesmos snippets e funciona sem JavaScript.
+- Native `<dialog>` (focus trapped, Esc closes, focus returns where it was), refreshed with the **Section Rendering API**: adding, changing quantity and removing return the drawer HTML in the same response, with no page reload.
+- **Free-shipping bar** driven by a theme setting and compared with the cart total after discounts.
+- **Upsell** of up to three products picked in the theme editor, skipping what's already in the cart or sold out; products with options or personalization link to their page.
+- **Pix price** for Brazilian stores ("or R$ X with Pix") from a percentage setting. Display only, off by default and off in the demo store.
+- **Events:** `add_to_cart`, `remove_from_cart`, `view_cart`, `view_item_list`, `upsell_added` and `free_shipping_unlocked` are published to Shopify customer events (`Shopify.analytics.publish`) and, when the setting is on, to `dataLayer` in GA4 ecommerce format.
+- The `/cart` page reuses the same snippets and works without JavaScript.
 
-Arquivos: `sections/cart-drawer.liquid`, `snippets/cart-items.liquid`, `snippets/cart-upsell.liquid`, `snippets/free-shipping-bar.liquid`, `snippets/cart-summary.liquid`, `assets/cart-drawer.js`, `assets/cart.css`, `assets/theme.js`.
+Files: `sections/cart-drawer.liquid`, `snippets/cart-items.liquid`, `snippets/cart-upsell.liquid`, `snippets/free-shipping-bar.liquid`, `snippets/cart-summary.liquid`, `assets/cart-drawer.js`, `assets/cart.css`, `assets/theme.js`.
 
-## 3. Velocidade: a mesma home, antes e depois
+## 3. Speed: the same home page, before and after
 
-![Home no desktop](docs/08-home-desktop.jpg)
+![Home page on desktop](docs/08-home-desktop.jpg)
 
-A home foi montada primeiro do jeito que muita loja lenta chega para um freelancer, medida, e depois ajustada. Não é a loja de um cliente.
+The home page was first built the way many slow stores reach a freelancer, measured, and then fixed. It is not a client's store.
 
-**O que a versão "antes" tinha** (commit `f901575`, tag `velocidade-antes`):
-- Google Fonts com todas as variações, sem `preconnect` e sem `font-display`, por cima das fontes do tema;
-- jQuery, Slick e AOS síncronos no `<head>`, e o Font Awesome inteiro só para alguns ícones;
-- banner com a imagem de 3840 px em `background-image`, que o navegador só descobre depois do CSS, e o título escondido pelo AOS até o JavaScript rodar;
-- vitrine com imagens de 1500 px sem `srcset`, sem `width`/`height` e sem `loading="lazy"`;
-- texto cinza claro sem contraste, imagem sem `alt` e ícone sem nome.
+**What the "before" version had** (commit `f901575`, tag `speed-before`):
+- Google Fonts with every weight, no `preconnect` and no `font-display`, on top of the theme fonts;
+- jQuery, Slick and AOS loaded synchronously in `<head>`, and the whole Font Awesome for a handful of icons;
+- a 3840 px hero image as a CSS `background-image`, which the browser only discovers after the CSS, with the heading hidden by AOS until JavaScript runs;
+- product grid images at 1500 px with no `srcset`, no `width`/`height` and no `loading="lazy"`;
+- low-contrast gray text, an image with no `alt` and an icon link with no name.
 
-**O que mudou** (commit `6613c96`, tag `velocidade-depois`, mais o ajuste do banner no celular em `dac6ad1`):
-- só as fontes da biblioteca da Shopify, com `font-display: swap` e preload das duas usadas acima da dobra;
-- sem jQuery, Slick, AOS e Font Awesome: depoimentos em `scroll-snap` com 30 linhas de JavaScript com `defer`, ícones em SVG inline;
-- banner com `<img>` responsiva (`srcset` de 600 a 2400 px, `sizes="100vw"`), `fetchpriority="high"`, preload e `width`/`height`; no celular o texto vem antes da imagem e aparece sem depender de JavaScript;
-- vitrine com `srcset`, `sizes`, `loading="lazy"` e `width`/`height`;
-- contraste corrigido, nome nos botões de ícone e nota dos depoimentos legível por leitor de tela.
+**What changed** (commit `6613c96`, tag `speed-after`, plus the mobile hero layout in `dac6ad1`):
+- only Shopify-hosted fonts, with `font-display: swap` and a preload for the two used above the fold;
+- no jQuery, Slick, AOS or Font Awesome: testimonials use CSS `scroll-snap` and 30 lines of deferred JavaScript, icons are inline SVG;
+- a responsive hero `<img>` (`srcset` from 600 to 2400 px, `sizes="100vw"`) with `fetchpriority="high"`, a preload and `width`/`height`; on mobile the copy comes before the image and shows without waiting for JavaScript;
+- product grid with `srcset`, `sizes`, `loading="lazy"` and `width`/`height`;
+- fixed contrast, named icon buttons and screen-reader-friendly ratings.
 
-Theme Check: 4 erros e 8 avisos antes (`ParserBlockingScript`, `ImgWidthAndHeight`, `RemoteAsset`), nenhum depois.
+Theme Check: 4 errors and 8 warnings before (`ParserBlockingScript`, `ImgWidthAndHeight`, `RemoteAsset`), none after.
 
-### Números medidos
+### Measured numbers
 
-Lighthouse 13.5.0, 5 rodadas de cada lado, **mediana** (rodada escolhida por `computeMedianRun`), em 15/10/2026.
+Lighthouse 13.5.0, 5 runs per side, **median** (the run chosen by `computeMedianRun`), on 2026-10-16.
 
-| Celular | Antes | Depois |
+| Mobile | Before | After |
 |---|---|---|
-| Performance | **42** (39–44) | **63** (54–64) |
-| LCP | **10,8 s** (10,8–11,9) | **4,9 s** (4,4–5,7) |
-| Total Blocking Time | **1.776 ms** (1.311–2.019) | **784 ms** (489–1.562) |
-| First Contentful Paint | 2,8 s | 2,2 s |
+| Performance | **37** (34–39) | **65** (54–70) |
+| LCP | **11.6 s** (10.2–12.4) | **5.0 s** (4.6–5.8) |
+| Total Blocking Time | **2,323 ms** (1,874–2,924) | **533 ms** (422–1,458) |
+| First Contentful Paint | 2.9 s | 2.0 s |
 | CLS | 0 | 0 |
-| Acessibilidade | **91** | **96** |
-| Peso da página | 4.194 KB | 3.172 KB |
+| Accessibility | **91** | **96** |
 
-| Desktop | Antes | Depois |
+| Desktop | Before | After |
 |---|---|---|
-| Performance | 78 (76–79) | 77 (75–90) |
-| LCP | 2,2 s | 1,3 s |
-| Total Blocking Time | 233 ms (225–280) | 418 ms (181–516) |
-| Acessibilidade | 91 | 96 |
+| Performance | 76 (72–80) | 96 (93–96) |
+| LCP | 2.2 s | 1.2 s |
+| Total Blocking Time | 273 ms (228–338) | 102 ms (73–133) |
+| Accessibility | 91 | 96 |
 
-Entre parênteses, o menor e o maior valor das 5 rodadas. No desktop a nota de performance ficou igual e o TBT variou muito entre rodadas dos dois lados, então não dá para dizer que melhorou ou piorou ali; o ganho claro é no celular e no LCP.
+In parentheses: the lowest and highest value across the 5 runs. The run-to-run spread is wide on both sides, mostly from the Shopify scripts described below. An earlier measurement of the same code, on a previous copy of the demo store with Portuguese content, gave mobile 42 → 63 and LCP 10.8 s → 4.9 s, but left the desktop score flat (78 → 77), so treat the desktop gain as less certain than the mobile one.
 
-**Como foi medido.** As duas versões rodaram no mesmo tema de desenvolvimento, servido por `shopify theme dev --live-reload off` em `http://127.0.0.1:9292/`, com o Lighthouse simulando um celular (throttling simulado, padrão do Lighthouse). O "antes" medido é o branch `velocidade/antes` (commit `fd84bee`: o tema atual com o `theme.liquid` e as quatro seções da home de `velocidade-antes`); o "depois" é o `main` no commit `dac6ad1`. Os relatórios completos estão em `lighthouse/antes/` e `lighthouse/depois/` (HTML para abrir no navegador e JSON da rodada mediana, mais `resumo.json` com as 5 rodadas). Para medir de novo: `npm run medir -- <rótulo> <url> 5`.
+**How it was measured.** Both versions ran on the same development theme, served by `shopify theme dev --live-reload off` at `http://127.0.0.1:9292/`, with Lighthouse's default mobile emulation and its desktop preset (simulated throttling in both). The measured "before" is the `speed/before` branch (commit `765839e`: the current theme with `theme.liquid` and the four home sections from `speed-before`); the "after" is `main` at commit `829445c`. Full reports live in `lighthouse/before/` and `lighthouse/after/` (HTML to open in a browser and the JSON of the median run, plus `summary.json` with all 5 runs). To measure again: `npm run measure -- <label> <url> 5`.
 
-**O que sobra e não é do tema.** O servidor local do CLI entrega o HTML sem compressão e sem CDN, nas duas medições; na loja publicada os números absolutos tendem a ser melhores, mas não medi isso. E a maior parte do peso e do bloqueio que restou vem dos scripts que a própria Shopify injeta pelo `content_for_header`: o pré-carregamento do checkout (cerca de 2,3 MB), o perf-kit, o gerenciador de pixels e o analytics. Nenhum tema remove isso. No que o tema controla, o relatório de depois não aponta imagem grande, fonte bloqueando nem script de terceiros.
+**What's left isn't the theme's.** The CLI's local server sends the HTML without compression and without a CDN, in both measurements; numbers on the published storefront should be better in absolute terms, but I didn't measure that. Most of the remaining weight and blocking time comes from the scripts Shopify injects through `content_for_header`: checkout prefetching (about 2.3 MB), perf-kit, the web pixels manager and analytics. No theme can remove those, and the checkout prefetch loads in some runs and not in others, which is why total page weight is left out of the tables: it swings by more than a megabyte between runs of the same code. On the parts the theme controls, the "after" report flags no oversized image, no render-blocking font and no third-party script.
 
 ---
 
-## Rodar localmente
+## Run it locally
 
-Precisa do [Shopify CLI](https://shopify.dev/docs/api/shopify-cli) e de uma loja de desenvolvimento.
+You need the [Shopify CLI](https://shopify.dev/docs/api/shopify-cli) and a development store.
 
 ```bash
-shopify theme dev --store sua-loja.myshopify.com
+shopify theme dev --store your-store.myshopify.com
 ```
 
 ```bash
 shopify theme check
 ```
 
-Dados da loja de demonstração (produtos, fotos, banner e menu), depois de autorizar o CLI na loja com `shopify store auth`:
+Demo data (products, photos, hero image and menu), after authorizing the CLI on the store with `shopify store auth`:
 
 ```bash
-python demo/imagens.py
+python demo/images.py
 ```
 
 ```bash
-python demo/semear.py sua-loja.myshopify.com
+python demo/seed.py your-store.myshopify.com
 ```
 
-Prints das peças (Puppeteer com o Chrome instalado, contra o `theme dev`):
+Screenshots of each piece (Puppeteer with the installed Chrome, against `theme dev`):
 
 ```bash
-node demo/prints.mjs demo/prints
+node demo/screenshots.mjs demo/screenshots
 ```
 
-## Estrutura
+## Structure
 
 ```
-assets/      CSS e JavaScript de cada peça, ícones SVG
-config/      configurações do tema (cores, fontes, carrinho, Pix, rastreamento)
+assets/      CSS and JavaScript for each piece, SVG icons
+config/      theme settings (colors, fonts, cart, Pix, tracking)
 layout/      theme.liquid
-locales/     pt-BR e inglês (textos da loja e do editor)
-sections/    produto, carrinho (página e gaveta), home, cabeçalho, rodapé
-snippets/    personalizador, mockups, itens do carrinho, upsell, barra de frete
-templates/   JSON (OS 2.0), incluindo product.personalizado.json
-demo/        imagens fictícias, criação dos produtos e prints
-lighthouse/  script de medição e relatórios de antes e depois
-scripts/     Shopify CLI com sessão separada (uso pessoal do autor)
+locales/     English and Brazilian Portuguese (storefront and editor)
+sections/    product, cart (page and drawer), home, header, footer
+snippets/    personalizer, mockups, cart items, upsell, shipping bar
+templates/   JSON templates (OS 2.0), including product.personalized.json
+demo/        fictional images, product seeding and screenshots
+lighthouse/  measuring script and before/after reports
+scripts/     Shopify CLI with a separate session (author's own setup)
 ```
 
-Autor: Gabriel Velozo.
+Author: Gabriel Velozo.

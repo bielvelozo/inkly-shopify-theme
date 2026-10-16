@@ -49,7 +49,7 @@
         <a class="cart-upsell__title" href="{{ product.url }}">{{ product.title }}</a>
         {% render 'price', variant: variant %}
       </div>
-      {%- if product.has_only_default_variant and product.template_suffix != 'personalizado' -%}
+      {%- if product.has_only_default_variant and product.template_suffix != 'personalized' -%}
         <form action="{{ routes.cart_add_url }}" method="post">
           <input type="hidden" name="id" value="{{ variant.id }}">
           <input type="hidden" name="quantity" value="1">

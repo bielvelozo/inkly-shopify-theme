@@ -18,16 +18,16 @@
             "mockup": "auto"
           }
         },
-        "prazo": {
+        "lead-time": {
           "type": "text",
           "settings": {
-            "text": "<p><strong>Produção em até 3 dias úteis.</strong> A nossa equipe confere a sua arte antes de imprimir e avisa por e-mail se algo precisar de ajuste.</p>"
+            "text": "<p><strong>Made to order in 3 business days.</strong> Our team checks your artwork before printing and emails you if anything needs a tweak.</p>"
           }
         }
       },
       "block_order": [
         "personalizer",
-        "prazo"
+        "lead-time"
       ],
       "settings": {
         "show_dynamic_checkout": false

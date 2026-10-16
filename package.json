@@ -1,10 +1,10 @@
 {
-  "name": "rabisco-shopify-theme",
+  "name": "inkly-shopify-theme",
   "private": true,
-  "description": "Tema Shopify de portfólio: produto personalizável, carrinho em gaveta e velocidade medida",
+  "description": "Shopify portfolio theme: product personalizer, cart drawer and measured speed fix",
   "scripts": {
     "check": "shopify theme check",
-    "medir": "node lighthouse/medir.mjs"
+    "measure": "node lighthouse/measure.mjs"
   },
   "devDependencies": {
     "lighthouse": "^13.5.0",

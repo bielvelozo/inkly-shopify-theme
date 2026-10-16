@@ -1,7 +1,7 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Rabisco",
+    "theme_name": "Inkly",
     "theme_version": "1.0.0",
     "theme_author": "Gabriel Velozo",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
@@ -138,7 +138,7 @@
         "id": "free_shipping_threshold",
         "label": "t:labels.free_shipping_threshold",
         "info": "t:info.free_shipping_threshold",
-        "default": 150
+        "default": 50
       },
       {
         "type": "header",
@@ -170,7 +170,7 @@
         "unit": "%",
         "label": "t:labels.pix_discount_percent",
         "info": "t:info.pix_discount_percent",
-        "default": 5
+        "default": 0
       }
     ]
   },

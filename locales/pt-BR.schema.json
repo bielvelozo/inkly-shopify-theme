@@ -143,10 +143,10 @@
     },
     "mockup": {
       "auto": "Automático (pelo tipo do produto)",
-      "caneca": "Caneca",
-      "camiseta": "Camiseta",
-      "ecobag": "Ecobag",
-      "imagem": "Minha imagem"
+      "mug": "Caneca",
+      "tshirt": "Camiseta",
+      "tote": "Ecobag",
+      "image": "Minha imagem"
     },
     "page_width": {
       "narrow": "Estreita",

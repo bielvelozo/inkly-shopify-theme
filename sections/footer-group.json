@@ -14,7 +14,7 @@
     "footer": {
       "type": "footer",
       "settings": {
-        "notice": "Loja de demonstração do portfólio de Gabriel Velozo. Produtos, preços e depoimentos são fictícios e nenhum pedido é entregue.",
+        "notice": "Demo store from Gabriel Velozo's portfolio. Products, prices and reviews are fictional, and no orders are fulfilled.",
         "menu": "",
         "show_payment_icons": true
       }

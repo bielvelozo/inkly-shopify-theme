@@ -8,29 +8,29 @@
     assign mockup = personalizer.settings.mockup
     if mockup == 'auto'
       assign product_type = product.type | downcase
-      if product_type contains 'camiseta' or product_type contains 'shirt'
-        assign mockup = 'camiseta'
-      elsif product_type contains 'bag' or product_type contains 'bolsa'
-        assign mockup = 'ecobag'
+      if product_type contains 'shirt' or product_type contains 'tee' or product_type contains 'camiseta'
+        assign mockup = 'tshirt'
+      elsif product_type contains 'bag' or product_type contains 'tote' or product_type contains 'bolsa'
+        assign mockup = 'tote'
       else
-        assign mockup = 'caneca'
+        assign mockup = 'mug'
       endif
     endif
 
     case mockup
-      when 'camiseta'
+      when 'tshirt'
         assign print_x = 205
         assign print_y = 160
         assign print_w = 190
         assign print_h = 240
         assign print_cm = 28
-      when 'ecobag'
+      when 'tote'
         assign print_x = 170
         assign print_y = 262
         assign print_w = 260
         assign print_h = 250
         assign print_cm = 26
-      when 'imagem'
+      when 'image'
         assign print_x = personalizer.settings.print_x | times: 6
         assign print_y = personalizer.settings.print_y | times: 6
         assign print_w = personalizer.settings.print_w | times: 6
@@ -113,7 +113,7 @@
             </clipPath>
           </defs>
 
-          {% if mockup == 'imagem' and personalizer.settings.mockup_image %}
+          {% if mockup == 'image' and personalizer.settings.mockup_image %}
             <g data-layer="base">
               <image
                 href="{{ personalizer.settings.mockup_image | image_url: width: 1200 }}"
@@ -145,7 +145,7 @@
             <text data-text text-anchor="middle" dominant-baseline="central"></text>
           </g>
 
-          {% unless mockup == 'imagem' %}
+          {% unless mockup == 'image' %}
             {% render 'mockup', type: mockup, layer: 'shade' %}
           {% endunless %}
         </svg>
@@ -343,7 +343,7 @@
       "id": "swatch_colors",
       "label": "t:labels.swatch_colors",
       "info": "t:info.swatch_colors",
-      "default": "Branca:#F6F4EF, Branco:#F6F4EF, Preta:#26231F, Preto:#26231F, Areia:#E4D6BD, Verde:#4F6B55, Azul:#2F4A7A, Natural:#EFE6D2"
+      "default": "White:#F6F4EF, Black:#26231F, Sand:#E4D6BD, Natural:#EFE6D2, Green:#4F6B55, Navy:#2F4A7A"
     },
     {
       "type": "checkbox",
@@ -378,10 +378,10 @@
           "label": "t:labels.mockup",
           "options": [
             { "value": "auto", "label": "t:options.mockup.auto" },
-            { "value": "caneca", "label": "t:options.mockup.caneca" },
-            { "value": "camiseta", "label": "t:options.mockup.camiseta" },
-            { "value": "ecobag", "label": "t:options.mockup.ecobag" },
-            { "value": "imagem", "label": "t:options.mockup.imagem" }
+            { "value": "mug", "label": "t:options.mockup.mug" },
+            { "value": "tshirt", "label": "t:options.mockup.tshirt" },
+            { "value": "tote", "label": "t:options.mockup.tote" },
+            { "value": "image", "label": "t:options.mockup.image" }
           ],
           "default": "auto"
         },
@@ -389,7 +389,7 @@
           "type": "image_picker",
           "id": "mockup_image",
           "label": "t:labels.mockup_image",
-          "visible_if": "{{ block.settings.mockup == 'imagem' }}"
+          "visible_if": "{{ block.settings.mockup == 'image' }}"
         },
         {
           "type": "range",
@@ -400,7 +400,7 @@
           "step": 1,
           "unit": "%",
           "default": 30,
-          "visible_if": "{{ block.settings.mockup == 'imagem' }}"
+          "visible_if": "{{ block.settings.mockup == 'image' }}"
         },
         {
           "type": "range",
@@ -411,7 +411,7 @@
           "step": 1,
           "unit": "%",
           "default": 30,
-          "visible_if": "{{ block.settings.mockup == 'imagem' }}"
+          "visible_if": "{{ block.settings.mockup == 'image' }}"
         },
         {
           "type": "range",
@@ -422,7 +422,7 @@
           "step": 1,
           "unit": "%",
           "default": 40,
-          "visible_if": "{{ block.settings.mockup == 'imagem' }}"
+          "visible_if": "{{ block.settings.mockup == 'image' }}"
         },
         {
           "type": "range",
@@ -433,7 +433,7 @@
           "step": 1,
           "unit": "%",
           "default": 40,
-          "visible_if": "{{ block.settings.mockup == 'imagem' }}"
+          "visible_if": "{{ block.settings.mockup == 'image' }}"
         },
         {
           "type": "number",
@@ -490,7 +490,7 @@
           "id": "text_colors",
           "label": "t:labels.text_colors",
           "info": "t:info.text_colors",
-          "default": "Preto:#1D1A16, Branco:#FFFFFF, Laranja:#D9481F, Azul:#2747C7, Verde:#2F7A4F"
+          "default": "Black:#1D1A16, White:#FFFFFF, Orange:#D9481F, Blue:#2747C7, Green:#2F7A4F"
         },
         {
           "type": "header",

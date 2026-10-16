@@ -29,7 +29,7 @@
 
   {%- if product.compare_at_price > product.price -%}
     <span class="badge product-card__badge">{{ 'products.product.sale' | t }}</span>
-  {%- elsif product.template_suffix == 'personalizado' -%}
+  {%- elsif product.template_suffix == 'personalized' -%}
     <span class="badge product-card__badge">{{ 'products.product.personalizable' | t }}</span>
   {%- endif -%}
 

@@ -143,10 +143,10 @@
     },
     "mockup": {
       "auto": "Automatic (by product type)",
-      "caneca": "Mug",
-      "camiseta": "T-shirt",
-      "ecobag": "Tote bag",
-      "imagem": "My own image"
+      "mug": "Mug",
+      "tshirt": "T-shirt",
+      "tote": "Tote bag",
+      "image": "My own image"
     },
     "page_width": {
       "narrow": "Narrow",

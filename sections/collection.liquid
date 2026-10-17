@@ -16,7 +16,13 @@
 
 <div class="collection-hero paper paper--{{ paper }} full-width under-header">
   <div class="collection-hero__inner">
-    <h1 class="collection-hero__title">{{ collection.title }}</h1>
+    <h1 class="collection-hero__title">
+      {%- if collection.handle == 'all' -%}
+        {{- 'collections.all_title' | t -}}
+      {%- else -%}
+        {{- collection.title -}}
+      {%- endif -%}
+    </h1>
     {% if collection.description != blank %}
       <div class="collection-hero__text">{{ collection.description }}</div>
     {% endif %}

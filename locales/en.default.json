@@ -145,7 +145,8 @@
       "other": "{{ count }} products"
     },
     "sort_by": "Sort by",
-    "apply": "Apply"
+    "apply": "Apply",
+    "all_title": "All gifts"
   },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",

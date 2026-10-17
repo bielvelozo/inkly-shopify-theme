@@ -145,7 +145,8 @@
       "other": "{{ count }} produtos"
     },
     "sort_by": "Ordenar por",
-    "apply": "Aplicar"
+    "apply": "Aplicar",
+    "all_title": "Todos os presentes"
   },
   "gift_card": {
     "add_to_apple_wallet": "Adicionar à Apple Wallet",

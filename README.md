@@ -19,8 +19,9 @@ The whole store is wrapping paper. Each part of the home owns one paper (pink po
 - **Type:** Archivo Expanded ExtraBold for headings, shipped with the theme (14 KB, SIL Open Font License); Archivo for body text, picked from the Shopify font library and changeable in the theme editor.
 - **Papers are CSS:** the patterns are tiny repeating images defined once in `assets/critical.css`, and their colors are theme settings.
 - **Motion:** the steps ribbon draws itself as you scroll, the hero gets dressed (ribbon, bow, tags) right after load, tags swing on hover, "Add to cart" pops into "Added!", the cart badge bumps, and the free-shipping ribbon ties a bow with a burst of confetti. All of it is off under `prefers-reduced-motion`.
+- **State shows on the paper:** on the product page the stage tag turns into a mint "Ready to print" once there is text or a sharp photo, and the stage paper turns lemon for dark products.
 - **Pages:** home (hero, bestsellers, gift bento, how it works, reviews), collection, product, cart drawer and cart page, password page and a 404 shaped like "4[mug]4".
-- **Photos** are free stock photos (Burst, Unsplash, Pexels), cropped by `demo/photos.py`; sources and licenses are in `demo/CREDITS.md`.
+- **Photos** are free stock photos (Burst, Unsplash, Pexels), cropped by `demo/photos.py`; sources and licenses are in `demo/CREDITS.md` and in each file's metadata. The hero mug is cut out of its studio backdrop by `demo/cutout.py` and laid on a lemon card, so it ships as a 13 KB image instead of a heavy transparent one.
 
 ---
 
@@ -91,21 +92,21 @@ Lighthouse 13.5.0, 5 runs per version, **median** (the run chosen by `computeMed
 
 | Mobile | Slow version | After the fix | Redesign (now) |
 |---|---|---|---|
-| Performance | **44** (42–48) | **67** (62–69) | **66** (63–70) |
-| LCP | **12.7 s** (11.8–13.4) | **4.8 s** (4.5–6.0) | **4.9 s** (4.4–5.0) |
-| Total Blocking Time | **1,328 ms** (899–1,468) | **559 ms** (340–627) | **529 ms** (461–639) |
+| Performance | **44** (42–48) | **67** (62–69) | **66** (64–68) |
+| LCP | **12.7 s** (11.8–13.4) | **4.8 s** (4.5–6.0) | **4.5 s** (4.4–5.1) |
+| Total Blocking Time | **1,328 ms** (899–1,468) | **559 ms** (340–627) | **584 ms** (542–680) |
 | First Contentful Paint | 2.7 s | 2.0 s | 2.1 s |
 | CLS | 0 | 0 | 0 |
 | Accessibility | **91** | **96** | **100** |
 
 | Desktop | Slow version | After the fix | Redesign (now) |
 |---|---|---|---|
-| Performance | 82 (82–83) | 93 (86–96) | 89 (87–94) |
+| Performance | 82 (82–83) | 93 (86–96) | 95 (93–97) |
 | LCP | 2.4 s | 1.3 s | 1.2 s |
-| Total Blocking Time | 163 ms | 141 ms (79–277) | 218 ms (158–249) |
+| Total Blocking Time | 163 ms | 141 ms (79–277) | 130 ms (82–157) |
 | Accessibility | 91 | 96 | 100 |
 
-In parentheses: the lowest and highest value across the 5 runs. The run-to-run spread is wide, mostly from the Shopify scripts described below, so read the mobile scores of the last two columns as a tie: the redesign is a much richer page and kept the fixed version's speed, with a steadier LCP (never above 5.0 s in 5 runs) and full accessibility marks. On desktop it gave up a few points of blocking time.
+In parentheses: the lowest and highest value across the 5 runs. The run-to-run spread is wide, mostly from the Shopify scripts described below, so read the mobile scores of the last two columns as a tie: the redesign is a much richer page and kept the fixed version's speed, with a faster LCP, full accessibility marks and a better desktop score.
 
 **How it was measured.** Each version ran as its own theme in the demo store, served by `shopify theme dev --live-reload off` on its own local port (`speed/before` branch at `765839e` for the slow version, tag `design-v1` at `e2299b0` for the fixed version before the redesign, `main` for the redesign), with Lighthouse's default mobile emulation and its desktop preset (simulated throttling in both). Full reports live in `lighthouse/2026-10-17/` (HTML to open in a browser, the JSON of the median run and `summary.json` with all 5 runs). The first measurement, on 2026-10-16 (mobile 37 → 65), is kept in `lighthouse/before/` and `lighthouse/after/`. To measure again: `npm run measure -- <label> <url> 5`.
 

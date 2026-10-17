@@ -1,8 +1,10 @@
 {
   "404": {
     "title": "404",
-    "not_found": "Página não encontrada.",
-    "back_to_shopping": "Voltar para a loja"
+    "not_found": "Esta página não chegou a ser impressa.",
+    "back_to_shopping": "Ver os presentes",
+    "hint": "O link pode estar antigo ou digitado errado. Os presentes continuam aqui.",
+    "home": "Voltar ao início"
   },
   "accessibility": {
     "skip_to_content": "Pular para o conteúdo"

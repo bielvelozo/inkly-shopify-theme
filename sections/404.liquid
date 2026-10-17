@@ -5,19 +5,96 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/404
 {% endcomment %}
 
-<h1>{{ '404.title' | t }}</h1>
+<div class="not-found paper paper--gingham full-width under-header">
+  <div class="not-found__inner">
+    <p class="not-found__code display" aria-hidden="true">
+      <span>4</span>
+      <span class="not-found__zero">
+        {%- if section.settings.image -%}
+          {{
+            section.settings.image
+            | image_url: width: 600
+            | image_tag: widths: '300, 450, 600', sizes: '(min-width: 750px) 14rem, 9rem', loading: 'eager', alt: ''
+          }}
+        {%- endif -%}
+      </span>
+      <span>4</span>
+    </p>
+    <h1 class="not-found__title">{{ '404.not_found' | t }}</h1>
+    <p class="not-found__text">{{ '404.hint' | t }}</p>
+    <div class="not-found__actions">
+      <a class="button" href="{{ routes.all_products_collection_url }}">
+        {{ '404.back_to_shopping' | t }}
+        {{ 'icon-arrow-right.svg' | inline_asset_content }}
+      </a>
+      <a class="button button--secondary" href="{{ routes.root_url }}">{{ '404.home' | t }}</a>
+    </div>
+  </div>
+</div>
 
-<p>
-  {{ '404.not_found' | t }}
-</p>
+{% stylesheet %}
+  .not-found {
+    display: grid;
+    place-items: center;
+    min-height: 82svh;
+    padding: calc(var(--header-height) + 3rem) var(--page-margin) 4rem;
+    text-align: center;
+  }
 
-<a href="{{ routes.all_products_collection_url }}">
-  {{ '404.back_to_shopping' | t }}
-</a>
+  .not-found__inner {
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
+    max-width: 40rem;
+  }
+
+  .not-found__code {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.5rem, 2vw, 1.25rem);
+    font-size: clamp(6rem, 3rem + 14vw, 13rem);
+    line-height: 0.8;
+  }
+
+  .not-found__zero {
+    width: 0.78em;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--color-background);
+    outline: 3px solid var(--color-foreground);
+    outline-offset: -3px;
+  }
+
+  .not-found__zero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .not-found__title {
+    font-size: clamp(1.8rem, 1.2rem + 2vw, 2.8rem);
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:general.404",
-  "settings": []
+  "class": "under-header-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    }
+  ]
 }
 {% endschema %}

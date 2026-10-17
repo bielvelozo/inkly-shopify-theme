@@ -6,6 +6,7 @@
   endif
   assign names = section.settings.demo_names | split: ','
   assign first_name = names.first | strip
+  assign print_size = 300 | times: 1.0 | divided_by: first_name.size | divided_by: 0.74 | at_most: 64 | at_least: 26 | round
 -%}
 
 <div class="hero paper paper--dots full-width under-header">
@@ -61,10 +62,10 @@
           <defs>
             <path
               id="HeroArc-{{ section.id }}"
-              d="M {{ section.settings.print_x | times: 8 | minus: 150 }} {{ section.settings.print_y | times: 10 }} Q {{ section.settings.print_x | times: 8 }} {{ section.settings.print_y | times: 10 | plus: section.settings.print_curve }} {{ section.settings.print_x | times: 8 | plus: 150 }} {{ section.settings.print_y | times: 10 }}"
+              d="M {{ section.settings.print_x | times: 8 | minus: 170 }} {{ section.settings.print_y | times: 10 }} Q {{ section.settings.print_x | times: 8 }} {{ section.settings.print_y | times: 10 | plus: section.settings.print_curve }} {{ section.settings.print_x | times: 8 | plus: 170 }} {{ section.settings.print_y | times: 10 }}"
             />
           </defs>
-          <text class="hero__print-text" text-anchor="middle" data-hero-print>
+          <text class="hero__print-text" text-anchor="middle" style="font-size: {{ print_size }}px" data-hero-print>
             <textPath href="#HeroArc-{{ section.id }}" startOffset="50%" data-hero-print-path>{{ first_name }}</textPath>
           </text>
         </svg>

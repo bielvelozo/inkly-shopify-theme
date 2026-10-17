@@ -1,8 +1,10 @@
 {
   "404": {
     "title": "404",
-    "not_found": "Page not found.",
-    "back_to_shopping": "Back to shopping"
+    "not_found": "This page didn't make it to print.",
+    "back_to_shopping": "Shop the gifts",
+    "hint": "The link may be old or mistyped. The gifts are still here, though.",
+    "home": "Back home"
   },
   "accessibility": {
     "skip_to_content": "Skip to content"

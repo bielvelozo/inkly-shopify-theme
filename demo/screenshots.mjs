@@ -28,6 +28,8 @@ async function open(page, pathname) {
   await page.goto(`${BASE}${pathname}`, { waitUntil: 'networkidle2', timeout: 90000 });
   await page.evaluate(() => document.fonts.ready);
   await page.addStyleTag({ content: '#preview-bar-iframe, #PBarNextFrameWrapper { display: none !important; }' });
+  await page.waitForFunction(() => !document.documentElement.classList.contains('is-dressing'), { timeout: 15000 });
+  await wait(1200);
 }
 
 async function personalize(page, { text, color, photo, zoom }) {
@@ -123,15 +125,27 @@ async function home(browser) {
   for (const viewport of ['desktop', 'mobile']) {
     const { context, page } = await newPage(browser, viewport);
     await open(page, '/');
+    await page.type('[data-hero-input]', "Ana's coffee", { delay: 30 });
+    await page.evaluate(() => document.activeElement.blur());
+    await wait(400);
     await save(page, `08-home-${viewport}`);
     await context.close();
   }
 }
 
+async function pages(browser) {
+  const { context, page } = await newPage(browser, 'desktop');
+  await open(page, '/collections/all');
+  await save(page, '09-collection-desktop');
+  await open(page, '/pages/missing-page');
+  await save(page, '10-not-found-desktop');
+  await context.close();
+}
+
 await fs.mkdir(OUT, { recursive: true });
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, args: ['--no-first-run'] });
 try {
-  const steps = { productDesktop, productMobile, photoQuality, home };
+  const steps = { productDesktop, productMobile, photoQuality, home, pages };
   const chosen = process.argv.slice(3);
   for (const [name, step] of Object.entries(steps)) {
     if (chosen.length && !chosen.includes(name)) continue;

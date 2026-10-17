@@ -11,7 +11,9 @@
   "sections": {
     "main": {
       "type": "404",
-      "settings": {}
+      "settings": {
+        "image": "shopify://shop_images/inkly-hero-mug.jpg"
+      }
     }
   },
   "order": [

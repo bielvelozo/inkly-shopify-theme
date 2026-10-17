@@ -132,6 +132,61 @@
       this.errorEl.hidden = !message;
     }
 
+    signatureOf(body) {
+      const parts = [];
+      for (const [key, value] of body.entries()) {
+        if (key !== 'id' && !key.startsWith('properties[')) continue;
+        parts.push(`${key}=${value instanceof File ? `${value.name}:${value.size}:${value.lastModified}` : value}`);
+      }
+      return parts.some((part) => part.startsWith('properties[')) ? parts.join('|') : null;
+    }
+
+    rememberedLines() {
+      try {
+        return JSON.parse(sessionStorage.getItem('inkly:personalized-lines')) || {};
+      } catch {
+        return {};
+      }
+    }
+
+    rememberLine(signature, key) {
+      const lines = { ...this.rememberedLines(), [signature]: key };
+      try {
+        sessionStorage.setItem('inkly:personalized-lines', JSON.stringify(lines));
+      } catch {}
+    }
+
+    // Uploaded files get a new URL on every add, so Shopify never merges two identical personalized lines on its own.
+    async addToSameLine(signature, quantity, sections) {
+      const key = this.rememberedLines()[signature];
+      if (!key) return null;
+      try {
+        const cart = await fetch(`${window.theme.routes.cart}.js`, { headers: { Accept: 'application/json' } }).then(
+          (response) => response.json()
+        );
+        const line = cart.items.find((item) => item.key === key);
+        if (!line) return null;
+
+        const response = await fetch(`${window.theme.routes.cartChange}.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            id: key,
+            quantity: line.quantity + quantity,
+            sections: sections.join(','),
+            sections_url: window.location.pathname,
+          }),
+        });
+        if (!response.ok) return null;
+        const updated = await response.json();
+        const item = updated.items.find((candidate) => candidate.key === key);
+        if (!item) return null;
+        return { ...item, quantity, final_line_price: item.final_price * quantity, sections: updated.sections };
+      } catch {
+        return null;
+      }
+    }
+
     async onSubmit(event) {
       event.preventDefault();
       if (this.submitButton.getAttribute('aria-busy') === 'true') return;
@@ -153,6 +208,7 @@
           if (!key.startsWith('properties[')) continue;
           if (value === '' || (value instanceof File && value.size === 0)) body.delete(key);
         }
+        const signature = this.signatureOf(body);
         if (preview) {
           body.append(
             `properties[_${personalizer.previewProperty}]`,
@@ -166,16 +222,20 @@
           body.append('sections_url', window.location.pathname);
         }
 
-        const response = await fetch(`${window.theme.routes.cartAdd}.js`, {
-          method: 'POST',
-          headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-          body,
-        });
-        const data = await response.json();
+        let data = signature ? await this.addToSameLine(signature, Number(body.get('quantity')) || 1, sections) : null;
+        if (!data) {
+          const response = await fetch(`${window.theme.routes.cartAdd}.js`, {
+            method: 'POST',
+            headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body,
+          });
+          data = await response.json();
 
-        if (!response.ok) {
-          this.showError(data.description || data.message || this.labels.labelError);
-          return;
+          if (!response.ok) {
+            this.showError(data.description || data.message || this.labels.labelError);
+            return;
+          }
+          if (signature) this.rememberLine(signature, data.key);
         }
 
         window.theme.track('add_to_cart', {

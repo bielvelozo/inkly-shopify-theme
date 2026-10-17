@@ -29,6 +29,26 @@
       this.dialog.addEventListener('close', () => this.returnFocus?.focus?.());
 
       document.addEventListener('cart:updated', (event) => this.onCartUpdated(event.detail || {}));
+
+      const warm = () =>
+        'requestIdleCallback' in window
+          ? requestIdleCallback(() => this.loadStyles(), { timeout: 3000 })
+          : setTimeout(() => this.loadStyles(), 1500);
+      if (document.readyState === 'complete') warm();
+      else addEventListener('load', warm, { once: true });
+    }
+
+    loadStyles() {
+      this.styles ||= new Promise((resolve) => {
+        const href = this.dataset.stylesheet;
+        if (!href || document.querySelector(`link[rel="stylesheet"][href="${href}"]`)) return resolve();
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.onload = link.onerror = () => resolve();
+        document.head.append(link);
+      });
+      return this.styles;
     }
 
     get sectionId() {
@@ -39,9 +59,11 @@
       return this.querySelector('[data-cart-content]');
     }
 
-    open(trigger) {
+    async open(trigger) {
       if (this.dialog.open) return;
       this.returnFocus = trigger || document.activeElement;
+      await this.loadStyles();
+      if (this.dialog.open) return;
       this.dialog.classList.remove('is-closing');
       this.dialog.showModal();
       this.trackView();

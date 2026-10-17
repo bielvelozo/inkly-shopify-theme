@@ -1,12 +1,24 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
-    {% # Inlined CSS Variables %}
-    {% render 'css-variables' %}
+    {%- liquid
+      assign body_font = settings.type_primary_font
+      assign body_font_weight = body_font.weight | append: ''
+      assign body_font_bundled = false
+      if body_font.family == 'Archivo' and body_font_weight == '400' and body_font.style == 'normal'
+        assign body_font_bundled = true
+      endif
+    -%}
 
-    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {% # Inlined CSS Variables %}
+    {% render 'css-variables', body_font_bundled: body_font_bundled %}
+
     {{ 'archivo-expanded-800.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
-    {{ settings.type_primary_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+    {%- if body_font_bundled -%}
+      {{ 'archivo-400.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {%- else -%}
+      {{ body_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+    {%- endif %}
 
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}

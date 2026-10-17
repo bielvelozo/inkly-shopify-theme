@@ -85,6 +85,9 @@
     });
   }
 
+  // iOS Safari only paints :active press states while the page has a touchstart listener.
+  document.addEventListener('touchstart', () => {}, { passive: true });
+
   const dress = () => document.documentElement.classList.remove('is-dressing');
   const afterLoad = () => ('requestIdleCallback' in window ? requestIdleCallback(dress, { timeout: 1200 }) : setTimeout(dress, 300));
   if (document.readyState === 'complete') afterLoad();

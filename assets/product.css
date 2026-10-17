@@ -121,6 +121,15 @@
   gap: 0.5rem;
 }
 
+.variant-picker__chip,
+.personalizer__option,
+.personalizer__swatch,
+.personalizer__dropzone {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
 .variant-picker__chip {
   display: inline-grid;
   place-items: center;
@@ -135,8 +144,10 @@
   transition: border-color 0.2s ease, transform 0.3s var(--ease-spring), background-color 0.2s ease;
 }
 
-.variant-picker__chip:hover {
-  border-color: var(--color-foreground);
+@media (hover: hover) and (pointer: fine) {
+  .variant-picker__chip:hover {
+    border-color: var(--color-foreground);
+  }
 }
 
 .variant-picker__chip:active {
@@ -205,15 +216,21 @@ input:focus-visible + .variant-picker__chip {
   animation: tag-swing 1.1s var(--ease-out);
 }
 
+html:has(.personalizer-stage),
+html:has(.personalizer-stage) body {
+  overscroll-behavior-y: none;
+}
+
 .personalizer-stage .mockup {
   width: 100%;
   height: auto;
+  -webkit-user-select: none;
   user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .personalizer-stage.has-photo .mockup {
   cursor: grab;
-  touch-action: none;
 }
 
 .personalizer-stage.is-dragging .mockup {
@@ -244,7 +261,6 @@ input:focus-visible + .variant-picker__chip {
   opacity: 0.22;
 }
 
-.personalizer-stage:hover .mockup__guide,
 .personalizer-stage.is-dragging .mockup__guide {
   opacity: 0.4;
 }
@@ -265,6 +281,12 @@ input:focus-visible + .variant-picker__chip {
     max-width: 100%;
     max-height: max(17rem, calc(100svh - var(--header-height) - 14.5rem));
     margin-inline: auto;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .personalizer-stage:hover .mockup__guide {
+    opacity: 0.4;
   }
 }
 
@@ -304,10 +326,43 @@ input:focus-visible + .variant-picker__chip {
     margin-inline: auto;
   }
 
+  html:has(.product--personalized .personalizer-stage) {
+    scroll-padding-top: calc(var(--header-height) + 38svh + 3.75rem);
+  }
+
   .personalizer-stage__note,
   .personalizer-stage__tag {
     display: none;
   }
+}
+
+@media (max-width: 989px) and (min-aspect-ratio: 3 / 2) {
+  .personalizer-stage {
+    position: relative;
+    top: auto;
+  }
+
+  .personalizer-stage .mockup {
+    max-height: 75svh;
+  }
+
+  html:has(.product--personalized .personalizer-stage) {
+    scroll-padding-top: calc(var(--header-height) + 1.5rem);
+  }
+}
+
+.personalizer-stage .inkly-3d__switch button {
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.12s var(--ease-out);
+}
+
+.personalizer-stage .inkly-3d__switch button:active {
+  transform: scale(0.92);
+}
+
+/* An invisible WebGL layer over the mockup makes Chrome send the photo's touchstart as uncancelable, so the page scrolls instead of the photo moving. */
+.personalizer-stage:not(.inkly-3d-on) .inkly-3d__viewport {
+  visibility: hidden;
+  transition: opacity 0.55s ease, visibility 0s linear 0.55s;
 }
 
 /* Personalizer controls */
@@ -375,8 +430,10 @@ input:focus-visible + .variant-picker__chip {
   transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.3s var(--ease-spring);
 }
 
-.personalizer__option:hover {
-  border-color: var(--color-foreground);
+@media (hover: hover) and (pointer: fine) {
+  .personalizer__option:hover {
+    border-color: var(--color-foreground);
+  }
 }
 
 .personalizer__option:active {
@@ -414,8 +471,8 @@ input:focus-visible + .variant-picker__chip {
 
 .personalizer__swatch {
   position: relative;
-  width: 2.6rem;
-  height: 2.6rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
   background: var(--swatch);
   box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.15);
@@ -423,8 +480,15 @@ input:focus-visible + .variant-picker__chip {
   transition: transform 0.3s var(--ease-spring);
 }
 
-.personalizer__swatch:hover {
-  transform: scale(1.08);
+@media (hover: hover) and (pointer: fine) {
+  .personalizer__swatch:hover {
+    transform: scale(1.08);
+  }
+}
+
+.personalizer__swatch:active {
+  transform: scale(0.92);
+  transition-duration: 0.12s;
 }
 
 .personalizer__swatch:has(input:checked) {
@@ -442,7 +506,7 @@ input:focus-visible + .variant-picker__chip {
 }
 
 .personalizer__option--segment {
-  min-height: 2.6rem;
+  min-height: 2.75rem;
   padding: 0.3rem 1.1rem;
   border: 0;
   border-radius: 999px;
@@ -483,10 +547,17 @@ input:focus-visible + .variant-picker__chip {
   color: var(--color-accent);
 }
 
-.personalizer__dropzone:hover,
-.personalizer__dropzone.is-dragover {
+.personalizer__dropzone.is-dragover,
+.personalizer__dropzone:active {
   border-color: var(--color-accent);
   background: color-mix(in srgb, var(--color-accent) 6%, var(--color-background));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .personalizer__dropzone:hover {
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 6%, var(--color-background));
+  }
 }
 
 .personalizer__photo:has(input[type='file']:focus-visible) .personalizer__dropzone {
@@ -610,8 +681,15 @@ input:focus-visible + .variant-picker__chip {
   transition: background-color 0.2s ease;
 }
 
-.quantity__button:hover {
+@media (hover: hover) and (pointer: fine) {
+  .quantity__button:hover {
+    background: var(--color-surface);
+  }
+}
+
+.quantity__button:active {
   background: var(--color-surface);
+  transition-duration: 0.12s;
 }
 
 .quantity__button svg {

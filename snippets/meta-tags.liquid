@@ -1,6 +1,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+<meta name="color-scheme" content="light">
+{%- if request.page_type == 'password' -%}
+  <meta name="theme-color" content="{{ settings.paper_pink }}">
+{%- else -%}
+  <meta name="theme-color" content="{{ settings.accent_color }}">
+{%- endif -%}
 
 {%- liquid
   assign title = page_title

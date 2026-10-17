@@ -45,8 +45,15 @@
   transition: transform 0.3s var(--ease-spring);
 }
 
-.build-hero__chip:hover {
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  .build-hero__chip:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.build-hero__chip:active {
+  transform: scale(0.95);
+  transition-duration: 0.12s;
 }
 
 .build-hero__chip-number {

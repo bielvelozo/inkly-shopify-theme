@@ -24,7 +24,7 @@
     --font-primary--weight: {{ settings.type_primary_font.weight }};
     --font-display--family: 'Inkly Display', 'Inkly Display Fallback', sans-serif;
     --page-width: {{ settings.max_page_width }};
-    --page-margin: max({{ settings.min_page_margin }}px, 4vw);
+    --page-margin: max({{ settings.min_page_margin }}px, 4vw, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
     --color-background: {{ settings.background_color }};
     --color-surface: {{ settings.surface_color }};
     --color-foreground: {{ settings.foreground_color }};

@@ -5,7 +5,7 @@
   height: 100dvh;
   max-height: 100dvh;
   margin: 0 0 0 auto;
-  padding: 0;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) 0 env(safe-area-inset-left, 0px);
   border: 0;
   overflow: hidden;
   background: var(--color-background);
@@ -110,8 +110,15 @@
   transition: transform 0.35s var(--ease-spring);
 }
 
-.cart-drawer__close:hover {
-  transform: rotate(90deg);
+@media (hover: hover) and (pointer: fine) {
+  .cart-drawer__close:hover {
+    transform: rotate(90deg);
+  }
+}
+
+.cart-drawer__close:active {
+  transform: scale(0.9);
+  transition-duration: 0.12s;
 }
 
 .cart-drawer__close svg {
@@ -343,12 +350,21 @@
 }
 
 .cart-item__title {
+  position: relative;
   font-weight: 700;
   text-decoration: none;
 }
 
-.cart-item__title:hover {
-  text-decoration: underline;
+.cart-item__title::after {
+  content: '';
+  position: absolute;
+  inset: -10px -6px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cart-item__title:hover {
+    text-decoration: underline;
+  }
 }
 
 .cart-item__meta,
@@ -371,6 +387,16 @@
 .cart-item__properties dd {
   margin: 0;
   overflow-wrap: anywhere;
+}
+
+.cart-item__properties a {
+  position: relative;
+}
+
+.cart-item__properties a::after {
+  content: '';
+  position: absolute;
+  inset: -15px -10px;
 }
 
 .cart-item__actions {
@@ -399,9 +425,17 @@
   transition: background-color 0.2s ease;
 }
 
-.cart-quantity__button:hover,
-.cart-item__remove:hover {
+@media (hover: hover) and (pointer: fine) {
+  .cart-quantity__button:hover,
+  .cart-item__remove:hover {
+    background: var(--color-surface);
+  }
+}
+
+.cart-quantity__button:active,
+.cart-item__remove:active {
   background: var(--color-surface);
+  transition-duration: 0.12s;
 }
 
 .cart-quantity__button svg,
@@ -472,8 +506,10 @@
   transition: transform 0.3s var(--ease-spring);
 }
 
-.cart-upsell__item:hover {
-  transform: translateY(-2px) rotate(-0.5deg);
+@media (hover: hover) and (pointer: fine) {
+  .cart-upsell__item:hover {
+    transform: translateY(-2px) rotate(-0.5deg);
+  }
 }
 
 .cart-upsell__media {

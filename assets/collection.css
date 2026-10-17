@@ -28,6 +28,9 @@
 }
 
 .collection-hero__chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   padding: 0.55rem 1.05rem;
   border-radius: 999px;
   background: rgb(255 255 255 / 0.85);
@@ -37,8 +40,10 @@
   transition: transform 0.3s var(--ease-spring), background-color 0.2s ease;
 }
 
-.collection-hero__chip:hover {
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  .collection-hero__chip:hover {
+    transform: translateY(-2px);
+  }
 }
 
 .collection-hero__chip:active {

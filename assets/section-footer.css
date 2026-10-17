@@ -19,8 +19,14 @@
   text-decoration: none;
 }
 
-.footer a:not(.button):hover {
-  text-decoration: underline;
+@media (hover: hover) and (pointer: fine) {
+  .footer a:not(.button):hover {
+    text-decoration: underline;
+  }
+}
+
+.footer a:not(.button):active {
+  opacity: 0.65;
 }
 
 .footer__top {
@@ -72,6 +78,7 @@
 .footer__column li a {
   display: inline-flex;
   align-items: center;
+  min-width: 2.75rem;
   min-height: 2.75rem;
 }
 
@@ -119,8 +126,15 @@
   transition: transform 0.35s var(--ease-spring);
 }
 
-.footer__field button:hover {
-  transform: rotate(-12deg) scale(1.06);
+@media (hover: hover) and (pointer: fine) {
+  .footer__field button:hover {
+    transform: rotate(-12deg) scale(1.06);
+  }
+}
+
+.footer__field button:active {
+  transform: scale(0.9);
+  transition-duration: 0.12s;
 }
 
 .footer__field svg {

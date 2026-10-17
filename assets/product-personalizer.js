@@ -139,9 +139,20 @@
 
     bindDrag() {
       let pointer = null;
+      const onPrint = (event) => event.target.closest?.('[data-layer="print"]');
+
+      // touch-action is ignored on SVG children, so a touch on the print area claims the gesture here and the rest of the mockup keeps scrolling the page.
+      this.svg.addEventListener(
+        'touchstart',
+        (event) => {
+          if (this.photo && onPrint(event)) event.preventDefault();
+        },
+        { passive: false }
+      );
 
       this.svg.addEventListener('pointerdown', (event) => {
         if (!this.photo) return;
+        if (event.pointerType === 'touch' && !onPrint(event)) return;
         pointer = { id: event.pointerId, x: event.clientX, y: event.clientY };
         this.svg.setPointerCapture(event.pointerId);
         this.stage.classList.add('is-dragging');

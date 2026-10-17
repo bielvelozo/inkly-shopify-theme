@@ -83,7 +83,7 @@
   }
 
   .site-header__bar {
-    padding: 0.75rem var(--page-margin);
+    padding: max(0.75rem, env(safe-area-inset-top, 0px)) var(--page-margin) 0.75rem;
   }
 
   .header {
@@ -146,8 +146,10 @@
     transition: background-color 0.25s ease;
   }
 
-  .header__menu a:hover {
-    background: var(--color-surface);
+  @media (hover: hover) and (pointer: fine) {
+    .header__menu a:hover {
+      background: var(--color-surface);
+    }
   }
 
   .header__menu a[aria-current='page'] {
@@ -179,8 +181,21 @@
     display: none;
   }
 
-  .header__icon:hover {
+  @media (hover: hover) and (pointer: fine) {
+    .header__icon:hover {
+      background: var(--color-surface);
+    }
+  }
+
+  .header__icon:active {
     background: var(--color-surface);
+  }
+
+  .header__icon,
+  .header__cart {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
   }
 
   .header__icon svg {
@@ -231,8 +246,15 @@
     transition: transform 0.35s var(--ease-spring);
   }
 
-  .header__cart:hover {
-    transform: translateY(-1px);
+  @media (hover: hover) and (pointer: fine) {
+    .header__cart:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  .header__cart:active {
+    transform: scale(0.95);
+    transition-duration: 0.12s;
   }
 
   .header__cart svg {
@@ -306,24 +328,42 @@
     text-decoration: none;
   }
 
-  .header__drawer-nav a:nth-child(4n + 1):hover,
+  .header__drawer-nav a:nth-child(4n + 1):active,
   .header__drawer-nav a:nth-child(4n + 1)[aria-current='page'] {
     background: var(--color-pink);
   }
 
-  .header__drawer-nav a:nth-child(4n + 2):hover,
+  .header__drawer-nav a:nth-child(4n + 2):active,
   .header__drawer-nav a:nth-child(4n + 2)[aria-current='page'] {
     background: var(--color-lemon);
   }
 
-  .header__drawer-nav a:nth-child(4n + 3):hover,
+  .header__drawer-nav a:nth-child(4n + 3):active,
   .header__drawer-nav a:nth-child(4n + 3)[aria-current='page'] {
     background: var(--color-mint);
   }
 
-  .header__drawer-nav a:nth-child(4n):hover,
+  .header__drawer-nav a:nth-child(4n):active,
   .header__drawer-nav a:nth-child(4n)[aria-current='page'] {
     background: var(--color-surface);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .header__drawer-nav a:nth-child(4n + 1):hover {
+      background: var(--color-pink);
+    }
+
+    .header__drawer-nav a:nth-child(4n + 2):hover {
+      background: var(--color-lemon);
+    }
+
+    .header__drawer-nav a:nth-child(4n + 3):hover {
+      background: var(--color-mint);
+    }
+
+    .header__drawer-nav a:nth-child(4n):hover {
+      background: var(--color-surface);
+    }
   }
 
   .header__drawer-nav svg {

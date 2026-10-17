@@ -43,8 +43,15 @@
   transition: transform 0.35s var(--ease-spring), opacity 0.2s ease;
 }
 
-.testimonials__control:hover:not(:disabled) {
-  transform: scale(1.08);
+@media (hover: hover) and (pointer: fine) {
+  .testimonials__control:hover:not(:disabled) {
+    transform: scale(1.08);
+  }
+}
+
+.testimonials__control:active:not(:disabled) {
+  transform: scale(0.92);
+  transition-duration: 0.12s;
 }
 
 .testimonials__control:disabled {
@@ -80,6 +87,7 @@
   margin: 0;
   padding: 0.9rem var(--page-margin) 2.5rem;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scroll-padding-inline: var(--page-margin);
   scrollbar-width: none;
@@ -151,8 +159,10 @@
   background: var(--color-mint);
 }
 
-.testimonials__card:hover .testimonials__tag {
-  transform: rotate(0deg) translateY(-4px);
+@media (hover: hover) and (pointer: fine) {
+  .testimonials__card:hover .testimonials__tag {
+    transform: rotate(0deg) translateY(-4px);
+  }
 }
 
 .testimonials__stars {

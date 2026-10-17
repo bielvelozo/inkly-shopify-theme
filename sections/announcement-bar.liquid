@@ -32,8 +32,10 @@
     animation: marquee 38s linear infinite;
   }
 
-  .announcement:hover .announcement__track {
-    animation-play-state: paused;
+  @media (hover: hover) and (pointer: fine) {
+    .announcement:hover .announcement__track {
+      animation-play-state: paused;
+    }
   }
 
   .is-dressing .announcement__track {

@@ -372,6 +372,10 @@ input:focus-visible + .variant-picker__chip {
   line-height: 1.2;
 }
 
+.is-dressing .personalizer__font-sample {
+  font-family: inherit !important;
+}
+
 .personalizer__option-name {
   overflow: hidden;
   max-width: 100%;

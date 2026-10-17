@@ -23,6 +23,7 @@
     {% if section.settings.menu.links.size > 0 %}
       <nav class="collection-hero__chips" aria-label="{{ 'collections.browse' | t }}">
         {% for link in section.settings.menu.links %}
+          {% if link.type == 'frontpage_link' %}{% continue %}{% endif %}
           <a
             class="collection-hero__chip"
             href="{{ link.url }}"

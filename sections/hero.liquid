@@ -6,7 +6,7 @@
   endif
   assign names = section.settings.demo_names | split: ','
   assign first_name = names.first | strip
-  assign print_size = 300 | times: 1.0 | divided_by: first_name.size | divided_by: 0.74 | at_most: 64 | at_least: 26 | round
+  assign print_size = 300 | times: 1.0 | divided_by: first_name.size | divided_by: 0.74 | at_most: 46 | at_least: 24 | round
 -%}
 
 <div class="hero paper paper--dots full-width under-header">
@@ -86,7 +86,7 @@
         {% endif %}
 
         {% if section.settings.chip != blank %}
-          <p class="hero__chip">
+          <p class="tag tag--mint hero__chip">
             <span class="hero__chip-icon">{{ 'icon-check.svg' | inline_asset_content }}</span>
             {{ section.settings.chip }}
           </p>
@@ -223,7 +223,7 @@
 
   .hero__print-text {
     fill: var(--print-color);
-    fill-opacity: 0.94;
+    fill-opacity: 0.84;
     font-family: var(--font-display--family);
     font-weight: 800;
     font-size: 64px;
@@ -235,7 +235,7 @@
     position: absolute;
     top: -1.25rem;
     bottom: 0;
-    right: 5%;
+    right: 2%;
     width: clamp(2rem, 1.4rem + 1.2vw, 2.75rem);
     color: var(--color-accent);
     pointer-events: none;
@@ -290,38 +290,40 @@
   }
 
   .hero__chip {
-    outline: 2px solid var(--color-foreground);
-    outline-offset: -2px;
     position: absolute;
-    left: clamp(-1.5rem, -2vw, -0.5rem);
-    bottom: 12%;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    max-width: 16rem;
-    padding: 0.7rem 1rem 0.7rem 0.7rem;
-    border-radius: 1rem;
-    background: var(--color-background);
-    box-shadow: var(--shadow-lift);
-    font-size: 0.9rem;
-    font-weight: 700;
-    line-height: 1.25;
+    left: -0.75rem;
+    bottom: 14%;
+    max-width: 15rem;
+    padding-block: 0.5rem;
+    font-size: 0.88rem;
+    transform: rotate(3deg);
+    transform-origin: 0.62rem 50%;
+  }
+
+  .hero__chip::after,
+  .hero__tag::after {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    width: 1.4rem;
+    height: 1px;
+    background: var(--color-foreground);
+    transform: rotate(-24deg);
+    transform-origin: right center;
   }
 
   .hero__chip-icon {
     display: grid;
     place-items: center;
-    flex: none;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background: var(--color-mint);
+    width: 1.2rem;
+    height: 1.2rem;
     color: var(--color-success);
   }
 
   .hero__chip-icon svg {
-    width: 1.1rem;
-    height: 1.1rem;
+    width: 1rem;
+    height: 1rem;
   }
 
   .is-dressing .hero__ribbon,
@@ -409,9 +411,7 @@
     }
 
     .hero__chip {
-      left: 0.75rem;
-      bottom: 0.75rem;
-      font-size: 0.82rem;
+      display: none;
     }
   }
 

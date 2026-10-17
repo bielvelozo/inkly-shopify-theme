@@ -67,6 +67,7 @@
 }
 
 .steps__item {
+  position: relative;
   display: grid;
   justify-items: start;
   align-content: start;
@@ -79,6 +80,9 @@
 }
 
 .steps__number {
+  position: absolute;
+  top: -0.85rem;
+  left: 1.25rem;
   font-size: 0.8rem;
 }
 

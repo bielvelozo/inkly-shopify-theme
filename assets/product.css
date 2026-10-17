@@ -185,19 +185,6 @@ input:focus-visible + .variant-picker__chip {
   background-size: 24px 24px;
 }
 
-.personalizer-stage::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 47%;
-  width: 80%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgb(255 255 255 / 0.95) 0%, rgb(255 255 255 / 0.55) 45%, rgb(255 255 255 / 0) 70%);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
 .personalizer-stage > * {
   position: relative;
 }

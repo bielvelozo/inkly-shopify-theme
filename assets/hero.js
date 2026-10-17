@@ -8,8 +8,8 @@
   const namesNode = document.querySelector('[data-hero-names]');
   const names = (namesNode ? JSON.parse(namesNode.textContent) : []).map((name) => name.trim()).filter(Boolean);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const BASE_SIZE = 64;
-  const MAX_LENGTH = 320;
+  const BASE_SIZE = 46;
+  const MAX_LENGTH = 300;
 
   const render = (value) => {
     path.textContent = value;

@@ -70,7 +70,7 @@ async function save(page, name) {
 async function productDesktop(browser) {
   const { context, page } = await newPage(browser, 'desktop');
   await open(page, '/products/custom-mug');
-  await personalize(page, { text: 'Morning, Ana', color: 'Orange', photo: 'customer-photo.jpg', zoom: '1.15' });
+  await personalize(page, { text: 'Morning, Ana', color: 'Cobalt', photo: 'customer-photo.jpg', zoom: '1.15' });
   await page.evaluate(() => window.scrollTo(0, 0));
   await save(page, '01-product-desktop');
 
@@ -85,7 +85,7 @@ async function productDesktop(browser) {
   await page.waitForFunction(() => document.querySelectorAll('[data-cart-dialog] .cart-item').length === 2);
   await open(page, '/products/custom-t-shirt');
   await page.evaluate(() => document.querySelector('label[title="Sand"]').click());
-  await personalize(page, { text: 'good vibes', color: 'Black' });
+  await personalize(page, { text: 'good vibes', color: 'Ink' });
   await addToCart(page);
   await page.evaluate(() => {
     document.querySelector('.cart-drawer__body').scrollTop = 0;
@@ -98,7 +98,7 @@ async function productDesktop(browser) {
 async function productMobile(browser) {
   const { context, page } = await newPage(browser, 'mobile');
   await open(page, '/products/custom-mug');
-  await personalize(page, { text: 'Morning, Ana', color: 'Orange', photo: 'customer-photo.jpg', zoom: '1.15' });
+  await personalize(page, { text: 'Morning, Ana', color: 'Cobalt', photo: 'customer-photo.jpg', zoom: '1.15' });
   await page.evaluate(() => {
     const card = document.querySelector('product-personalizer');
     window.scrollTo(0, card.getBoundingClientRect().top + window.scrollY - 380);

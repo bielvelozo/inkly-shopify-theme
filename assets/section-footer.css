@@ -146,6 +146,10 @@
   max-width: 62ch;
 }
 
+.footer a.footer__build {
+  color: var(--color-lemon);
+}
+
 .footer__legal {
   display: flex;
   flex-wrap: wrap;

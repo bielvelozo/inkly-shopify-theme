@@ -20,6 +20,7 @@
         "menu_heading": "Shop",
         "menu": "main-menu",
         "notice": "Demo store from Gabriel Velozo's portfolio. Products, prices and reviews are fictional, and no orders are fulfilled.",
+        "build_link": "shopify://collections/how-this-store-was-built",
         "show_payment_icons": true
       }
     }

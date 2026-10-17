@@ -60,6 +60,12 @@
       {% if section.settings.notice != blank %}
         <p class="footer__notice">{{ section.settings.notice }}</p>
       {% endif %}
+      {% if section.settings.build_link != blank %}
+        <a class="link-arrow footer__build" href="{{ section.settings.build_link }}">
+          {{- 'footer.build_link' | t -}}
+          {{ 'icon-arrow-right.svg' | inline_asset_content }}
+        </a>
+      {% endif %}
 
       <div class="footer__legal">
         <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: routes.root_url }}</span>
@@ -110,6 +116,11 @@
       "type": "textarea",
       "id": "notice",
       "label": "t:labels.footer_notice"
+    },
+    {
+      "type": "url",
+      "id": "build_link",
+      "label": "t:labels.build_page"
     },
     {
       "type": "checkbox",

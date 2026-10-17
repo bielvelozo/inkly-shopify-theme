@@ -1,0 +1,124 @@
+{
+  "sections": {
+    "notes": {
+      "type": "build-notes",
+      "blocks": {
+        "piece_3d": {
+          "type": "piece",
+          "settings": {
+            "title": "Live 3D preview",
+            "problem": "Shoppers buying a personalized gift want to see the real thing before they pay, not a flat mockup.",
+            "text": "<p>A mug, a tee and a tote drawn in three.js print the customer's text and photo as they type. The light follows the pointer and a drag turns the product. It loads only after the first touch, so the page stays fast, and the 2D mockup stays as the first image and the fallback.</p>",
+            "stats": "",
+            "stack": "three.js, Web Components, Liquid",
+            "video": "shopify://files/videos/01-3d-preview.mp4",
+            "paper": "cobalt",
+            "link_label": "See the code on GitHub",
+            "link": "https://github.com/bielvelozo/inkly-shopify-theme#1-product-personalizer-with-live-preview"
+          }
+        },
+        "piece_personalizer": {
+          "type": "piece",
+          "settings": {
+            "title": "Personalized product, all the way to the cart",
+            "problem": "Custom orders go wrong when the shopper can't see the result, or uploads a photo too small to print.",
+            "text": "<p>Text, font, color and position, a photo with drag and zoom, a warning when the photo is too small for the real print size, and a preview image that travels with the order, so the team prints exactly what the customer saw.</p>",
+            "stats": "",
+            "stack": "Liquid, JavaScript, Canvas, line item properties",
+            "video": "shopify://files/videos/02-personalizer-to-cart.mp4",
+            "paper": "dots",
+            "link_label": "See the code on GitHub",
+            "link": "https://github.com/bielvelozo/inkly-shopify-theme#1-product-personalizer-with-live-preview"
+          }
+        },
+        "piece_cart": {
+          "type": "piece",
+          "settings": {
+            "title": "Cart drawer that sells the extras",
+            "problem": "Every trip to a separate cart page is a chance to lose the sale, and small add-ons get forgotten.",
+            "text": "<p>A drawer that updates without reloading the page, a free-shipping ribbon that ties a bow when it fills, add-ons in one click, the total inside the checkout button and GA4 ecommerce events.</p>",
+            "stats": "",
+            "stack": "Section Rendering API, JavaScript, GA4",
+            "video": "shopify://files/videos/03-cart-drawer.mp4",
+            "paper": "stripes",
+            "link_label": "See the code on GitHub",
+            "link": "https://github.com/bielvelozo/inkly-shopify-theme#2-cart-drawer-with-upsell-and-free-shipping-bar"
+          }
+        },
+        "piece_speed": {
+          "type": "piece",
+          "settings": {
+            "title": "Speed, before and after",
+            "problem": "A slow store loses mobile shoppers before the first product shows up.",
+            "text": "<p>Found what slowed the home page down and fixed it without giving up the design. Measured with Lighthouse on a simulated phone, 5 runs, median, the slow version and this one on the same day.</p>",
+            "stats": "44 → 68 | Mobile score\n12.7 s → 4.5 s | Main image on screen\n91 → 100 | Accessibility",
+            "stack": "Lighthouse, Liquid, CSS",
+            "video": "shopify://files/videos/04-speed-before-after.mp4",
+            "paper": "gingham",
+            "link_label": "See the measurements",
+            "link": "https://github.com/bielvelozo/inkly-shopify-theme#3-speed-measured"
+          }
+        },
+        "piece_erp": {
+          "type": "piece",
+          "settings": {
+            "title": "Inkly ERP Sync app",
+            "problem": "Stores that run an ERP retype every order by hand and tell customers \"shipped\" too late.",
+            "text": "<p>A custom Shopify app on Cloudflare Workers. Each new order goes to the ERP over its API, and when the ERP ships, the tracking number comes back and fulfills the order in Shopify. It keeps working when the ERP is down, never sends an order twice and sends no customer personal data.</p>",
+            "stats": "",
+            "stack": "Shopify app, React Router, Cloudflare Workers, D1",
+            "video": "shopify://files/videos/05-erp-sync-app.mp4",
+            "paper": "ink",
+            "link_label": "See the app on GitHub",
+            "link": "https://github.com/bielvelozo/inkly-erp-sync"
+          }
+        }
+      },
+      "block_order": ["piece_3d", "piece_personalizer", "piece_cart", "piece_speed", "piece_erp"],
+      "settings": {
+        "tag": "Build notes",
+        "heading": "How this store was built",
+        "text": "<p>Inkly is a demo store with fictional products. Gabriel Velozo, a Shopify developer, designed and built every part of it to show the work stores ask for most: a live product preview, a cart that sells the extras, a fast home page and an app that talks to an ERP. Here are the five pieces, the problem each one solves and the code behind it.</p>"
+      }
+    },
+    "maker": {
+      "type": "build-maker",
+      "blocks": {
+        "freelancer": {
+          "type": "link",
+          "settings": {
+            "label": "Hire me on Freelancer.com",
+            "note": "@gabrielvelozodev",
+            "url": "https://www.freelancer.com/u/gabrielvelozodev",
+            "style": "primary"
+          }
+        },
+        "noventa": {
+          "type": "link",
+          "settings": {
+            "label": "Hire me on 99Freelas",
+            "note": "gabriel-velozo",
+            "url": "https://www.99freelas.com.br/user/gabriel-velozo",
+            "style": "primary"
+          }
+        },
+        "github": {
+          "type": "link",
+          "settings": {
+            "label": "See the code on GitHub",
+            "note": "@bielvelozo",
+            "url": "https://github.com/bielvelozo",
+            "style": "secondary"
+          }
+        }
+      },
+      "block_order": ["freelancer", "noventa", "github"],
+      "settings": {
+        "tag": "Who built it",
+        "heading": "Built by Gabriel Velozo",
+        "text": "<p>Shopify developer: themes, personalized products, cart and checkout, store speed and app integrations. Available for freelance projects, in English or Portuguese.</p>"
+      }
+    }
+  },
+  "order": ["notes", "maker"]
+}

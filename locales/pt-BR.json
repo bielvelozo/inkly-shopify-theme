@@ -33,7 +33,8 @@
     "newsletter_title": "Novidades, de vez em quando",
     "newsletter_label": "Seu e-mail",
     "newsletter_submit": "Assinar",
-    "newsletter_success": "Obrigado! Você está na lista."
+    "newsletter_success": "Obrigado! Você está na lista.",
+    "build_link": "Como esta loja foi feita"
   },
   "products": {
     "product": {
@@ -159,7 +160,8 @@
     "title": "Esta loja é privada",
     "password": "Senha",
     "enter": "Entrar",
-    "tag": "Loja de demonstração"
+    "tag": "Loja de demonstração",
+    "build_link": "Como esta loja foi feita"
   },
   "search": {
     "title": "Busca",
@@ -191,6 +193,11 @@
     },
     "steps": {
       "step": "Passo {{ number }}"
+    },
+    "build_notes": {
+      "index": "As cinco peças",
+      "piece": "Peça {{ number }}",
+      "problem": "O problema"
     }
   },
   "inkly_3d": {

@@ -33,7 +33,8 @@
     "newsletter_title": "Little notes, rarely",
     "newsletter_label": "Your email",
     "newsletter_submit": "Subscribe",
-    "newsletter_success": "Thanks! You're on the list."
+    "newsletter_success": "Thanks! You're on the list.",
+    "build_link": "How this store was built"
   },
   "products": {
     "product": {
@@ -159,7 +160,8 @@
     "title": "This shop is private",
     "password": "Password",
     "enter": "Enter",
-    "tag": "Demo store"
+    "tag": "Demo store",
+    "build_link": "How this store was built"
   },
   "search": {
     "title": "Search",
@@ -191,6 +193,11 @@
     },
     "steps": {
       "step": "Step {{ number }}"
+    },
+    "build_notes": {
+      "index": "The five pieces",
+      "piece": "Piece {{ number }}",
+      "problem": "The problem"
     }
   },
   "inkly_3d": {

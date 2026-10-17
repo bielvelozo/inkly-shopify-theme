@@ -1,0 +1,206 @@
+{% comment %}
+  "How this store was built" page: one block per portfolio piece, with its video,
+  the problem it solves, what was built, measured numbers and a link to the code.
+{% endcomment %}
+
+{{ 'section-build-notes.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'build-notes.js' | asset_url }}" defer></script>
+
+{%- assign papers = 'dots,stripes,gingham,cobalt,ink' | split: ',' -%}
+
+<div class="build-hero paper paper--dots full-width under-header">
+  <div class="build-hero__inner">
+    {% if section.settings.tag != blank %}
+      <p class="tag build-hero__tag">{{ section.settings.tag }}</p>
+    {% endif %}
+    <h1 class="build-hero__title">{{ section.settings.heading }}</h1>
+    {% if section.settings.text != blank %}
+      <div class="build-hero__text">{{ section.settings.text }}</div>
+    {% endif %}
+    {% if section.blocks.size > 0 %}
+      <nav class="build-hero__index" aria-label="{{ 'sections.build_notes.index' | t }}">
+        {% for block in section.blocks %}
+          <a class="build-hero__chip" href="#piece-{{ forloop.index }}">
+            <span class="build-hero__chip-number">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            {{- block.settings.title -}}
+          </a>
+        {% endfor %}
+      </nav>
+    {% endif %}
+  </div>
+</div>
+
+<div class="build-notes section-spacing">
+  {% for block in section.blocks %}
+    {%- liquid
+      assign number = forloop.index | prepend: '0' | slice: -2, 2
+      assign paper = block.settings.paper | default: papers[forloop.index0]
+    -%}
+    <article class="build-piece" id="piece-{{ forloop.index }}" {{ block.shopify_attributes }}>
+      <div class="build-piece__copy">
+        <p class="tag tag--ink build-piece__number">{{ 'sections.build_notes.piece' | t: number: number }}</p>
+        <h2 class="build-piece__title">{{ block.settings.title }}</h2>
+        {% if block.settings.problem != blank %}
+          <p class="build-piece__problem">
+            <span class="build-piece__label">{{ 'sections.build_notes.problem' | t }}</span>
+            {{ block.settings.problem }}
+          </p>
+        {% endif %}
+        {% if block.settings.text != blank %}
+          <div class="build-piece__text">{{ block.settings.text }}</div>
+        {% endif %}
+
+        {%- assign stats = block.settings.stats | newline_to_br | split: '<br />' -%}
+        {% if block.settings.stats != blank %}
+          <dl class="build-piece__stats">
+            {% for line in stats %}
+              {%- assign parts = line | strip | split: '|' -%}
+              {% if parts.size > 1 %}
+                <div class="build-piece__stat">
+                  <dt>{{ parts[1] | strip }}</dt>
+                  <dd>{{ parts[0] | strip }}</dd>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </dl>
+        {% endif %}
+
+        {% if block.settings.stack != blank %}
+          <ul class="build-piece__stack" role="list">
+            {% assign stack = block.settings.stack | split: ',' %}
+            {% for item in stack %}
+              <li>{{ item | strip }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if block.settings.link_label != blank and block.settings.link != blank %}
+          <a class="link-arrow build-piece__link" href="{{ block.settings.link }}" target="_blank" rel="noopener">
+            {{- block.settings.link_label -}}
+            {{ 'icon-arrow-right.svg' | inline_asset_content }}
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="build-piece__media paper paper--{{ paper }}">
+        <div class="build-piece__screen">
+          {% if block.settings.video %}
+            {{
+              block.settings.video
+              | video_tag:
+                image_size: '1280x',
+                muted: true,
+                loop: true,
+                playsinline: true,
+                controls: true,
+                preload: 'none',
+                class: 'build-piece__video'
+            }}
+          {% elsif block.settings.image %}
+            {{
+              block.settings.image
+              | image_url: width: 1280
+              | image_tag: loading: 'lazy', widths: '640, 960, 1280', sizes: '(min-width: 990px) 55vw, 92vw'
+            }}
+          {% endif %}
+        </div>
+      </div>
+    </article>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "t:general.build_notes",
+  "class": "under-header-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "t:labels.tag"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:labels.text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "piece",
+      "name": "t:general.piece",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:labels.title"
+        },
+        {
+          "type": "text",
+          "id": "problem",
+          "label": "t:labels.problem"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:labels.text"
+        },
+        {
+          "type": "textarea",
+          "id": "stats",
+          "label": "t:labels.stats",
+          "info": "t:info.stats"
+        },
+        {
+          "type": "text",
+          "id": "stack",
+          "label": "t:labels.stack"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "t:labels.video"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:labels.image"
+        },
+        {
+          "type": "select",
+          "id": "paper",
+          "label": "t:labels.paper",
+          "options": [
+            { "value": "dots", "label": "t:options.paper.dots" },
+            { "value": "stripes", "label": "t:options.paper.stripes" },
+            { "value": "gingham", "label": "t:options.paper.gingham" },
+            { "value": "cobalt", "label": "t:options.paper.cobalt" },
+            { "value": "ink", "label": "t:options.paper.ink" }
+          ],
+          "default": "dots"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "t:labels.link_label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:labels.link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.build_notes"
+    }
+  ]
+}
+{% endschema %}

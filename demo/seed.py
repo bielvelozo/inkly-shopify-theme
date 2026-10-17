@@ -108,6 +108,9 @@ def gql(store, query, variables=None, mutation=False):
 
 
 def upload(store, path, resource, mime="image/jpeg"):
+    staged = {"filename": path.name, "mimeType": mime, "httpMethod": "POST", "resource": resource}
+    if resource == "VIDEO":
+        staged["fileSize"] = str(path.stat().st_size)
     data = gql(
         store,
         """mutation($input: [StagedUploadInput!]!) {
@@ -116,7 +119,7 @@ def upload(store, path, resource, mime="image/jpeg"):
             userErrors { field message }
           }
         }""",
-        {"input": [{"filename": path.name, "mimeType": mime, "httpMethod": "POST", "resource": resource}]},
+        {"input": [staged]},
         mutation=True,
     )
     target = data["stagedUploadsCreate"]["stagedTargets"][0]
@@ -329,6 +332,72 @@ def upload_shop_images(store):
         print("uploaded:", filename)
 
 
+BUILD_VIDEOS = {
+    "01-3d-preview.mp4": "Live 3D preview of a personalized mug, tee and tote",
+    "02-personalizer-to-cart.mp4": "Personalizing a mug and adding it to the cart",
+    "03-cart-drawer.mp4": "Cart drawer with add-ons and the free-shipping ribbon",
+    "04-speed-before-after.mp4": "The slow and the fixed store loading side by side",
+    "05-erp-sync-app.mp4": "Inkly ERP Sync: an order going from Shopify to the ERP and back",
+}
+
+BUILD_PAGE = {
+    "handle": "how-this-store-was-built",
+    "title": "How this store was built",
+    "templateSuffix": "build-notes",
+    "descriptionHtml": "<p>The five pieces of the Inkly demo store, the problem each one solves and the code behind it.</p>",
+}
+
+
+def upload_build_videos(store, folder):
+    for filename, alt in BUILD_VIDEOS.items():
+        path = folder / filename
+        existing = gql(
+            store,
+            "query($q: String!) { files(first: 10, query: $q) { nodes { ... on Video { filename } } } }",
+            {"q": f"filename:{path.stem}"},
+        )
+        if any(node.get("filename") == filename for node in existing["files"]["nodes"]):
+            print("already uploaded:", filename)
+            continue
+        source = upload(store, path, "VIDEO", "video/mp4")
+        gql(
+            store,
+            """mutation($files: [FileCreateInput!]!) {
+              fileCreate(files: $files) { files { id } userErrors { field message } }
+            }""",
+            {"files": [{"originalSource": source, "contentType": "VIDEO", "alt": alt}]},
+            mutation=True,
+        )
+        print("uploaded:", filename)
+
+
+# Built as a collection with its own template: the store CLI's scopes cover products and
+# collections but not online store pages.
+def create_build_page(store, publication):
+    existing = gql(store, "query($q: String!) { collections(first: 1, query: $q) { nodes { id } } }", {"q": f"handle:{BUILD_PAGE['handle']}"})
+    if existing["collections"]["nodes"]:
+        print("already exists: collection", BUILD_PAGE["handle"])
+        return
+    data = gql(
+        store,
+        """mutation($input: CollectionInput!) {
+          collectionCreate(input: $input) { collection { id handle } userErrors { field message } }
+        }""",
+        {"input": BUILD_PAGE},
+        mutation=True,
+    )
+    collection = data["collectionCreate"]["collection"]
+    gql(
+        store,
+        """mutation($id: ID!, $input: [PublicationInput!]!) {
+          publishablePublish(id: $id, input: $input) { userErrors { field message } }
+        }""",
+        {"id": collection["id"], "input": [{"publicationId": publication}]},
+        mutation=True,
+    )
+    print("build notes created:", "/collections/" + collection["handle"])
+
+
 def build_menu(store):
     menus = gql(store, "{ menus(first: 20) { nodes { id handle title } } }")["menus"]["nodes"]
     main_menu = next((m for m in menus if m["handle"] == "main-menu"), None)
@@ -361,14 +430,18 @@ def check_store(store):
 
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    videos = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--videos=")), None)
     if len(args) != 1:
-        sys.exit("usage: python demo/seed.py <store>.myshopify.com [--refresh-photos]")
+        sys.exit("usage: python demo/seed.py <store>.myshopify.com [--refresh-photos] [--videos=<folder with the build videos>]")
     store = args[0]
     check_store(store)
     publication = online_store(store)
     for p in PRODUCTS:
         create_product(store, p, publication)
     upload_shop_images(store)
+    if videos:
+        upload_build_videos(store, Path(videos))
+    create_build_page(store, publication)
     build_menu(store)
 
 

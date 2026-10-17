@@ -43,7 +43,11 @@
     "typography": "Tipografia",
     "bento": "Bento de presentes",
     "bento_tile": "Bloco",
-    "announcement": "Fita de anúncio"
+    "announcement": "Fita de anúncio",
+    "build_notes": "Como foi feito",
+    "piece": "Peça",
+    "build_maker": "Quem fez",
+    "maker_link": "Link"
   },
   "labels": {
     "accent": "Destaque",
@@ -132,7 +136,17 @@
     "hero_print_color": "Cor da tinta",
     "hero_tag": "Etiqueta de presente",
     "hero_chip": "Nota flutuante",
-    "collection_chips": "Menu mostrado como botões"
+    "collection_chips": "Menu mostrado como botões",
+    "tag": "Etiqueta",
+    "problem": "Problema que resolve",
+    "stats": "Números medidos",
+    "stack": "Tecnologias (separadas por vírgula)",
+    "video": "Vídeo",
+    "link_label": "Texto do link",
+    "link": "Link",
+    "note": "Observação curta",
+    "style": "Estilo",
+    "build_page": "Página \"Como esta loja foi feita\""
   },
   "info": {
     "analytics": "O tema publica add_to_cart, remove_from_cart, view_cart, view_item_list, upsell_added e free_shipping_unlocked nos eventos de cliente da Shopify. Leia num pixel personalizado para mandar ao GA4 ou à Meta.",
@@ -146,7 +160,8 @@
     "upsell_products": "Aparecem até 3, pulando o que já está no carrinho.",
     "announcement": "Separe as mensagens com um ponto médio (·). Elas correm como uma fita.",
     "hero_product": "O que o visitante digita abre este produto com o texto preenchido.",
-    "hero_demo_names": "Separados por vírgula. São digitados na foto até o visitante digitar o dele."
+    "hero_demo_names": "Separados por vírgula. São digitados na foto até o visitante digitar o dele.",
+    "stats": "Um por linha: valor | rótulo, por exemplo 44 → 66 | Nota no celular"
   },
   "options": {
     "alignment": {
@@ -208,6 +223,10 @@
       "order": "Pedido com prévia",
       "timeline": "Imprimir, embalar, enviar",
       "image": "Imagem"
+    },
+    "button_style": {
+      "primary": "Principal",
+      "secondary": "Secundário"
     }
   }
 }

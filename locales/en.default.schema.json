@@ -43,7 +43,11 @@
     "typography": "Typography",
     "bento": "Gift bento",
     "bento_tile": "Tile",
-    "announcement": "Announcement ribbon"
+    "announcement": "Announcement ribbon",
+    "build_notes": "Build notes",
+    "piece": "Piece",
+    "build_maker": "Who built it",
+    "maker_link": "Link"
   },
   "labels": {
     "accent": "Accent",
@@ -132,7 +136,17 @@
     "hero_print_color": "Ink color",
     "hero_tag": "Gift tag",
     "hero_chip": "Floating note",
-    "collection_chips": "Menu shown as chips"
+    "collection_chips": "Menu shown as chips",
+    "tag": "Tag",
+    "problem": "Problem it solves",
+    "stats": "Measured numbers",
+    "stack": "Stack (comma separated)",
+    "video": "Video",
+    "link_label": "Link label",
+    "link": "Link",
+    "note": "Small note",
+    "style": "Style",
+    "build_page": "\"How this store was built\" page"
   },
   "info": {
     "analytics": "The theme publishes add_to_cart, remove_from_cart, view_cart, view_item_list, upsell_added and free_shipping_unlocked to Shopify customer events. Read them in a custom pixel to send to GA4 or Meta.",
@@ -146,7 +160,8 @@
     "upsell_products": "Up to 3 are shown, skipping what is already in the cart.",
     "announcement": "Separate messages with a middle dot (·). They scroll like a ribbon.",
     "hero_product": "What the visitor types opens this product with the text filled in.",
-    "hero_demo_names": "Comma-separated. They are typed on the photo until the visitor types their own."
+    "hero_demo_names": "Comma-separated. They are typed on the photo until the visitor types their own.",
+    "stats": "One per line: value | label, e.g. 44 → 66 | Mobile score"
   },
   "options": {
     "alignment": {
@@ -208,6 +223,10 @@
       "order": "Order with preview",
       "timeline": "Print, pack, ship",
       "image": "Image"
+    },
+    "button_style": {
+      "primary": "Primary",
+      "secondary": "Secondary"
     }
   }
 }

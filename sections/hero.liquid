@@ -70,8 +70,10 @@
           </text>
         </svg>
 
-        <div class="hero__ribbon" aria-hidden="true">
+        <div class="hero__ribbon-wrap" aria-hidden="true">
           <span class="hero__ribbon-band"></span>
+        </div>
+        <div class="hero__ribbon" aria-hidden="true">
           <svg class="hero__bow" viewBox="0 0 120 80" aria-hidden="true">
             <path d="M60 40C44 14 14 6 10 24c-4 17 22 26 50 16Z" fill="currentColor"/>
             <path d="M60 40c16-26 46-34 50-16 4 17-22 26-50 16Z" fill="currentColor"/>
@@ -230,19 +232,34 @@
     transition: opacity 0.2s ease;
   }
 
+  .hero__frame {
+    --ribbon-width: clamp(2rem, 1.4rem + 1.2vw, 2.75rem);
+    --ribbon-right: 2%;
+  }
+
+  .hero__ribbon-wrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
   .hero__ribbon {
     position: absolute;
-    top: -1.25rem;
-    bottom: 0;
-    right: 2%;
-    width: clamp(2rem, 1.4rem + 1.2vw, 2.75rem);
+    top: 0;
+    right: var(--ribbon-right);
+    width: var(--ribbon-width);
     color: var(--color-accent);
     pointer-events: none;
   }
 
   .hero__ribbon-band {
     position: absolute;
-    inset: 1.25rem 0 0;
+    top: 0;
+    bottom: 0;
+    right: var(--ribbon-right);
+    width: var(--ribbon-width);
     background: linear-gradient(
       90deg,
       color-mix(in srgb, var(--color-accent) 78%, #000) 0%,
@@ -272,7 +289,7 @@
 
   .hero__bow {
     position: absolute;
-    top: -2.6rem;
+    top: -3.85rem;
     left: 50%;
     width: clamp(6.5rem, 4.5rem + 3vw, 8.5rem);
     max-width: none;
@@ -326,6 +343,7 @@
   }
 
   .is-dressing .hero__ribbon,
+  .is-dressing .hero__ribbon-wrap,
   .is-dressing .hero__tag,
   .is-dressing .hero__chip,
   .is-dressing .hero__frame::before {
@@ -337,8 +355,19 @@
     background-image: none;
   }
 
-  .js-motion .hero__ribbon {
+  .js-motion .hero__ribbon-band {
     animation: ribbon-drop 1s var(--ease-out) 0.2s backwards;
+  }
+
+  .js-motion .hero__ribbon {
+    animation: bow-drop 0.7s var(--ease-out) 0.85s backwards;
+  }
+
+  @keyframes bow-drop {
+    from {
+      opacity: 0;
+      transform: translateY(-1.5rem);
+    }
   }
 
   .js-motion .hero__chip {
@@ -382,11 +411,12 @@
     }
 
     .hero__bow {
-      top: -2.1rem;
+      top: -3.35rem;
       width: 5.5rem;
     }
 
     .hero__frame {
+      --ribbon-right: 9%;
       width: 100%;
       aspect-ratio: 1;
     }

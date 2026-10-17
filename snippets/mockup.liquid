@@ -3,104 +3,126 @@
   The base layer goes under the customer's print and the shade layer on top
   of it, so the print looks wrapped around the product. Fabric and ceramic
   use `currentColor`, which the parent <svg> sets from the selected variant.
+  Only presentation attributes here: the cart preview serializes these
+  layers without the page stylesheet.
 
   @param {string} type - mug, tshirt or tote
   @param {string} layer - defs, base or shade
 {% enddoc %}
 
-{%- case type -%}
-  {%- when 'tshirt' -%}
-    {%- if layer == 'base' -%}
-      <g data-layer="base">
-        <ellipse cx="300" cy="560" rx="200" ry="16" fill="#000" opacity=".08"/>
-        <path d="M222 66 168 84 62 150l46 98 54-24v314h276V224l54 24 46-98-106-66-54-18c-14 34-44 54-78 54s-64-20-78-54Z" fill="currentColor"/>
-        <path d="M222 66 168 84 62 150l46 98 54-24v314h276V224l54 24 46-98-106-66-54-18c-14 34-44 54-78 54s-64-20-78-54Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
-        <path d="M222 66c14 34 44 54 78 54s64-20 78-54" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="7"/>
-        <path d="M162 224v-56M438 224v-56" stroke="#000" stroke-opacity=".08" stroke-width="2"/>
-      </g>
-    {%- elsif layer == 'shade' -%}
-      <g data-layer="shade" pointer-events="none">
-        <path d="M222 66 168 84 62 150l46 98 54-24v314h276V224l54 24 46-98-106-66-54-18c-14 34-44 54-78 54s-64-20-78-54Z" fill="url(#MockupFabric)" opacity=".5"/>
-      </g>
-    {%- endif -%}
-  {%- when 'tote' -%}
-    {%- if layer == 'base' -%}
-      <g data-layer="base">
-        <ellipse cx="300" cy="560" rx="185" ry="15" fill="#000" opacity=".08"/>
-        <path d="M222 214c0-120 156-120 156 0" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round"/>
-        <path d="M222 214c0-120 156-120 156 0" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="24" stroke-linecap="round"/>
-        <path d="M128 200h344l14 346H114Z" fill="currentColor"/>
-        <path d="M128 200h344l14 346H114Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
-        <path d="M128 222h344" stroke="#000" stroke-opacity=".12" stroke-width="2" stroke-dasharray="6 6"/>
-      </g>
-    {%- elsif layer == 'shade' -%}
-      <g data-layer="shade" pointer-events="none">
-        <path d="M128 200h344l14 346H114Z" fill="url(#MockupFabric)" opacity=".5"/>
-      </g>
-    {%- endif -%}
-  {%- else -%}
-    {%- if layer == 'defs' -%}
-      <linearGradient id="MockupCeramic" x1="0" x2="1" y1="0" y2="0">
-        <stop offset="0" stop-color="#000" stop-opacity=".3"/>
-        <stop offset=".06" stop-color="#000" stop-opacity=".1"/>
-        <stop offset=".11" stop-color="#fff" stop-opacity=".18"/>
-        <stop offset=".145" stop-color="#fff" stop-opacity=".55"/>
-        <stop offset=".18" stop-color="#fff" stop-opacity=".12"/>
-        <stop offset=".42" stop-color="#fff" stop-opacity="0"/>
-        <stop offset=".72" stop-color="#000" stop-opacity=".02"/>
-        <stop offset=".9" stop-color="#000" stop-opacity=".14"/>
-        <stop offset=".965" stop-color="#000" stop-opacity=".24"/>
-        <stop offset="1" stop-color="#000" stop-opacity=".12"/>
-      </linearGradient>
-      <linearGradient id="MockupCeramicDepth" x1="0" x2="0" y1="0" y2="1">
-        <stop offset="0" stop-color="#000" stop-opacity=".08"/>
-        <stop offset=".06" stop-color="#000" stop-opacity="0"/>
-        <stop offset=".8" stop-color="#000" stop-opacity="0"/>
-        <stop offset="1" stop-color="#000" stop-opacity=".16"/>
-      </linearGradient>
-      <linearGradient id="MockupInside" x1="0" x2="0" y1="0" y2="1">
-        <stop offset="0" stop-color="#000" stop-opacity=".05"/>
-        <stop offset=".55" stop-color="#000" stop-opacity=".16"/>
-        <stop offset="1" stop-color="#000" stop-opacity=".36"/>
-      </linearGradient>
-      <linearGradient id="MockupInsideSheen" x1="0" x2="0" y1="0" y2="1">
-        <stop offset="0" stop-color="#fff" stop-opacity=".2"/>
-        <stop offset=".6" stop-color="#fff" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="MockupHandle" x1="0" x2="0" y1="0" y2="1">
-        <stop offset="0" stop-color="#fff" stop-opacity=".22"/>
-        <stop offset=".45" stop-color="#fff" stop-opacity="0"/>
-        <stop offset=".7" stop-color="#000" stop-opacity=".06"/>
-        <stop offset="1" stop-color="#000" stop-opacity=".24"/>
-      </linearGradient>
-      <radialGradient id="MockupFloor" cx=".5" cy=".5" r=".5">
-        <stop offset="0" stop-color="#000" stop-opacity=".26"/>
-        <stop offset=".55" stop-color="#000" stop-opacity=".1"/>
-        <stop offset="1" stop-color="#000" stop-opacity="0"/>
-      </radialGradient>
-    {%- elsif layer == 'base' -%}
-      <g data-layer="base">
-        <ellipse cx="294" cy="521" rx="214" ry="24" fill="url(#MockupFloor)"/>
-        <ellipse cx="280" cy="519" rx="150" ry="8" fill="#000" opacity=".14"/>
-        <path d="M420 204c74-10 128 20 132 96 4 76-46 138-132 138v-40c62 0 92-38 90-94-2-52-32-68-90-60Z" fill="currentColor"/>
-        <path d="M420 204c74-10 128 20 132 96 4 76-46 138-132 138v-40c62 0 92-38 90-94-2-52-32-68-90-60Z" fill="url(#MockupHandle)"/>
-        <path d="M420 204c74-10 128 20 132 96 4 76-46 138-132 138v-40c62 0 92-38 90-94-2-52-32-68-90-60Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
-        <path d="M420 244c58-8 88 8 90 60 2 56-28 94-90 94v9c68 0 102-42 100-103-2-58-36-77-100-69Z" fill="#000" opacity=".08"/>
-        <path d="M440 220c48-4 84 18 90 66" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/>
-        <path d="M124 150v336c0 11 4 17 12 21a152 22 0 0 0 288 0c8-4 12-10 12-21V150Z" fill="currentColor"/>
-        <path d="M124 150v336c0 11 4 17 12 21a152 22 0 0 0 288 0c8-4 12-10 12-21V150Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
-        <ellipse cx="280" cy="150" rx="156" ry="20" fill="currentColor"/>
-        <ellipse cx="280" cy="150" rx="156" ry="20" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>
-        <ellipse cx="280" cy="151" rx="146" ry="15" fill="url(#MockupInside)"/>
-        <ellipse cx="280" cy="151" rx="146" ry="15" fill="url(#MockupInsideSheen)"/>
-        <path d="M134 151a146 15 0 0 1 292 0" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="1.5"/>
-      </g>
+{%- if layer == 'defs' -%}
+  <radialGradient id="MockupFloor" cx=".5" cy=".5" r=".5">
+    <stop offset="0" stop-color="#000" stop-opacity=".26"/>
+    <stop offset=".55" stop-color="#000" stop-opacity=".1"/>
+    <stop offset="1" stop-color="#000" stop-opacity="0"/>
+  </radialGradient>
+  {%- unless type == 'tshirt' or type == 'tote' -%}
+    <linearGradient id="MockupCeramic" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#000" stop-opacity=".3"/>
+      <stop offset=".06" stop-color="#000" stop-opacity=".1"/>
+      <stop offset=".11" stop-color="#fff" stop-opacity=".18"/>
+      <stop offset=".145" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset=".18" stop-color="#fff" stop-opacity=".12"/>
+      <stop offset=".42" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".72" stop-color="#000" stop-opacity=".02"/>
+      <stop offset=".9" stop-color="#000" stop-opacity=".14"/>
+      <stop offset=".965" stop-color="#000" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".12"/>
+    </linearGradient>
+    <linearGradient id="MockupCeramicDepth" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity=".08"/>
+      <stop offset=".06" stop-color="#000" stop-opacity="0"/>
+      <stop offset=".8" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".16"/>
+    </linearGradient>
+    <linearGradient id="MockupInside" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity=".05"/>
+      <stop offset=".55" stop-color="#000" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".36"/>
+    </linearGradient>
+    <linearGradient id="MockupInsideSheen" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".2"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="MockupHandle" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset=".45" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".7" stop-color="#000" stop-opacity=".06"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".24"/>
+    </linearGradient>
+  {%- endunless -%}
+{%- else -%}
+  {%- case type -%}
+    {%- when 'tshirt' -%}
+      {%- assign shirt = 'M234 64C206 72 176 80 150 92C120 106 92 150 66 206L118 240C132 224 148 210 166 200C162 300 172 420 168 532C250 544 350 544 432 532C428 420 438 300 434 200C452 210 468 224 482 240L534 206C508 150 480 106 450 92C424 80 394 72 366 64C350 98 326 114 300 114C274 114 250 98 234 64Z' -%}
+      {%- if layer == 'base' -%}
+        <g data-layer="base">
+          <ellipse cx="300" cy="548" rx="226" ry="20" fill="url(#MockupFloor)"/>
+          <path d="M234 64C258 80 342 80 366 64C350 98 326 114 300 114C274 114 250 98 234 64Z" fill="currentColor"/>
+          <path d="M234 64C258 80 342 80 366 64C350 98 326 114 300 114C274 114 250 98 234 64Z" fill="#000" opacity=".22"/>
+          <path d="{{ shirt }}" fill="currentColor"/>
+          <path d="M150 92C120 106 92 150 66 206L118 240C132 224 148 210 166 200C162 166 158 130 150 92ZM450 92C480 106 508 150 534 206L482 240C468 224 452 210 434 200C438 166 442 130 450 92Z" fill="#000" opacity=".045"/>
+          <path d="{{ shirt }}" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M234 64C258 80 342 80 366 64" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="9" stroke-linecap="round"/>
+          <path d="M234 64C258 80 342 80 366 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <path d="M234 64C250 98 274 114 300 114C326 114 350 98 366 64" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="12" stroke-linecap="round"/>
+          <path d="M234 64C250 98 274 114 300 114C326 114 350 98 366 64" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+          <path d="M226 72C244 112 272 126 300 126C328 126 356 112 374 72" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5" stroke-dasharray="3 4"/>
+          <path d="M152 94C158 130 162 166 166 200M448 94C442 130 438 166 434 200" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>
+          <path d="M74 196 125 230M526 196 475 230M170 520C250 531 350 531 430 520" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="1.5" stroke-dasharray="4 4"/>
+        </g>
+      {%- elsif layer == 'shade' -%}
+        <g data-layer="shade" pointer-events="none">
+          <path d="{{ shirt }}" fill="url(#MockupFabric)" opacity=".55"/>
+        </g>
+      {%- endif -%}
+    {%- when 'tote' -%}
+      {%- assign bag = 'M130 200H470C474 300 480 420 486 528C487 540 481 546 470 546H130C119 546 113 540 114 528C120 420 126 300 130 200Z' -%}
+      {%- if layer == 'base' -%}
+        <g data-layer="base">
+          <ellipse cx="300" cy="548" rx="216" ry="18" fill="url(#MockupFloor)"/>
+          <path d="M234 204C234 132 256 108 300 108C344 108 366 132 366 204" fill="none" stroke="currentColor" stroke-width="20"/>
+          <path d="M234 204C234 132 256 108 300 108C344 108 366 132 366 204" fill="none" stroke="#000" stroke-opacity=".26" stroke-width="20"/>
+          <path d="M216 214C214 118 246 92 300 92C354 92 386 118 384 214" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="24"/>
+          <path d="M216 214C214 118 246 92 300 92C354 92 386 118 384 214" fill="none" stroke="currentColor" stroke-width="21"/>
+          <path d="M216 214C214 118 246 92 300 92C354 92 386 118 384 214" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="1.2" stroke-dasharray="4 4"/>
+          <path d="{{ bag }}" fill="currentColor"/>
+          <path d="M130 200H470L471 228H129Z" fill="#000" opacity=".05"/>
+          <path d="{{ bag }}" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M132 222H468M118 524C200 530 400 530 482 524" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <path d="M205 200h22v56h-22ZM373 200h22v56h-22Z" fill="currentColor" stroke="#000" stroke-opacity=".16" stroke-width="1.5"/>
+          <path d="M209 230h14v22h-14Zl14 22m0-22-14 22M377 230h14v22h-14Zl14 22m0-22-14 22" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="1.2" stroke-dasharray="3 2"/>
+        </g>
+      {%- elsif layer == 'shade' -%}
+        <g data-layer="shade" pointer-events="none">
+          <path d="{{ bag }}" fill="url(#MockupFabric)" opacity=".5"/>
+        </g>
+      {%- endif -%}
     {%- else -%}
-      <g data-layer="shade" pointer-events="none">
-        <path d="M124 150v336c0 11 4 17 12 21a152 22 0 0 0 288 0c8-4 12-10 12-21V150a156 20 0 0 1-312 0Z" fill="url(#MockupCeramic)"/>
-        <path d="M124 150v336c0 11 4 17 12 21a152 22 0 0 0 288 0c8-4 12-10 12-21V150a156 20 0 0 1-312 0Z" fill="url(#MockupCeramicDepth)"/>
-        <path d="M128 162a152 20 0 0 0 304 0" fill="none" stroke="#000" stroke-opacity=".05" stroke-width="4"/>
-        <path d="M126 152a154 20 0 0 0 308 0" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2.5" stroke-linecap="round"/>
-      </g>
-    {%- endif -%}
-{%- endcase -%}
+      {%- if layer == 'base' -%}
+        <g data-layer="base">
+          <ellipse cx="294" cy="521" rx="214" ry="24" fill="url(#MockupFloor)"/>
+          <ellipse cx="280" cy="519" rx="150" ry="8" fill="#000" opacity=".14"/>
+          <path d="M420 204c74-10 128 20 132 96 4 76-46 138-132 138v-40c62 0 92-38 90-94-2-52-32-68-90-60Z" fill="currentColor"/>
+          <path d="M420 204c74-10 128 20 132 96 4 76-46 138-132 138v-40c62 0 92-38 90-94-2-52-32-68-90-60Z" fill="url(#MockupHandle)"/>
+          <path d="M420 204c74-10 128 20 132 96 4 76-46 138-132 138v-40c62 0 92-38 90-94-2-52-32-68-90-60Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
+          <path d="M420 244c58-8 88 8 90 60 2 56-28 94-90 94v9c68 0 102-42 100-103-2-58-36-77-100-69Z" fill="#000" opacity=".08"/>
+          <path d="M440 220c48-4 84 18 90 66" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/>
+          <path d="M124 150v336c0 11 4 17 12 21a152 22 0 0 0 288 0c8-4 12-10 12-21V150Z" fill="currentColor"/>
+          <path d="M124 150v336c0 11 4 17 12 21a152 22 0 0 0 288 0c8-4 12-10 12-21V150Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
+          <ellipse cx="280" cy="150" rx="156" ry="20" fill="currentColor"/>
+          <ellipse cx="280" cy="150" rx="156" ry="20" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>
+          <ellipse cx="280" cy="151" rx="146" ry="15" fill="url(#MockupInside)"/>
+          <ellipse cx="280" cy="151" rx="146" ry="15" fill="url(#MockupInsideSheen)"/>
+          <path d="M134 151a146 15 0 0 1 292 0" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="1.5"/>
+        </g>
+      {%- elsif layer == 'shade' -%}
+        <g data-layer="shade" pointer-events="none">
+          <path d="M124 150v336c0 11 4 17 12 21a152 22 0 0 0 288 0c8-4 12-10 12-21V150a156 20 0 0 1-312 0Z" fill="url(#MockupCeramic)"/>
+          <path d="M124 150v336c0 11 4 17 12 21a152 22 0 0 0 288 0c8-4 12-10 12-21V150a156 20 0 0 1-312 0Z" fill="url(#MockupCeramicDepth)"/>
+          <path d="M128 162a152 20 0 0 0 304 0" fill="none" stroke="#000" stroke-opacity=".05" stroke-width="4"/>
+          <path d="M126 152a154 20 0 0 0 308 0" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+      {%- endif -%}
+  {%- endcase -%}
+{%- endif -%}

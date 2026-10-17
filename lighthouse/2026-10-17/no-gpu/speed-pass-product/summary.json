@@ -1,0 +1,175 @@
+{
+  "url": "http://127.0.0.1:9303/products/custom-mug",
+  "runs": 5,
+  "measured_at": "2026-10-17T14:31:40.911Z",
+  "lighthouse": "13.5.0",
+  "chrome_flags": [
+    "--headless=new",
+    "--no-first-run",
+    "--disable-gpu"
+  ],
+  "diagnostic_without_shopify_scripts": false,
+  "blocked_url_patterns": [],
+  "mobile": {
+    "median": {
+      "performance": 72,
+      "accessibility": 100,
+      "lcp_ms": 2569,
+      "fcp_ms": 2175,
+      "tbt_ms": 1070,
+      "cls": 0,
+      "speed_index_ms": 3015,
+      "bytes_kb": 3451,
+      "requests": 137
+    },
+    "median_run": {
+      "performance": 74,
+      "accessibility": 100,
+      "lcp_ms": 2778,
+      "fcp_ms": 2144,
+      "tbt_ms": 833,
+      "cls": 0,
+      "speed_index_ms": 2457,
+      "bytes_kb": 3451,
+      "requests": 138
+    },
+    "all": [
+      {
+        "performance": 73,
+        "accessibility": 100,
+        "lcp_ms": 2495,
+        "fcp_ms": 2144,
+        "tbt_ms": 1070,
+        "cls": 0,
+        "speed_index_ms": 2452,
+        "bytes_kb": 3451,
+        "requests": 137
+      },
+      {
+        "performance": 69,
+        "accessibility": 100,
+        "lcp_ms": 2372,
+        "fcp_ms": 2223,
+        "tbt_ms": 1428,
+        "cls": 0,
+        "speed_index_ms": 3352,
+        "bytes_kb": 3316,
+        "requests": 129
+      },
+      {
+        "performance": 67,
+        "accessibility": 100,
+        "lcp_ms": 2569,
+        "fcp_ms": 2286,
+        "tbt_ms": 1633,
+        "cls": 0,
+        "speed_index_ms": 3116,
+        "bytes_kb": 2986,
+        "requests": 92
+      },
+      {
+        "performance": 72,
+        "accessibility": 100,
+        "lcp_ms": 2642,
+        "fcp_ms": 2175,
+        "tbt_ms": 1040,
+        "cls": 0,
+        "speed_index_ms": 3015,
+        "bytes_kb": 3549,
+        "requests": 161
+      },
+      {
+        "performance": 74,
+        "accessibility": 100,
+        "lcp_ms": 2778,
+        "fcp_ms": 2144,
+        "tbt_ms": 833,
+        "cls": 0,
+        "speed_index_ms": 2457,
+        "bytes_kb": 3451,
+        "requests": 138
+      }
+    ]
+  },
+  "desktop": {
+    "median": {
+      "performance": 93,
+      "accessibility": 100,
+      "lcp_ms": 862,
+      "fcp_ms": 609,
+      "tbt_ms": 188,
+      "cls": 0.001,
+      "speed_index_ms": 926,
+      "bytes_kb": 3316,
+      "requests": 127
+    },
+    "median_run": {
+      "performance": 93,
+      "accessibility": 100,
+      "lcp_ms": 862,
+      "fcp_ms": 638,
+      "tbt_ms": 188,
+      "cls": 0.001,
+      "speed_index_ms": 949,
+      "bytes_kb": 3316,
+      "requests": 127
+    },
+    "all": [
+      {
+        "performance": 93,
+        "accessibility": 100,
+        "lcp_ms": 862,
+        "fcp_ms": 638,
+        "tbt_ms": 188,
+        "cls": 0.001,
+        "speed_index_ms": 949,
+        "bytes_kb": 3316,
+        "requests": 127
+      },
+      {
+        "performance": 89,
+        "accessibility": 100,
+        "lcp_ms": 889,
+        "fcp_ms": 628,
+        "tbt_ms": 260,
+        "cls": 0.001,
+        "speed_index_ms": 926,
+        "bytes_kb": 3472,
+        "requests": 141
+      },
+      {
+        "performance": 98,
+        "accessibility": 100,
+        "lcp_ms": 831,
+        "fcp_ms": 600,
+        "tbt_ms": 104,
+        "cls": 0.001,
+        "speed_index_ms": 774,
+        "bytes_kb": 3478,
+        "requests": 143
+      },
+      {
+        "performance": 98,
+        "accessibility": 100,
+        "lcp_ms": 819,
+        "fcp_ms": 606,
+        "tbt_ms": 115,
+        "cls": 0.001,
+        "speed_index_ms": 771,
+        "bytes_kb": 3275,
+        "requests": 121
+      },
+      {
+        "performance": 90,
+        "accessibility": 100,
+        "lcp_ms": 943,
+        "fcp_ms": 609,
+        "tbt_ms": 247,
+        "cls": 0.001,
+        "speed_index_ms": 997,
+        "bytes_kb": 3288,
+        "requests": 123
+      }
+    ]
+  }
+}

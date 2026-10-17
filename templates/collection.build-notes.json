@@ -50,8 +50,8 @@
           "settings": {
             "title": "Speed, before and after",
             "problem": "A slow store loses mobile shoppers before the first product shows up.",
-            "text": "<p>Found what slowed the home page down and fixed it without giving up the design. Measured with Lighthouse on a simulated phone, 5 runs, median, the slow version and this one on the same day.</p>",
-            "stats": "44 → 68 | Mobile score\n12.7 s → 4.5 s | Main image on screen\n91 → 100 | Accessibility",
+            "text": "<p>Found what slowed the home page down and fixed it without giving up the design. Measured with Lighthouse on a simulated phone, Chrome without a GPU like the PageSpeed Insights servers, 5 runs, median, the slow version and this one on the same day.</p>",
+            "stats": "47 → 74 | Mobile score\n11.9 s → 3.5 s | Main image on screen\n91 → 100 | Accessibility",
             "stack": "Lighthouse, Liquid, CSS",
             "video": "shopify://files/videos/04-speed-before-after.mp4",
             "paper": "gingham",

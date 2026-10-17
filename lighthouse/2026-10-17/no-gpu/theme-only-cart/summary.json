@@ -1,0 +1,186 @@
+{
+  "url": "http://127.0.0.1:9303/cart",
+  "runs": 5,
+  "measured_at": "2026-10-17T14:28:57.266Z",
+  "lighthouse": "13.5.0",
+  "chrome_flags": [
+    "--headless=new",
+    "--no-first-run",
+    "--disable-gpu"
+  ],
+  "diagnostic_without_shopify_scripts": true,
+  "blocked_url_patterns": [
+    "*perf-kit*",
+    "*trekkie*",
+    "*/wpm/*",
+    "*shop-js*",
+    "*preloads.js*",
+    "*checkout-web*",
+    "*shop_events_listener*",
+    "*load_feature*",
+    "*standard-actions*",
+    "*origin_trials*"
+  ],
+  "mobile": {
+    "median": {
+      "performance": 96,
+      "accessibility": 100,
+      "lcp_ms": 2272,
+      "fcp_ms": 1959,
+      "tbt_ms": 101,
+      "cls": 0,
+      "speed_index_ms": 1959,
+      "bytes_kb": 176,
+      "requests": 25
+    },
+    "median_run": {
+      "performance": 96,
+      "accessibility": 100,
+      "lcp_ms": 2262,
+      "fcp_ms": 1959,
+      "tbt_ms": 101,
+      "cls": 0,
+      "speed_index_ms": 1959,
+      "bytes_kb": 176,
+      "requests": 25
+    },
+    "all": [
+      {
+        "performance": 96,
+        "accessibility": 100,
+        "lcp_ms": 2262,
+        "fcp_ms": 1959,
+        "tbt_ms": 101,
+        "cls": 0,
+        "speed_index_ms": 1959,
+        "bytes_kb": 176,
+        "requests": 25
+      },
+      {
+        "performance": 96,
+        "accessibility": 100,
+        "lcp_ms": 2272,
+        "fcp_ms": 1971,
+        "tbt_ms": 106,
+        "cls": 0,
+        "speed_index_ms": 1971,
+        "bytes_kb": 176,
+        "requests": 25
+      },
+      {
+        "performance": 95,
+        "accessibility": 100,
+        "lcp_ms": 2277,
+        "fcp_ms": 1977,
+        "tbt_ms": 117,
+        "cls": 0,
+        "speed_index_ms": 3139,
+        "bytes_kb": 176,
+        "requests": 25
+      },
+      {
+        "performance": 97,
+        "accessibility": 100,
+        "lcp_ms": 2266,
+        "fcp_ms": 1811,
+        "tbt_ms": 52,
+        "cls": 0,
+        "speed_index_ms": 1811,
+        "bytes_kb": 176,
+        "requests": 25
+      },
+      {
+        "performance": 97,
+        "accessibility": 100,
+        "lcp_ms": 2289,
+        "fcp_ms": 1826,
+        "tbt_ms": 0,
+        "cls": 0,
+        "speed_index_ms": 1826,
+        "bytes_kb": 176,
+        "requests": 25
+      }
+    ]
+  },
+  "desktop": {
+    "median": {
+      "performance": 100,
+      "accessibility": 100,
+      "lcp_ms": 765,
+      "fcp_ms": 479,
+      "tbt_ms": 0,
+      "cls": 0,
+      "speed_index_ms": 641,
+      "bytes_kb": 176,
+      "requests": 25
+    },
+    "median_run": {
+      "performance": 100,
+      "accessibility": 100,
+      "lcp_ms": 763,
+      "fcp_ms": 479,
+      "tbt_ms": 0,
+      "cls": 0,
+      "speed_index_ms": 641,
+      "bytes_kb": 176,
+      "requests": 25
+    },
+    "all": [
+      {
+        "performance": 100,
+        "accessibility": 100,
+        "lcp_ms": 772,
+        "fcp_ms": 477,
+        "tbt_ms": 0,
+        "cls": 0,
+        "speed_index_ms": 655,
+        "bytes_kb": 176,
+        "requests": 25
+      },
+      {
+        "performance": 100,
+        "accessibility": 100,
+        "lcp_ms": 755,
+        "fcp_ms": 479,
+        "tbt_ms": 0,
+        "cls": 0,
+        "speed_index_ms": 626,
+        "bytes_kb": 176,
+        "requests": 25
+      },
+      {
+        "performance": 100,
+        "accessibility": 100,
+        "lcp_ms": 763,
+        "fcp_ms": 479,
+        "tbt_ms": 0,
+        "cls": 0,
+        "speed_index_ms": 641,
+        "bytes_kb": 176,
+        "requests": 25
+      },
+      {
+        "performance": 100,
+        "accessibility": 100,
+        "lcp_ms": 787,
+        "fcp_ms": 480,
+        "tbt_ms": 3,
+        "cls": 0,
+        "speed_index_ms": 700,
+        "bytes_kb": 176,
+        "requests": 25
+      },
+      {
+        "performance": 100,
+        "accessibility": 100,
+        "lcp_ms": 765,
+        "fcp_ms": 475,
+        "tbt_ms": 0,
+        "cls": 0,
+        "speed_index_ms": 632,
+        "bytes_kb": 176,
+        "requests": 25
+      }
+    ]
+  }
+}

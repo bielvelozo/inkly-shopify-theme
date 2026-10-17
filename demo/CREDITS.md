@@ -17,4 +17,4 @@ The product and lifestyle photos in `demo/images/` are free stock photos, croppe
 
 `customer-photo.jpg` and `customer-photo-small.jpg` are drawn by `demo/images.py` and stand in for a photo a customer would upload.
 
-The display face in `assets/archivo-expanded-800.woff2` is Archivo by Omnibus-Type, under the SIL Open Font License 1.1.
+The display face in `assets/archivo-expanded-800.woff2` and the body faces in `assets/archivo-400.woff2` and `assets/archivo-700.woff2` (static instances at the normal width, made with fontTools from the variable files of the Shopify font library) are Archivo by Omnibus-Type, under the SIL Open Font License 1.1.

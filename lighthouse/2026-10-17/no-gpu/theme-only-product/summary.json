@@ -1,0 +1,186 @@
+{
+  "url": "http://127.0.0.1:9303/products/custom-mug",
+  "runs": 5,
+  "measured_at": "2026-10-17T14:26:42.296Z",
+  "lighthouse": "13.5.0",
+  "chrome_flags": [
+    "--headless=new",
+    "--no-first-run",
+    "--disable-gpu"
+  ],
+  "diagnostic_without_shopify_scripts": true,
+  "blocked_url_patterns": [
+    "*perf-kit*",
+    "*trekkie*",
+    "*/wpm/*",
+    "*shop-js*",
+    "*preloads.js*",
+    "*checkout-web*",
+    "*shop_events_listener*",
+    "*load_feature*",
+    "*standard-actions*",
+    "*origin_trials*"
+  ],
+  "mobile": {
+    "median": {
+      "performance": 94,
+      "accessibility": 100,
+      "lcp_ms": 2733,
+      "fcp_ms": 1968,
+      "tbt_ms": 98,
+      "cls": 0,
+      "speed_index_ms": 1968,
+      "bytes_kb": 440,
+      "requests": 36
+    },
+    "median_run": {
+      "performance": 94,
+      "accessibility": 100,
+      "lcp_ms": 2730,
+      "fcp_ms": 1968,
+      "tbt_ms": 98,
+      "cls": 0,
+      "speed_index_ms": 1968,
+      "bytes_kb": 440,
+      "requests": 36
+    },
+    "all": [
+      {
+        "performance": 93,
+        "accessibility": 100,
+        "lcp_ms": 2733,
+        "fcp_ms": 1972,
+        "tbt_ms": 129,
+        "cls": 0,
+        "speed_index_ms": 1972,
+        "bytes_kb": 439,
+        "requests": 36
+      },
+      {
+        "performance": 94,
+        "accessibility": 100,
+        "lcp_ms": 2750,
+        "fcp_ms": 1983,
+        "tbt_ms": 66,
+        "cls": 0,
+        "speed_index_ms": 1983,
+        "bytes_kb": 440,
+        "requests": 36
+      },
+      {
+        "performance": 94,
+        "accessibility": 100,
+        "lcp_ms": 2722,
+        "fcp_ms": 1965,
+        "tbt_ms": 101,
+        "cls": 0,
+        "speed_index_ms": 1965,
+        "bytes_kb": 440,
+        "requests": 36
+      },
+      {
+        "performance": 92,
+        "accessibility": 100,
+        "lcp_ms": 2805,
+        "fcp_ms": 1840,
+        "tbt_ms": 76,
+        "cls": 0.092,
+        "speed_index_ms": 1840,
+        "bytes_kb": 440,
+        "requests": 36
+      },
+      {
+        "performance": 94,
+        "accessibility": 100,
+        "lcp_ms": 2730,
+        "fcp_ms": 1968,
+        "tbt_ms": 98,
+        "cls": 0,
+        "speed_index_ms": 1968,
+        "bytes_kb": 440,
+        "requests": 36
+      }
+    ]
+  },
+  "desktop": {
+    "median": {
+      "performance": 100,
+      "accessibility": 100,
+      "lcp_ms": 654,
+      "fcp_ms": 495,
+      "tbt_ms": 0,
+      "cls": 0.001,
+      "speed_index_ms": 694,
+      "bytes_kb": 439,
+      "requests": 36
+    },
+    "median_run": {
+      "performance": 100,
+      "accessibility": 100,
+      "lcp_ms": 654,
+      "fcp_ms": 496,
+      "tbt_ms": 0,
+      "cls": 0.001,
+      "speed_index_ms": 693,
+      "bytes_kb": 440,
+      "requests": 36
+    },
+    "all": [
+      {
+        "performance": 100,
+        "accessibility": 100,
+        "lcp_ms": 654,
+        "fcp_ms": 496,
+        "tbt_ms": 0,
+        "cls": 0.001,
+        "speed_index_ms": 693,
+        "bytes_kb": 440,
+        "requests": 36
+      },
+      {
+        "performance": 99,
+        "accessibility": 100,
+        "lcp_ms": 757,
+        "fcp_ms": 495,
+        "tbt_ms": 1,
+        "cls": 0.001,
+        "speed_index_ms": 815,
+        "bytes_kb": 439,
+        "requests": 36
+      },
+      {
+        "performance": 100,
+        "accessibility": 100,
+        "lcp_ms": 711,
+        "fcp_ms": 512,
+        "tbt_ms": 10,
+        "cls": 0.005,
+        "speed_index_ms": 770,
+        "bytes_kb": 447,
+        "requests": 38
+      },
+      {
+        "performance": 100,
+        "accessibility": 100,
+        "lcp_ms": 617,
+        "fcp_ms": 474,
+        "tbt_ms": 0,
+        "cls": 0.001,
+        "speed_index_ms": 694,
+        "bytes_kb": 439,
+        "requests": 36
+      },
+      {
+        "performance": 100,
+        "accessibility": 100,
+        "lcp_ms": 641,
+        "fcp_ms": 478,
+        "tbt_ms": 0,
+        "cls": 0.001,
+        "speed_index_ms": 662,
+        "bytes_kb": 439,
+        "requests": 36
+      }
+    ]
+  }
+}

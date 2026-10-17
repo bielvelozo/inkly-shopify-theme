@@ -16,7 +16,7 @@ The whole store is wrapping paper. Each part of the home owns one paper (pink po
 <img src="docs/08-home-mobile.jpg" alt="Home page on mobile" width="260"> <img src="docs/11-collection-desktop.jpg" alt="Collection page" width="560">
 
 - **Type a name, see it on the mug.** The hero has a field that prints what the visitor types onto a real mug photo, live. "Make yours" opens the mug with that text already filled in the personalizer.
-- **Type:** Archivo Expanded ExtraBold for headings, shipped with the theme (14 KB, SIL Open Font License); Archivo for body text, picked from the Shopify font library and changeable in the theme editor.
+- **Type:** Archivo Expanded ExtraBold for headings, shipped with the theme (14 KB, SIL Open Font License); Archivo for body text, also shipped with the theme as static 400 and 700 instances (16 KB each) and changeable in the theme editor, where any other font comes from the Shopify font library.
 - **Papers are CSS:** the patterns are tiny repeating images defined once in `assets/critical.css`, and their colors are theme settings.
 - **Motion:** the steps ribbon draws itself as you scroll, the hero gets dressed (ribbon, bow, tags) right after load, tags swing on hover, "Add to cart" pops into "Added!", the cart badge bumps, and the free-shipping ribbon ties a bow with a burst of confetti. All of it is off under `prefers-reduced-motion`.
 - **State shows on the paper:** on the product page the stage tag turns into a mint "Ready to print" once there is text or a sharp photo, and the stage paper turns lemon for dark products.
@@ -42,7 +42,7 @@ The customer types a line of text, picks a font, a color and a position, uploads
 - **Print quality check:** the theme computes DPI from the real print width (a setting) and warns before checkout when the photo will print blurry.
 - **Contrast warning** when the text color nearly disappears on the product color.
 - **Everything goes into the order** as line item properties: text, font, color, the original photo (uploaded through Shopify) and, hidden from the customer, the text position, the photo adjustment and a **preview image rendered in the browser** (canvas), which shows up in the cart and reaches production.
-- **Live 3D preview** on top of the 2D mockup: a procedural three.js mug, tee and tote that print the customer's text and photo by mirroring the mockup `<svg>`, with light and reflections that follow the pointer and drag (or swipe) to turn the product. A 3D/2D switch sits on the stage; photo dragging stays in 2D. The page loads a 3 KB loader (`assets/inkly-3d.js`); three.js and the models (`assets/inkly-3d-scene.js`, 155 KB gzip) are only requested after the shopper first interacts with the page. Without WebGL2 the 2D preview simply stays. Measured on the product page (5 runs each, mobile / desktop): 54 / 73 before adding it and 52 / 75 after (`lighthouse/2026-10-17/product-2d` and `product-3d`); the spread between runs is larger than that difference. With the current loader, after the quality pass: 57 / 75 (`after-review-product`). The font samples in the personalizer switch to their own fonts right after load, which keeps about 150 KB of fonts off the first paint.
+- **Live 3D preview** on top of the 2D mockup: a procedural three.js mug, tee and tote that print the customer's text and photo by mirroring the mockup `<svg>`, with light and reflections that follow the pointer and drag (or swipe) to turn the product. A 3D/2D switch sits on the stage; photo dragging stays in 2D. The page loads a 3 KB loader (`assets/inkly-3d.js`); three.js and the models (`assets/inkly-3d-scene.js`, 155 KB gzip) are only requested after the shopper first interacts with the page. Without WebGL2 the 2D preview simply stays. Adding it didn't move the product page's score beyond the run-to-run spread (5 runs with and without it, in `lighthouse/2026-10-17/product-2d` and `product-3d`, measured with a GPU before the method described in [Speed, measured](#3-speed-measured)); blocking the loader in an interleaved run without a GPU didn't change the score either. The font samples in the personalizer switch to their own fonts right after load, which keeps about 150 KB of fonts off the first paint.
 - **Prefill from a link:** `?text=` on the product URL fills the text field (used by the home hero).
 - Keyboard support: the photo also moves with the arrow keys; controls are `fieldset`s with `legend`s and errors go to `role="alert"`.
 - Configurable in the theme editor: fonts (three pickers from the Shopify font library), text colors, required fields, character limit, minimum DPI and maximum file size.
@@ -88,7 +88,7 @@ The home page was first built the way many slow stores reach a freelancer, measu
 
 **What kept the redesign fast**, found by measuring each change:
 - **No blurred `box-shadow`s.** Depth comes from outlines, color fields and a tilted paper sheet. Blurred shadows alone cost about 7 points on mobile.
-- **A cheap first paint.** The hero's ribbon, bow, tags and polka dots are added right after `load`, and the announcement marquee starts then too; the first paint is the photo, the heading and the field. This matters more than it looks: Shopify's own `perf-kit` script draws to a canvas and reads it back during load, and that read waits for the page to finish painting, so an expensive first paint shows up as a long `perf-kit` task (about 180 ms with this approach, about 350 ms without it, before CPU throttling).
+- **A cheap first paint.** The hero's ribbon, bow, tags and polka dots are added right after `load`, and the announcement marquee starts then too; the first paint is the photo, the heading and the field. This matters more than it looks: Shopify's own `perf-kit` script draws to a small canvas and reads it back during load (a bot check). On a computer with a GPU that first read waits for the GPU to start and for the page's first paint, so an expensive first paint showed up as a longer `perf-kit` task; even on a blank page the read took 120 to 290 ms on this machine. That is also why the numbers below are measured without a GPU.
 - **Patterns as tiny repeating images** instead of CSS gradients, and a plain ribbon band instead of a gradient with dashed stitching.
 - **Below-the-fold CSS doesn't block rendering:** the bento, steps, reviews and footer load their stylesheets with `media="print"` swapped on load, and those sections use `content-visibility: auto`.
 - **Collection and password styles live in their own files**, so the home doesn't download them; stars and separators are drawn in CSS instead of dozens of inline SVGs; the second card photo isn't loaded on touch screens.
@@ -99,31 +99,44 @@ Theme Check: 4 errors and 8 warnings in the slow version (`ParserBlockingScript`
 
 ![The slow version and the redesign loading side by side on the same emulated phone](docs/demo-speed.gif)
 
-Lighthouse 13.5.0, 5 runs per version, **median** (the run chosen by `computeMedianRun`), all three on 2026-10-17, against the same store and products.
+Lighthouse 13.5.0 with its default mobile emulation and its desktop preset (simulated throttling in both), 5 runs per version, the median of each metric, all on 2026-10-17 against the same store and products. **Chrome runs without a GPU (`--disable-gpu`), like the PageSpeed Insights servers:** on this machine a cold GPU makes the first canvas call in Shopify's perf-kit about 4x slower, and Lighthouse's CPU slowdown turns that into a long task no theme can avoid. PageSpeed Insights itself can't reach the store, a development store behind a password.
 
-| Mobile | Slow version | After the fix | Redesign |
-|---|---|---|---|
-| Performance | **44** (42–48) | **67** (62–69) | **66** (64–68) |
-| LCP | **12.7 s** (11.8–13.4) | **4.8 s** (4.5–6.0) | **4.5 s** (4.4–5.1) |
-| Total Blocking Time | **1,328 ms** (899–1,468) | **559 ms** (340–627) | **584 ms** (542–680) |
-| First Contentful Paint | 2.7 s | 2.0 s | 2.1 s |
-| CLS | 0 | 0 | 0 |
-| Accessibility | **91** | **96** | **100** |
+| Mobile, home | Slow version | After the fix | Redesign | Speed pass |
+|---|---|---|---|---|
+| Performance | **47** (43–48) | **76** (72–80) | **71** (71–81) | **74** (72–86) |
+| LCP | **11.9 s** | **4.6 s** | **4.2 s** | **3.5 s** (2.6–3.8) |
+| Total Blocking Time | 958 ms | 368 ms | 468 ms | 501 ms |
+| First Contentful Paint | 2.7 s | 2.0 s | 2.1 s | 2.2 s |
+| CLS | 0 | 0 | 0 | 0 |
+| Accessibility | **91** | **96** | **100** | **100** |
 
-| Desktop | Slow version | After the fix | Redesign |
-|---|---|---|---|
-| Performance | 82 (82–83) | 93 (86–96) | 95 (93–97) |
-| LCP | 2.4 s | 1.3 s | 1.2 s |
-| Total Blocking Time | 163 ms | 141 ms (79–277) | 130 ms (82–157) |
-| Accessibility | 91 | 96 | 100 |
+| Mobile, personalizable product | Redesign | Speed pass |
+|---|---|---|
+| Performance | **69** (66–74) | **72** (67–74) |
+| LCP | 3.0 s | 2.6 s |
+| Total Blocking Time | 962 ms | 1,070 ms |
+| Accessibility | 100 | 100 |
 
-Measured again later the same day, after a page-by-page quality pass (touch targets, mobile menu, cart page, a cleaner hero cutout): mobile **68** (64–68), LCP 4.5 s, TBT 543 ms, accessibility 100; desktop 93 (`lighthouse/2026-10-17/after-review`). An interleaved run against the redesign column, alternating the two themes, came out even (68 vs 67).
+| Desktop | Slow version | After the fix | Redesign | Speed pass |
+|---|---|---|---|---|
+| Home performance | 86 (85–86) | 98 (97–98) | 98 (97–98) | 99 (97–99) |
+| Home LCP | 2.4 s | 1.1 s | 1.1 s | 0.9 s |
+| Product performance | | | 96 (95–98) | 93 (89–98) |
 
-In parentheses: the lowest and highest value across the 5 runs. The run-to-run spread is wide, mostly from the Shopify scripts described below, so read the mobile scores of the last two columns as a tie: the redesign is a much richer page and kept the fixed version's speed, with a faster LCP, full accessibility marks and a better desktop score.
+In parentheses: the lowest and highest value across the 5 runs. The spread is wide, mostly from the Shopify scripts and the home's photo race described below, so read differences of a few points as ties: the "after the fix" column is a much simpler page than the redesign. The two product columns were measured one right after the other while the machine was busier, which shows in their blocking time.
 
-**How it was measured.** Each version ran as its own theme in the demo store, served by `shopify theme dev --live-reload off` on its own local port (`speed/before` branch at `765839e` for the slow version, tag `design-v1` at `e2299b0` for the fixed version before the redesign, `main` for the redesign), with Lighthouse's default mobile emulation and its desktop preset (simulated throttling in both). Full reports live in `lighthouse/2026-10-17/` (HTML to open in a browser, the JSON of the median run and `summary.json` with all 5 runs). The first measurement, on 2026-10-16 (mobile 37 → 65), is kept in `lighthouse/before/` and `lighthouse/after/`. To measure again: `npm run measure -- <label> <url> 5`.
+**The theme alone (a diagnostic, not a result).** With the scripts Shopify injects through `content_for_header` blocked (perf-kit, trekkie analytics, the web pixels manager, Shop Pay's shop-js, checkout prefetching and the storefront helpers), the same theme scores **96** on the home, **94** on the product page and **96** on the empty cart (mobile, Total Blocking Time 41, 98 and 101 ms; desktop 100 on all three). Every Shopify store loads those scripts; the gap between these numbers and the tables above is what they cost here.
 
-**What's left isn't the theme's.** The CLI's local server sends the HTML without compression and without a CDN; numbers on the published storefront should be better in absolute terms, but I didn't measure that. Most of the remaining weight and blocking time comes from the scripts Shopify injects through `content_for_header`: checkout prefetching (2 to 3 MB, loaded in some runs and not in others), perf-kit, the web pixels manager and analytics. No theme can remove those, which is why total page weight is left out of the tables.
+**What the speed pass changed**, one commit each, every change measured against the step before with interleaved runs (the numbers are in the commit messages):
+- The default body font, Archivo, ships with the theme as static 400 and 700 instances (16 KB each, every glyph of the library file) instead of the 45 KB variable files the Shopify font library serves. A font picked in the theme editor still comes from Shopify.
+- The cart drawer's styles and script load when the browser is idle after load, when the shopper taps the cart before that, or before a product is added, instead of with every page.
+- The hero and testimonials scripts and the footer styles are printed inline with `inline_asset_content`, which also minifies them, so the home makes four requests fewer before the hero photo.
+
+**How it was measured.** Each version ran as its own theme in the demo store, served by `shopify theme dev --live-reload off` on its own local port: the `speed/before` branch at `765839e` for the slow version, tag `design-v1` at `e2299b0` for the fix before the redesign, `548113d` for the redesign as it was published in the morning, and `main` after the speed pass (with the QA and phone passes merged) for the last column. Full reports live in `lighthouse/2026-10-17/no-gpu/` (HTML to open in a browser, the JSON of the median run and `summary.json` with all 5 runs and the Chrome flags). The other folders in `lighthouse/` were measured with a GPU and aren't comparable with these numbers. To measure again: `npm run measure -- <label> <url> 5`, plus `--without-shopify-scripts` for the diagnostic.
+
+**Why the home's LCP jumps between runs.** On the local server the CSS comes from disk in about 15 ms, while the hero photo goes through the CLI's proxy to Shopify's CDN. When the photo arrives before the first frame, LCP is the first paint (2.6 s); when it arrives a few milliseconds later, it's painted in the next frame, after perf-kit and the analytics scripts have started, and Lighthouse's model counts them in (3.4 to 3.8 s). That single race moves the home's score by about 10 points. In the interleaved runs, where each step was compared with the one before in the same minutes, the photo won the race more often after every step; in these 5 runs it won once.
+
+**What's left isn't the theme's.** The product page's blocking time is almost all Shopify's: the web pixels manager alone accounts for about 580 ms of it, then trekkie analytics, Shop Pay's shop-js and perf-kit, while the theme's own JavaScript on that page adds about 10 ms of main-thread work. The CLI's local server also sends the HTML uncompressed over HTTP/1.1 and without a CDN, so every request costs a round trip in Lighthouse's model; on the published storefront they share one compressed HTTP/2 connection. Checkout prefetching (2 to 3 MB, loaded in some runs and not in others) is why total page weight is left out of the tables.
 
 ---
 

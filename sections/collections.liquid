@@ -5,79 +5,145 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
-<h1>{{ 'collections.title' | t }}</h1>
+{{ 'collection.css' | asset_url | stylesheet_tag }}
 
-<div
-  class="collections {{ section.settings.grid_item_width }}"
-  style="--grid-gap: {{ section.settings.grid_gap }}px"
->
-  {% for collection in collections %}
-    <a class="collection-card" href="{{ collection.url }}">
-      {% if collection.featured_image %}
-        {% render 'image',
-          class: 'collection-card__image',
-          image: collection.featured_image,
-          width: 600,
-          height: 600,
-          crop: 'center'
-        %}
-      {% endif %}
+{%- assign papers = 'pink,lemon,mint,surface' | split: ',' -%}
 
-      <div class="collection-card__content">
-        <p>{{ collection.title }}</p>
+<div class="collection-hero paper paper--gingham full-width under-header">
+  <div class="collection-hero__inner">
+    <h1 class="collection-hero__title">{{ 'collections.title' | t }}</h1>
+  </div>
+</div>
 
-        {% if collection.description %}
-          <p>{{ collection.description | strip_html | truncatewords: 15 }}</p>
-        {% endif %}
-      </div>
-    </a>
-  {% endfor %}
+<div class="collection section-spacing">
+  <ul class="collections-grid" role="list">
+    <li class="reveal" data-reveal-stagger>
+      <a class="collection-card" href="{{ routes.all_products_collection_url }}" style="--card-paper: var(--color-{{ papers[0] }})">
+        <span class="collection-card__media">
+          {%- assign first_image = collections.all.products.first.featured_image -%}
+          {%- if first_image -%}
+            {{ first_image | image_url: width: 900 | image_tag: widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 30vw, (min-width: 750px) 45vw, 90vw', loading: 'lazy', alt: '' }}
+          {%- endif -%}
+        </span>
+        <span class="collection-card__body">
+          <span class="collection-card__title">{{ 'collections.all_title' | t }}</span>
+          <span class="collection-card__meta">{{ 'collections.product_count' | t: count: collections.all.products_count }}</span>
+        </span>
+      </a>
+    </li>
+    {% for collection in collections %}
+      {% if collection.handle == 'frontpage' or collection.handle == 'all' %}{% continue %}{% endif %}
+      {%- assign paper_index = forloop.index | modulo: 4 -%}
+      <li class="reveal" data-reveal-stagger>
+        <a class="collection-card" href="{{ collection.url }}" style="--card-paper: var(--color-{{ papers[paper_index] }})">
+          {%- assign image = collection.featured_image | default: collection.products.first.featured_image -%}
+          {%- if image -%}
+            <span class="collection-card__media">
+              {{ image | image_url: width: 900 | image_tag: widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 30vw, (min-width: 750px) 45vw, 90vw', loading: 'lazy', alt: '' }}
+            </span>
+          {%- else -%}
+            <span class="collection-card__media collection-card__media--mark" aria-hidden="true">
+              <span class="collection-card__mark">{{ shop.name | split: ' ' | first }}</span>
+            </span>
+          {%- endif -%}
+          <span class="collection-card__body">
+            <span class="collection-card__title">{{ collection.title }}</span>
+            {%- if collection.products_count > 0 -%}
+              <span class="collection-card__meta">{{ 'collections.product_count' | t: count: collection.products_count }}</span>
+            {%- elsif collection.description != blank -%}
+              <span class="collection-card__meta">{{ collection.description | strip_html | truncatewords: 16 }}</span>
+            {%- endif -%}
+          </span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
 </div>
 
 {% stylesheet %}
-  .collections {
+  .collections-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(var(--collection-card-size), 100%), 1fr));
-    gap: var(--grid-gap);
+    grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+    padding: 0;
+    list-style: none;
   }
-  .collections--compact {
-    --collection-card-size: 160px;
-  }
-  .collections--full {
-    --collection-card-size: 280px;
-  }
+
   .collection-card {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 1rem;
+    height: 100%;
+    padding: 0.75rem 0.75rem 1.25rem;
+    border-radius: var(--radius-card);
+    background: var(--card-paper, var(--color-surface));
+    text-decoration: none;
+    transition: transform 0.35s var(--ease-spring);
+  }
+
+  .collection-card:hover {
+    transform: translateY(-4px) rotate(-0.6deg);
+  }
+
+  .collection-card:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .collection-card__media {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    border-radius: calc(var(--radius-card) - 0.5rem);
+    background: var(--color-background);
+  }
+
+  .collection-card__media img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .collection-card__media--mark {
+    display: grid;
+    place-items: center;
+    background: var(--color-accent) var(--tile-dots-fine) 0 0 / 18px 18px;
+    color: var(--color-accent-ink);
+  }
+
+  .collection-card__mark {
+    font-family: var(--font-display--family);
+    font-size: clamp(2.6rem, 2rem + 2.5vw, 3.6rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    transform: rotate(-4deg);
+  }
+
+  .collection-card__body {
+    display: grid;
+    align-content: start;
+    gap: 0.3rem;
+    padding-inline: 0.5rem;
+  }
+
+  .collection-card__title {
+    font-family: var(--font-display--family);
+    font-size: clamp(1.3rem, 1.1rem + 0.6vw, 1.6rem);
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  .collection-card__meta {
+    color: color-mix(in srgb, var(--color-foreground) 75%, transparent);
+    font-weight: 600;
   }
 {% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:general.collections_grid",
-  "settings": [
-    {
-      "type": "select",
-      "id": "grid_item_width",
-      "label": "t:labels.grid_item_width",
-      "options": [
-        { "value": "collections--compact", "label": "t:options.size.small" },
-        { "value": "collections--full", "label": "t:options.size.large" }
-      ],
-      "default": "collections--full"
-    },
-    {
-      "type": "range",
-      "id": "grid_gap",
-      "label": "t:labels.grid_gap",
-      "min": 0,
-      "max": 50,
-      "step": 5,
-      "unit": "px",
-      "default": 10
-    }
-  ],
+  "class": "under-header-section",
+  "settings": [],
   "presets": [{ "name": "t:general.collections_grid" }]
 }
 {% endschema %}

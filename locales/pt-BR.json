@@ -83,7 +83,7 @@
     "photo_cta": "Escolher foto",
     "photo_hint": "JPG, PNG ou WebP até {{ size }} MB. Pode arrastar o arquivo para cá.",
     "zoom_label": "Zoom da foto",
-    "drag_hint": "Arraste a foto na prévia para ajustar. No teclado, use as setas.",
+    "drag_hint": "Mude a prévia para 2D e arraste a foto para ajustar. No teclado, use as setas.",
     "photo_remove": "Remover foto",
     "quality_ok": "Boa para imprimir nesse tamanho (cerca de [dpi] DPI).",
     "quality_low": "Pode sair borrada nesse tamanho (cerca de [dpi] DPI). Use uma foto maior ou diminua o zoom.",
@@ -191,5 +191,14 @@
     "steps": {
       "step": "Passo {{ number }}"
     }
+  },
+  "inkly_3d": {
+    "view_3d": "3D",
+    "view_2d": "2D",
+    "mode_label": "Modo da prévia",
+    "loading": "Carregando a prévia 3D",
+    "hint_mouse": "Arraste para girar · mova para mudar a luz",
+    "hint_touch": "Deslize para o lado para girar",
+    "canvas_label": "Prévia 3D do seu {{ product }}. Arraste ou use as setas para girar."
   }
 }

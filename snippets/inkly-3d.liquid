@@ -1,0 +1,35 @@
+{% doc %}
+  Live 3D preview of the personalized product, drawn over the 2D mockup.
+
+  Render it inside `.personalizer-stage`, right after the mockup <svg>. The
+  element positions itself over the svg and mirrors what product-personalizer
+  draws there (text, photo, zoom, position, product color), so the
+  personalizer needs no changes. The 2D mockup stays as the first paint, as
+  the cart preview source and as the fallback without WebGL.
+
+  three.js lives in inkly-3d-scene.js and is only downloaded once the stage
+  is on screen and the shopper interacts with the page (mouse, touch,
+  scroll, keyboard or focus).
+
+  @param {string} type - mug, tshirt or tote
+  @param {string} [product_title] - Used in the canvas label for screen readers
+
+  @example
+  {% render 'inkly-3d', type: mockup, product_title: product.title %}
+{% enddoc %}
+
+{%- if type == 'mug' or type == 'tshirt' or type == 'tote' -%}
+  <inkly-3d
+    product="{{ type }}"
+    data-scene-src="{{ 'inkly-3d-scene.js' | asset_url }}"
+    data-label-3d="{{ 'inkly_3d.view_3d' | t | escape }}"
+    data-label-2d="{{ 'inkly_3d.view_2d' | t | escape }}"
+    data-label-group="{{ 'inkly_3d.mode_label' | t | escape }}"
+    data-label-loading="{{ 'inkly_3d.loading' | t | escape }}"
+    data-label-hint-mouse="{{ 'inkly_3d.hint_mouse' | t | escape }}"
+    data-label-hint-touch="{{ 'inkly_3d.hint_touch' | t | escape }}"
+    data-label-canvas="{{ 'inkly_3d.canvas_label' | t: product: product_title | escape }}"
+    hidden
+  ></inkly-3d>
+  <script src="{{ 'inkly-3d.js' | asset_url }}" defer></script>
+{%- endif -%}

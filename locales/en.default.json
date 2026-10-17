@@ -83,7 +83,7 @@
     "photo_cta": "Choose a photo",
     "photo_hint": "JPG, PNG or WebP up to {{ size }} MB. You can drop the file here.",
     "zoom_label": "Photo zoom",
-    "drag_hint": "Drag the photo on the preview to adjust it. On a keyboard, use the arrow keys.",
+    "drag_hint": "Switch the preview to 2D and drag the photo to adjust it. On a keyboard, use the arrow keys.",
     "photo_remove": "Remove photo",
     "quality_ok": "Good for printing at this size (about [dpi] DPI).",
     "quality_low": "It may print blurry at this size (about [dpi] DPI). Use a larger photo or zoom out.",
@@ -191,5 +191,14 @@
     "steps": {
       "step": "Step {{ number }}"
     }
+  },
+  "inkly_3d": {
+    "view_3d": "3D",
+    "view_2d": "2D",
+    "mode_label": "Preview mode",
+    "loading": "Loading 3D preview",
+    "hint_mouse": "Drag to rotate · move to relight",
+    "hint_touch": "Swipe sideways to rotate",
+    "canvas_label": "3D preview of your {{ product }}. Drag or use the arrow keys to rotate."
   }
 }

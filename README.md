@@ -31,17 +31,20 @@ The whole store is wrapping paper. Each part of the home owns one paper (pink po
 
 <img src="docs/03-product-mobile.jpg" alt="Product page on mobile" width="260"> <img src="docs/04-product-photo-quality.jpg" alt="Low-resolution photo warning" width="560">
 
+<img src="docs/13-product-3d-desktop.jpg" alt="3D preview of the mug" width="560"> <img src="docs/13-product-3d-mobile.jpg" alt="3D preview on mobile" width="260">
+
 The customer types a line of text, picks a font, a color and a position, uploads a photo, drags and zooms it, and watches the mockup update as they go. On mobile the preview stays pinned to the top while they fill in the form.
 
 - **SVG mockups** of a mug, a tee and a tote bag (`snippets/mockup.liquid`), tinted with the selected variant color. A merchant can also use their own mockup image and mark the print area in percentages.
 - **Print quality check:** the theme computes DPI from the real print width (a setting) and warns before checkout when the photo will print blurry.
 - **Contrast warning** when the text color nearly disappears on the product color.
 - **Everything goes into the order** as line item properties: text, font, color, the original photo (uploaded through Shopify) and, hidden from the customer, the text position, the photo adjustment and a **preview image rendered in the browser** (canvas), which shows up in the cart and reaches production.
+- **Live 3D preview** on top of the 2D mockup: a procedural three.js mug, tee and tote that print the customer's text and photo by mirroring the mockup `<svg>`, with light and reflections that follow the pointer and drag (or swipe) to turn the product. A 3D/2D switch sits on the stage; photo dragging stays in 2D. The page loads a 3 KB loader (`assets/inkly-3d.js`); three.js and the models (`assets/inkly-3d-scene.js`, 155 KB gzip) are only requested after the shopper first interacts with the page. Without WebGL2 the 2D preview simply stays. Measured on the product page (5 runs, mobile / desktop): 54 / 73 before adding it, 56 / 73 after.
 - **Prefill from a link:** `?text=` on the product URL fills the text field (used by the home hero).
 - Keyboard support: the photo also moves with the arrow keys; controls are `fieldset`s with `legend`s and errors go to `role="alert"`.
 - Configurable in the theme editor: fonts (three pickers from the Shopify font library), text colors, required fields, character limit, minimum DPI and maximum file size.
 
-Files: `sections/product.liquid`, `snippets/personalizer-controls.liquid`, `snippets/mockup.liquid`, `assets/product-personalizer.js`, `assets/product-form.js`, `assets/product.css`, `templates/product.personalized.json`.
+Files: `sections/product.liquid`, `snippets/personalizer-controls.liquid`, `snippets/mockup.liquid`, `snippets/inkly-3d.liquid`, `assets/product-personalizer.js`, `assets/product-form.js`, `assets/inkly-3d.js`, `assets/inkly-3d-scene.js`, `assets/product.css`, `templates/product.personalized.json`.
 
 ## 2. Cart drawer with upsell and free-shipping bar
 
@@ -158,5 +161,9 @@ demo/        photos, product seeding, screenshots and photo credits
 lighthouse/  measuring script and reports
 scripts/     Shopify CLI with a separate session (author's own setup)
 ```
+
+## Third-party code
+
+`assets/inkly-3d-scene.js` bundles [three.js](https://github.com/mrdoob/three.js) 0.186.1 (MIT, © 2010-2026 three.js authors), [delaunator](https://github.com/mapbox/delaunator) 5.1.0 (ISC, © Mapbox) and [robust-predicates](https://github.com/mourner/robust-predicates) 3.0.3 (Unlicense); its banner and three.js's `@license` comment are kept in the file. The 3D models and textures are generated in code. Photo and font credits are in `demo/CREDITS.md`.
 
 Author: Gabriel Velozo.

@@ -34,6 +34,8 @@ async function open(page, pathname) {
 
 async function personalize(page, { text, color, photo, zoom }) {
   await page.waitForSelector('product-personalizer');
+  await page.waitForSelector('inkly-3d button[data-mode="2d"]', { timeout: 8000 }).catch(() => null);
+  await page.evaluate(() => document.querySelector('inkly-3d button[data-mode="2d"]')?.click());
   await page.type('[data-text-input]', text, { delay: 20 });
   await page.evaluate((name) => document.querySelector(`[data-color][value="${name}"]`).click(), color);
   if (photo) {
@@ -133,6 +135,26 @@ async function home(browser) {
   }
 }
 
+async function threeD(browser) {
+  for (const viewport of ['desktop', 'mobile']) {
+    const { context, page } = await newPage(browser, viewport);
+    await open(page, '/products/custom-mug');
+    await page.type('[data-text-input]', 'Morning, Ana', { delay: 20 });
+    if (viewport === 'desktop') {
+      await page.mouse.move(400, 420);
+      await page.mouse.move(520, 460, { steps: 10 });
+    } else {
+      await page.evaluate(() => window.scrollBy(0, 2));
+    }
+    await page.waitForFunction(() => document.querySelector('inkly-3d canvas') && !document.querySelector('inkly-3d').hidden, { timeout: 60000 });
+    await wait(4500);
+    if (viewport === 'desktop') await page.mouse.move(900, 320, { steps: 12 });
+    await wait(1500);
+    await save(page, `13-product-3d-${viewport}`);
+    await context.close();
+  }
+}
+
 async function pages(browser) {
   const { context, page } = await newPage(browser, 'desktop');
   await open(page, '/collections/all');
@@ -143,9 +165,13 @@ async function pages(browser) {
 }
 
 await fs.mkdir(OUT, { recursive: true });
-const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, args: ['--no-first-run'] });
+const browser = await puppeteer.launch({
+  executablePath: CHROME,
+  headless: true,
+  args: ['--no-first-run', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'],
+});
 try {
-  const steps = { productDesktop, productMobile, photoQuality, home, pages };
+  const steps = { productDesktop, productMobile, photoQuality, home, pages, threeD };
   const chosen = process.argv.slice(3);
   for (const [name, step] of Object.entries(steps)) {
     if (chosen.length && !chosen.includes(name)) continue;

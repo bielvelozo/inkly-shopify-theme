@@ -164,6 +164,7 @@
             {% render 'mockup', type: mockup, layer: 'shade' %}
           {% endunless %}
         </svg>
+        {% render 'inkly-3d', type: mockup, product_title: product.title %}
         <p class="personalizer-stage__note">{{ 'personalizer.stage_note' | t }}</p>
       </div>
     {% endif %}

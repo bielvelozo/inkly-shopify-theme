@@ -8,7 +8,7 @@
           "settings": {
             "title": "Live 3D preview",
             "problem": "Shoppers buying a personalized gift want to see the real thing before they pay, not a flat mockup.",
-            "text": "<p>A mug, a tee and a tote drawn in three.js print the customer's text and photo as they type. The light follows the pointer and a drag turns the product. It loads only after the first touch, so the page stays fast, and the 2D mockup stays as the first image and the fallback.</p>",
+            "text": "<p>A mug, a tee and a tote drawn in three.js print the customer's text and photo as they type. A drag turns the product under a soft studio light. It loads only after the first touch, so the page stays fast, and the 2D mockup stays as the first image and the fallback.</p>",
             "stats": "",
             "stack": "three.js, Web Components, Liquid",
             "video": "shopify://files/videos/01-3d-preview.mp4",

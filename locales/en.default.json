@@ -209,7 +209,7 @@
     "view_2d": "2D",
     "mode_label": "Preview mode",
     "loading": "Loading 3D preview",
-    "hint_mouse": "Drag to rotate · move to relight",
+    "hint_mouse": "Drag to rotate",
     "hint_touch": "Swipe sideways to rotate",
     "canvas_label": "3D preview of your {{ product }}. Drag or use the arrow keys to rotate."
   }

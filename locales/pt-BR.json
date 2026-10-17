@@ -209,7 +209,7 @@
     "view_2d": "2D",
     "mode_label": "Modo da prévia",
     "loading": "Carregando a prévia 3D",
-    "hint_mouse": "Arraste para girar · mova para mudar a luz",
+    "hint_mouse": "Arraste para girar",
     "hint_touch": "Deslize para o lado para girar",
     "canvas_label": "Prévia 3D do seu {{ product }}. Arraste ou use as setas para girar."
   }

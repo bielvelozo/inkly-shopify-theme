@@ -27,7 +27,7 @@
   stroke: var(--color-accent);
   stroke-width: 16;
   stroke-linecap: round;
-  stroke-dasharray: 1;
+  stroke-dasharray: 1 2;
   stroke-dashoffset: 0;
 }
 

@@ -612,5 +612,24 @@
 
   .cart-page .cart-item {
     grid-template-columns: 7rem minmax(0, 1fr) auto;
+    gap: 1.25rem;
+  }
+
+  .cart-page .cart-item + .cart-item {
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--color-border);
+  }
+
+  .cart-page .cart-item__title {
+    font-size: 1.15rem;
+  }
+
+  .cart-page .cart-item__meta,
+  .cart-page .cart-item__properties {
+    font-size: 0.95rem;
+  }
+
+  .cart-page .cart-item__price {
+    font-size: 1.1rem;
   }
 }

@@ -99,7 +99,7 @@
 </div>
 
 <script type="application/json" data-hero-names>{{ names | json }}</script>
-<script src="{{ 'hero.js' | asset_url }}" defer></script>
+<script>{{ 'hero.js' | inline_asset_content }}</script>
 
 {% stylesheet %}
   .hero {

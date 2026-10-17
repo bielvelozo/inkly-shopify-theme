@@ -1,5 +1,3 @@
-<script src="{{ 'carousel.js' | asset_url }}" defer></script>
-
 <link rel="stylesheet" href="{{ 'section-testimonials.css' | asset_url }}" media="print" onload="this.media='all'">
 <noscript>{{ 'section-testimonials.css' | asset_url | stylesheet_tag }}</noscript>
 
@@ -48,6 +46,8 @@
     </div>
   </scroll-carousel>
 </div>
+
+<script>{{ 'carousel.js' | inline_asset_content }}</script>
 
 {% schema %}
 {

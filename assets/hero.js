@@ -23,8 +23,8 @@
   const wait = (ms) => new Promise((resolve) => (timer = setTimeout(resolve, ms)));
 
   const loop = async () => {
-    let index = 0;
-    await wait(1400);
+    let index = 1;
+    await wait(900);
     while (typing) {
       const name = names[index % names.length];
       for (let i = path.textContent.length; i > 0 && typing; i -= 1) {
@@ -51,12 +51,12 @@
     render(input.value.trim() || names[0] || '');
   });
 
-  render(names[0] || '');
   if (typing) {
-    new IntersectionObserver(([entry], observer) => {
-      if (!entry.isIntersecting) return;
-      observer.disconnect();
-      loop();
-    }).observe(form);
+    const events = ['pointermove', 'pointerdown', 'scroll', 'keydown'];
+    const start = () => {
+      events.forEach((type) => removeEventListener(type, start));
+      if (typing) loop();
+    };
+    events.forEach((type) => addEventListener(type, start, { once: true, passive: true }));
   }
 })();

@@ -105,6 +105,28 @@
       this.submitButton.disabled = busy;
     }
 
+    showAdded() {
+      const text = this.submitButton.dataset.labelAdded;
+      if (!text) return;
+      const wrapper = document.createElement('span');
+      wrapper.className = 'product-form__added';
+      [...text].forEach((char, index) => {
+        const letter = document.createElement('span');
+        letter.textContent = char === ' ' ? '\u00a0' : char;
+        letter.style.setProperty('--i', index);
+        letter.style.setProperty('--r', `${(index % 2 ? 1 : -1) * (6 + (index % 3) * 4)}deg`);
+        wrapper.append(letter);
+      });
+      const original = this.submitLabel.textContent;
+      this.submitButton.classList.add('is-added');
+      this.submitLabel.replaceChildren(wrapper);
+      clearTimeout(this.addedTimer);
+      this.addedTimer = setTimeout(() => {
+        this.submitButton.classList.remove('is-added');
+        this.submitLabel.textContent = original;
+      }, 1800);
+    }
+
     showError(message) {
       this.errorEl.textContent = message || '';
       this.errorEl.hidden = !message;
@@ -165,6 +187,7 @@
         if (window.theme.cartType === 'drawer' && document.querySelector('cart-drawer')) {
           window.theme.publishCart({ source: 'product-form', sections: data.sections, open: true });
           personalizer?.dispatchEvent(new CustomEvent('personalizer:added'));
+          this.showAdded();
         } else {
           window.location.href = window.theme.routes.cart;
         }
@@ -173,7 +196,7 @@
         this.showError(this.labels.labelError);
       } finally {
         this.setBusy(false);
-        if (this.variantInput) {
+        if (this.variantInput && !this.submitButton.classList.contains('is-added')) {
           const unavailable = this.submitLabel.textContent.trim() !== this.labels.labelAdd;
           this.submitButton.disabled = unavailable;
         }

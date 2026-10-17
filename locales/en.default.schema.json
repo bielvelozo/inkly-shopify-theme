@@ -42,7 +42,8 @@
     "theme": "Theme",
     "typography": "Typography",
     "bento": "Gift bento",
-    "bento_tile": "Tile"
+    "bento_tile": "Tile",
+    "announcement": "Announcement ribbon"
   },
   "labels": {
     "accent": "Accent",

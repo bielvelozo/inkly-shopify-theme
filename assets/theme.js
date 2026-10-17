@@ -72,6 +72,11 @@
     new IntersectionObserver(([entry]) => header.classList.toggle('is-scrolled', !entry.isIntersecting)).observe(sentinel);
   }
 
+  const dress = () => document.documentElement.classList.remove('is-dressing');
+  const afterLoad = () => ('requestIdleCallback' in window ? requestIdleCallback(dress, { timeout: 1200 }) : setTimeout(dress, 300));
+  if (document.readyState === 'complete') afterLoad();
+  else addEventListener('load', afterLoad, { once: true });
+
   theme.observeReveals();
   theme.motionReady = true;
   document.addEventListener('shopify:section:load', (event) => theme.observeReveals(event.target));

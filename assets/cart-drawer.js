@@ -190,6 +190,7 @@
           currency: window.theme.currency,
           value: Number(next.dataset.cartValue),
         });
+        this.celebrate(next.querySelector('[data-free-shipping]'));
       }
 
       const focusTarget = focusId ? next.querySelector(`[data-focus-id="${CSS.escape(focusId)}"]`) : null;
@@ -200,11 +201,38 @@
       }
     }
 
+    celebrate(bar) {
+      if (!bar || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      bar.classList.add('is-celebrating');
+      const burst = document.createElement('span');
+      burst.className = 'confetti';
+      burst.setAttribute('aria-hidden', 'true');
+      const colors = ['var(--color-pink)', 'var(--color-lemon)', 'var(--color-mint)', 'var(--color-accent)'];
+      for (let i = 0; i < 22; i += 1) {
+        const piece = document.createElement('i');
+        const angle = (Math.PI * 2 * i) / 22 + Math.random() * 0.4;
+        const distance = 50 + Math.random() * 70;
+        piece.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+        piece.style.setProperty('--y', `${Math.sin(angle) * distance - 30}px`);
+        piece.style.setProperty('--r', `${Math.round(Math.random() * 540 - 270)}deg`);
+        piece.style.background = colors[i % colors.length];
+        burst.append(piece);
+      }
+      bar.append(burst);
+      setTimeout(() => burst.remove(), 1200);
+    }
+
     updateCount(content) {
       const count = Number(content.dataset.cartCountValue);
       document.querySelectorAll('[data-cart-count]').forEach((badge) => {
+        const changed = badge.textContent.trim() !== String(count);
         badge.textContent = count;
         badge.hidden = count === 0;
+        if (changed && count > 0) {
+          badge.classList.remove('is-bumped');
+          void badge.offsetWidth;
+          badge.classList.add('is-bumped');
+        }
       });
       document.querySelectorAll('[data-cart-toggle]').forEach((toggle) => {
         toggle.setAttribute('aria-label', content.dataset.cartLabel);

@@ -32,7 +32,10 @@
   <p class="cart-summary__note">{{ 'cart.taxes_and_shipping' | t }}</p>
 
   <form action="{{ routes.cart_url }}" method="post" class="cart-summary__actions">
-    <button type="submit" name="checkout" class="button button--full">{{ 'cart.checkout' | t }}</button>
+    <button type="submit" name="checkout" class="button button--full cart-summary__checkout">
+      {{ 'cart.checkout' | t }}
+      <span class="cart-summary__checkout-total">{{ cart.total_price | money }}</span>
+    </button>
     {% if show_cart_link %}
       <a class="cart-summary__link" href="{{ routes.cart_url }}">{{ 'cart.view_cart' | t }}</a>
     {% endif %}

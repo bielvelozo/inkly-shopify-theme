@@ -131,6 +131,8 @@
   }
 
   .hero__try {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: -2px;
     display: flex;
     align-items: center;
     gap: 0.35rem;
@@ -159,7 +161,8 @@
   }
 
   .hero__try:focus-within {
-    box-shadow: var(--shadow-lift), 0 0 0 3px var(--color-accent);
+    outline-color: var(--color-accent);
+    outline-width: 3px;
   }
 
   .hero__button {
@@ -183,7 +186,20 @@
     aspect-ratio: 4 / 5;
     border-radius: clamp(1.5rem, 1rem + 2vw, 2.5rem);
     background: var(--color-background);
-    box-shadow: var(--shadow-lift);
+  }
+
+  .hero__frame::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--color-lemon);
+    transform: rotate(-4deg) translate(-3%, 2%);
+  }
+
+  .hero__visual {
+    isolation: isolate;
   }
 
   .hero__image,
@@ -202,11 +218,11 @@
   .hero__print {
     overflow: hidden;
     pointer-events: none;
-    mix-blend-mode: multiply;
   }
 
   .hero__print-text {
     fill: var(--print-color);
+    fill-opacity: 0.94;
     font-family: var(--font-display--family);
     font-weight: 800;
     font-size: 64px;
@@ -227,7 +243,6 @@
   .hero__ribbon-band {
     position: absolute;
     inset: 1.25rem 0 0;
-    box-shadow: 0 6px 14px -6px rgb(21 18 58 / 0.5);
     background: linear-gradient(
       90deg,
       color-mix(in srgb, var(--color-accent) 78%, #000) 0%,
@@ -262,7 +277,6 @@
     width: clamp(6.5rem, 4.5rem + 3vw, 8.5rem);
     max-width: none;
     transform: translateX(-50%) rotate(-6deg);
-    filter: drop-shadow(0 8px 10px rgb(21 18 58 / 0.3));
   }
 
   .hero__tag {
@@ -275,6 +289,8 @@
   }
 
   .hero__chip {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: -2px;
     position: absolute;
     left: clamp(-1.5rem, -2vw, -0.5rem);
     bottom: 12%;
@@ -305,6 +321,18 @@
   .hero__chip-icon svg {
     width: 1.1rem;
     height: 1.1rem;
+  }
+
+  .is-dressing .hero__ribbon,
+  .is-dressing .hero__tag,
+  .is-dressing .hero__chip,
+  .is-dressing .hero__frame::before {
+    visibility: hidden;
+    animation: none !important;
+  }
+
+  .is-dressing .hero.paper--dots {
+    background-image: none;
   }
 
   .js-motion .hero__ribbon {
@@ -397,6 +425,7 @@
 {% schema %}
 {
   "name": "t:general.hero",
+  "class": "under-header-section",
   "settings": [
     {
       "type": "image_picker",

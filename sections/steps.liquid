@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="{{ 'section-steps.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'section-steps.css' | asset_url | stylesheet_tag }}</noscript>
+
 <div class="steps paper paper--stripes full-width">
   <div class="steps__inner section-spacing">
     <div class="section-heading">
@@ -7,7 +10,7 @@
       {% endif %}
     </div>
 
-    <div class="steps__rail">
+    <div class="steps__rail reveal">
       <svg class="steps__ribbon" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
         <path
           class="steps__ribbon-path"
@@ -30,141 +33,6 @@
     </div>
   </div>
 </div>
-
-{% stylesheet %}
-  .steps__inner {
-    width: min(calc(var(--page-width) - var(--page-margin) * 2), calc(100% - var(--page-margin) * 2));
-    margin-inline: auto;
-  }
-
-  .steps__rail {
-    position: relative;
-  }
-
-  .steps__ribbon {
-    display: none;
-    position: absolute;
-    top: 3.25rem;
-    left: 0;
-    width: 100%;
-    height: 7rem;
-    overflow: visible;
-  }
-
-  .steps__ribbon-path {
-    fill: none;
-    stroke: var(--color-accent);
-    stroke-width: 16;
-    stroke-linecap: round;
-    stroke-dasharray: 1;
-    stroke-dashoffset: 0;
-    filter: drop-shadow(0 6px 6px rgb(21 18 58 / 0.22));
-  }
-
-  .js-motion .steps__ribbon-path {
-    stroke-dashoffset: 1;
-    transition: stroke-dashoffset 1.8s var(--ease-out) 0.2s;
-  }
-
-  .js-motion .steps__rail:has(.is-revealed) .steps__ribbon-path {
-    stroke-dashoffset: 0;
-  }
-
-  @supports (animation-timeline: view()) {
-    .js-motion .steps__ribbon-path {
-      transition: none;
-      animation: ribbon-draw linear both;
-      animation-timeline: view();
-      animation-range: entry 10% cover 55%;
-    }
-  }
-
-  @keyframes ribbon-draw {
-    from {
-      stroke-dashoffset: 1;
-    }
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-
-  .steps__list {
-    position: relative;
-    display: grid;
-    gap: 1rem;
-    padding: 0;
-    list-style: none;
-  }
-
-  .steps__item {
-    display: grid;
-    justify-items: start;
-    align-content: start;
-    gap: 0.7rem;
-    padding: clamp(1.25rem, 1rem + 1vw, 1.9rem);
-    border-radius: var(--radius-card);
-    background: var(--color-background);
-    box-shadow: var(--shadow-lift);
-  }
-
-  .steps__number {
-    font-size: 0.8rem;
-  }
-
-  .steps__icon {
-    display: grid;
-    place-items: center;
-    width: 3.5rem;
-    height: 3.5rem;
-    margin-top: 0.35rem;
-    border-radius: 1rem;
-    background: var(--color-pink);
-  }
-
-  .steps__item:nth-child(2) .steps__icon {
-    background: var(--color-mint);
-  }
-
-  .steps__item:nth-child(3) .steps__icon {
-    background: var(--color-lemon);
-  }
-
-  .steps__icon svg {
-    width: 1.75rem;
-    height: 1.75rem;
-  }
-
-  .steps__title {
-    font-family: var(--font-display--family);
-    font-weight: 800;
-    font-size: clamp(1.3rem, 1.1rem + 0.6vw, 1.6rem);
-    letter-spacing: -0.035em;
-  }
-
-  .steps__text {
-    color: var(--color-muted);
-  }
-
-  @media (min-width: 990px) {
-    .steps__ribbon {
-      display: block;
-    }
-
-    .steps__list {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: clamp(1.25rem, 3vw, 3rem);
-      padding-top: 1rem;
-    }
-
-    .steps__item:nth-child(2) {
-      margin-top: 4rem;
-    }
-
-    .steps__item:nth-child(3) {
-      margin-top: 1.5rem;
-    }
-  }
-{% endstylesheet %}
 
 {% schema %}
 {

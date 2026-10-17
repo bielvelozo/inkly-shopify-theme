@@ -11,15 +11,21 @@
   "type": "header",
   "name": "t:general.header",
   "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "settings": {
+        "announcement": "Free shipping on orders over $50 · Made to order in 3 business days"
+      }
+    },
     "header": {
       "type": "header",
       "settings": {
-        "announcement": "Free shipping on orders over $50 · Made to order in 3 business days",
         "menu": "main-menu"
       }
     }
   },
   "order": [
+    "announcement",
     "header"
   ]
 }

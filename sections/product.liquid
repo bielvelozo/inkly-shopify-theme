@@ -78,10 +78,11 @@
   <script src="{{ 'product-personalizer.js' | asset_url }}" defer></script>
 {% endif %}
 
-<div class="product section-spacing" data-section-id="{{ section.id }}">
+<div class="product section-spacing{% if personalizer %} product--personalized{% endif %}" data-section-id="{{ section.id }}">
   <div class="product__media">
     {% if personalizer %}
       <div class="personalizer-stage" id="PersonalizerStage-{{ section.id }}">
+        <span class="tag tag--lemon personalizer-stage__tag">{{ 'personalizer.live_tag' | t }}</span>
         <svg
           class="mockup"
           viewBox="0 0 600 600"
@@ -304,6 +305,7 @@
             data-label-sold-out="{{ 'products.product.sold_out' | t | escape }}"
             data-label-unavailable="{{ 'products.product.unavailable' | t | escape }}"
             data-label-error="{{ 'products.product.add_error' | t | escape }}"
+            data-label-added="{{ 'products.product.added' | t | escape }}"
             {% unless current_variant.available %}
               disabled
             {% endunless %}
@@ -325,6 +327,23 @@
         {% endif %}
       {% endform %}
     </product-form>
+
+    <ul class="product__trust" role="list">
+      <li>
+        <span class="product__trust-icon">{{ 'icon-truck.svg' | inline_asset_content }}</span>
+        {{ 'products.product.trust_shipping' | t }}
+      </li>
+      <li>
+        <span class="product__trust-icon">{{ 'icon-step-box.svg' | inline_asset_content }}</span>
+        {{ 'products.product.trust_lead_time' | t }}
+      </li>
+      {% if personalizer %}
+        <li>
+          <span class="product__trust-icon">{{ 'icon-check.svg' | inline_asset_content }}</span>
+          {{ 'products.product.trust_preview' | t }}
+        </li>
+      {% endif %}
+    </ul>
 
     {% if product.description != blank %}
       <div class="product__description">

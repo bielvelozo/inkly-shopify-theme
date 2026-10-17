@@ -50,7 +50,11 @@
       "colors_count": {
         "one": "{{ count }} cor",
         "other": "{{ count }} cores"
-      }
+      },
+      "added": "Adicionado!",
+      "trust_shipping": "Frete grátis acima de US$ 50",
+      "trust_lead_time": "Impresso e enviado em 3 dias úteis",
+      "trust_preview": "A sua prévia vai junto com o pedido"
     }
   },
   "personalizer": {
@@ -92,16 +96,17 @@
     "property_photo": "Foto",
     "property_position": "Posição do texto",
     "property_adjust": "Ajuste da foto",
-    "property_preview": "Prévia"
+    "property_preview": "Prévia",
+    "live_tag": "Prévia ao vivo"
   },
   "cart": {
-    "title": "Carrinho",
+    "title": "Sua caixa de presente",
     "checkout": "Finalizar compra",
     "update": "Atualizar",
     "remove": "Remover",
     "close": "Fechar carrinho",
-    "empty": "Seu carrinho está vazio.",
-    "empty_hint": "Que tal começar por uma caneca com a sua foto?",
+    "empty": "Sua caixa de presente está vazia.",
+    "empty_hint": "Que tal começar com uma caneca com o nome de quem vai ganhar?",
     "continue_shopping": "Ver produtos",
     "view_cart": "Ver carrinho",
     "view_file": "ver arquivo",
@@ -112,7 +117,7 @@
     "free_shipping_reached": "Você ganhou frete grátis!",
     "free_shipping_remaining_html": "Faltam <strong>{{ amount }}</strong> para o frete grátis",
     "free_shipping_progress": "Progresso até o frete grátis",
-    "upsell_heading_default": "Combina com o seu pedido",
+    "upsell_heading_default": "Capriche no embrulho",
     "upsell_add": "Adicionar",
     "upsell_add_label": "Adicionar {{ product }} ao carrinho",
     "upsell_choose": "Ver",
@@ -149,7 +154,8 @@
   "password": {
     "title": "Esta loja é privada",
     "password": "Senha",
-    "enter": "Entrar"
+    "enter": "Entrar",
+    "tag": "Loja de demonstração"
   },
   "search": {
     "title": "Busca",

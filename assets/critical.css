@@ -195,8 +195,8 @@ a:hover {
   letter-spacing: -0.005em;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.28), 0 6px 18px -8px color-mix(in srgb, var(--button-bg) 80%, transparent);
-  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-out), background-color 0.2s ease, color 0.2s ease;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.28);
+  transition: transform 0.35s var(--ease-spring), background-color 0.2s ease, color 0.2s ease;
 }
 
 .button::before {
@@ -211,7 +211,6 @@ a:hover {
 
 .button:hover {
   transform: translateY(-2px);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.28), 0 14px 28px -12px color-mix(in srgb, var(--button-bg) 90%, transparent);
 }
 
 .button:hover::before {
@@ -353,9 +352,23 @@ a:hover {
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: 0.01em;
-  -webkit-mask: radial-gradient(circle at 0.62rem 50%, transparent 0.2rem, #000 calc(0.2rem + 0.5px));
-  mask: radial-gradient(circle at 0.62rem 50%, transparent 0.2rem, #000 calc(0.2rem + 0.5px));
-  filter: drop-shadow(0 2px 3px rgb(21 18 58 / 0.14));
+  position: relative;
+  outline: 1px solid rgb(21 18 58 / 0.12);
+  outline-offset: -1px;
+}
+
+.badge::before,
+.tag::before {
+  content: '';
+  position: absolute;
+  left: 0.42rem;
+  top: 50%;
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-top: -0.21rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--tag-fg) 22%, transparent);
+  box-shadow: inset 0 1px 0 rgb(0 0 0 / 0.25);
 }
 
 .tag--lemon {
@@ -376,31 +389,39 @@ a:hover {
 }
 
 /** Wrapping papers: each one owns a whole region. */
+:root {
+  --tile-dots: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABCElEQVR42u2WvWpCQRCFv7mYKkFbSSB2Po95EJ/GB4nPY6dgsI0klXInzREutzAWK67J+WCbnWE488PsgjHGGGOMMea/EtcKnJnRiZ8RkXdRkcwMib/ovqoOZGacKp2Zr8CLTNuI2PR9qkrgJCwzn4E3YAoMZD4CK+A9Ij5KJhFXED8HRsBXz+0J+AQWJZNoCnagAWYSv1fs7tnLNpNvEZoSwlXJscbmuzM6XQayTYGxOtZU0wFgAjwA58Yi5TOppgO3pmQCa+Dwy2II+ayrSSAiWj1QO63KR63NPkfZVsBOW6itpgMSs9SqHAJt7wxlW5YQ7oeslq+EP3N/7jttjDHGGGOMuRt+AH2EmQbRu2SfAAAAAElFTkSuQmCC');
+  --tile-dots-fine: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAgUlEQVR42u3TsQ6DMAyE4d+BJRN9/6csUxbAXa4SYmxUQOg+KUOMZJ2CDWZmZvZs0dsgMwtQdW0RsV0WKDMr8AIGlVbgHRHt156l82Um9dh0CjDp27mB9JtGIPc5VatXBPqLnkANWA5zGKqdP0Papnk3O99Zmns27XZrb2ZmZk/3AfinJA6YAV8nAAAAAElFTkSuQmCC');
+  --tile-stripes: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABKUlEQVR42uXbSQ6DMBBE0aYOy6FyWWeLECEMtnv4XAC9Ly+rl9baar7fx/PnIuPNbBUZ7/kCQuC9AoTBewQIhZ8dIBx+ZoCQ+FkBwuJnBAiNHx0gPH5kgBT4UQHS4EcESIXvHSAdvmeAlPheAdLiewRIjX8bID3+TYAS+KcByuCfBCiFvxugHP5OgJL4qwHK4q8EKI3/F6A8/iwAAv8rAAZ/FACF3wfA4bcBkHgzs6W1ZlR8hH2A+zhDZLznCwgzyxEZ7xEg3CBLZPzMAGGneCLjZwQIP8IUGT8yQJr5rcj4EQHSDa9FxvcMkHZyLzK+R4D0xxYi498EKHNmIzL+SYByB1Yi4+8EKHtaJzL+SoDyR5Ui488CYM5pRcYfBcAdUouM3wbAntB/AftQRd/I+rgrAAAAAElFTkSuQmCC');
+  --tile-stripes-small: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAAA+klEQVR42t3byQ3DMBBD0TGLdVFpdnI1DMfRMivVgPCgI78OVT0l9nwiLwMzTkROMOMiXzAFFwVMw0UAU3HewHScJ7AEzgtYBucBLIWzBpbDWQJL4qyAZXEWwNK4XWB53A6wBW4V2Aa3AmyFmwW2w80AW+JGgW1xI8DWuH/A9rg3IAXuF5AG9wSkwt2BdLgrkBInInKoqrDiMraJ8KEHzLjIF0yb6MCMiwCmj6tgxnkCy8ziYMZ5AMsFDWDGWQLLpihgxlkAy0dEYMbtANvkX2DGrQDbhXtgxs0A2yaXYMaNANvHsmDGvQFpMmcw456AdIE6mHFXIO3Xgi/NYj3PRSs4xgAAAABJRU5ErkJggg==');
+  --tile-gingham: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAAaklEQVR42u3ZQQ3AMAwEwUtU8iFTHkHlUsjPkTpLwBrd06OqVnraHUdnfhYwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw8GlPmr54SV4LAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNf1Ae7nwZA0gi6IAAAAABJRU5ErkJggg==');
+}
+
 .paper {
   background-color: var(--paper, var(--color-surface));
 }
 
 .paper--dots {
   --paper: var(--color-pink);
-  background-image: radial-gradient(circle, rgb(255 255 255 / 0.55) 0 2.6px, transparent 3.1px);
+  background-image: var(--tile-dots);
   background-size: 24px 24px;
 }
 
 .paper--stripes {
   --paper: var(--color-lemon);
-  background-image: repeating-linear-gradient(-45deg, transparent 0 16px, rgb(255 255 255 / 0.4) 16px 32px);
+  background-image: var(--tile-stripes);
+  background-size: 32px 32px;
 }
 
 .paper--gingham {
   --paper: var(--color-mint);
-  background-image: linear-gradient(90deg, rgb(255 255 255 / 0.32) 50%, transparent 0),
-    linear-gradient(rgb(255 255 255 / 0.32) 50%, transparent 0);
+  background-image: var(--tile-gingham);
   background-size: 30px 30px;
 }
 
 .paper--cobalt {
   --paper: var(--color-accent);
-  background-image: radial-gradient(circle, rgb(255 255 255 / 0.1) 0 1.6px, transparent 2px);
+  background-image: var(--tile-dots-fine);
   background-size: 18px 18px;
   color: var(--color-accent-ink);
 }
@@ -417,32 +438,10 @@ a:hover {
 /** Satin ribbon band. */
 .ribbon {
   position: relative;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--color-accent) 72%, #fff) 0%,
-    var(--color-accent) 24%,
-    var(--color-accent) 68%,
-    color-mix(in srgb, var(--color-accent) 78%, #000) 100%
-  );
+  border-top: 1px solid color-mix(in srgb, var(--color-accent) 60%, #fff);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 70%, #000);
+  background: var(--color-accent);
   color: var(--color-accent-ink);
-}
-
-.ribbon::before,
-.ribbon::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  border-top: 1px dashed rgb(255 255 255 / 0.4);
-  pointer-events: none;
-}
-
-.ribbon::before {
-  top: 4px;
-}
-
-.ribbon::after {
-  bottom: 4px;
 }
 
 /** Section layout utilities */
@@ -483,8 +482,14 @@ a:hover {
   grid-column: 1 / -1;
 }
 
-.shopify-section:first-child:has(> .under-header) {
+.under-header-section:first-child {
   margin-top: calc(-1 * (var(--header-height) + 1.5rem));
+}
+
+main > .shopify-section + .shopify-section,
+.shopify-section-group-footer-group {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }
 
 .section-spacing {
@@ -570,6 +575,12 @@ a:hover {
 
 .product-card:hover .product-card__media img + img {
   opacity: 1;
+}
+
+@media (max-width: 749px), (hover: none) {
+  .product-card__media img + img {
+    display: none;
+  }
 }
 
 .product-card__tag {

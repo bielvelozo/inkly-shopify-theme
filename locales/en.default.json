@@ -50,7 +50,11 @@
       "colors_count": {
         "one": "{{ count }} color",
         "other": "{{ count }} colors"
-      }
+      },
+      "added": "Added!",
+      "trust_shipping": "Free shipping on orders over $50",
+      "trust_lead_time": "Printed and shipped in 3 business days",
+      "trust_preview": "Your preview travels with the order"
     }
   },
   "personalizer": {
@@ -92,16 +96,17 @@
     "property_photo": "Photo",
     "property_position": "Text position",
     "property_adjust": "Photo adjustment",
-    "property_preview": "Preview"
+    "property_preview": "Preview",
+    "live_tag": "Live preview"
   },
   "cart": {
-    "title": "Cart",
+    "title": "Your gift box",
     "checkout": "Check out",
     "update": "Update",
     "remove": "Remove",
     "close": "Close cart",
-    "empty": "Your cart is empty.",
-    "empty_hint": "How about starting with a mug with your photo?",
+    "empty": "Your gift box is empty.",
+    "empty_hint": "Start with a mug that has their name on it.",
     "continue_shopping": "Shop products",
     "view_cart": "View cart",
     "view_file": "view file",
@@ -112,7 +117,7 @@
     "free_shipping_reached": "You've unlocked free shipping!",
     "free_shipping_remaining_html": "You're <strong>{{ amount }}</strong> away from free shipping",
     "free_shipping_progress": "Progress toward free shipping",
-    "upsell_heading_default": "Goes well with your order",
+    "upsell_heading_default": "Finish the wrap",
     "upsell_add": "Add",
     "upsell_add_label": "Add {{ product }} to cart",
     "upsell_choose": "View",
@@ -149,7 +154,8 @@
   "password": {
     "title": "This shop is private",
     "password": "Password",
-    "enter": "Enter"
+    "enter": "Enter",
+    "tag": "Demo store"
   },
   "search": {
     "title": "Search",

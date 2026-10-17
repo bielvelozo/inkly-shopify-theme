@@ -42,7 +42,8 @@
     "theme": "Tema",
     "typography": "Tipografia",
     "bento": "Bento de presentes",
-    "bento_tile": "Bloco"
+    "bento_tile": "Bloco",
+    "announcement": "Fita de anúncio"
   },
   "labels": {
     "accent": "Destaque",

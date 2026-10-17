@@ -26,6 +26,8 @@
         currency: {{ cart.currency.iso_code | json }},
         dataLayer: {{ settings.analytics_datalayer | json }}
       };
+      document.documentElement.classList.add('is-dressing');
+      setTimeout(() => document.documentElement.classList.remove('is-dressing'), 4500);
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
         document.documentElement.classList.add('js-motion');
         setTimeout(() => {

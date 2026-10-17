@@ -1,23 +1,4 @@
 <div class="site-header full-width" data-header>
-  {% if section.settings.announcement != blank %}
-    {%- assign messages = section.settings.announcement | split: '·' -%}
-    <div class="announcement ribbon">
-      <p class="visually-hidden">{{ section.settings.announcement }}</p>
-      <div class="announcement__track" aria-hidden="true">
-        {%- for copy in (1..8) -%}
-          <div class="announcement__group">
-            {%- for message in messages -%}
-              <span class="announcement__item">{{ message | strip }}</span>
-              <svg class="announcement__bow" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 12c-2.5-4.5-7.5-6-8.5-3.5S6 14 12 12Zm0 0c2.5-4.5 7.5-6 8.5-3.5S18 14 12 12Zm0 0-3 7m3-7 3 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            {%- endfor -%}
-          </div>
-        {%- endfor -%}
-      </div>
-    </div>
-  {% endif %}
-
   <div class="site-header__bar">
     <header class="header">
       <details class="header__drawer">
@@ -89,58 +70,10 @@
 </div>
 
 {% stylesheet %}
-  .shopify-section:has(> .site-header) {
+  .site-header-section {
     position: sticky;
     z-index: 30;
-    top: calc(-1 * var(--announcement-height, 0px));
-  }
-
-  .shopify-section:has(> .site-header .announcement) {
-    --announcement-height: 2.5rem;
-  }
-
-  .announcement {
-    display: flex;
-    align-items: center;
-    height: var(--announcement-height);
-    overflow: hidden;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-  }
-
-  .announcement__track {
-    display: flex;
-    width: max-content;
-    animation: marquee 38s linear infinite;
-  }
-
-  .announcement:hover .announcement__track {
-    animation-play-state: paused;
-  }
-
-  .announcement__group {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    padding-inline-end: 1.25rem;
-  }
-
-  .announcement__item {
-    white-space: nowrap;
-  }
-
-  .announcement__bow {
-    width: 1.1rem;
-    height: 1.1rem;
-    flex: none;
-    opacity: 0.85;
-  }
-
-  @keyframes marquee {
-    to {
-      transform: translateX(-50%);
-    }
+    top: 0;
   }
 
   .site-header__bar {
@@ -158,21 +91,15 @@
     margin-inline: auto;
     padding: 0.4rem 0.5rem 0.4rem 0.75rem;
     border-radius: 999px;
-    background: rgb(255 255 255 / 0.94);
-    box-shadow: 0 1px 0 rgb(21 18 58 / 0.04), 0 8px 24px -14px rgb(21 18 58 / 0.3);
-    transition: box-shadow 0.4s var(--ease-out), padding 0.4s var(--ease-out), min-height 0.4s var(--ease-out);
-  }
-
-  @supports (backdrop-filter: blur(1px)) {
-    .header {
-      background: rgb(255 255 255 / 0.82);
-      backdrop-filter: blur(14px) saturate(1.4);
-    }
+    background: rgb(255 255 255 / 0.96);
+    outline: 1px solid rgb(21 18 58 / 0.08);
+    outline-offset: -1px;
+    transition: padding 0.4s var(--ease-out), min-height 0.4s var(--ease-out);
   }
 
   .site-header.is-scrolled .header {
     min-height: calc(var(--header-height) - 0.5rem);
-    box-shadow: 0 1px 0 rgb(21 18 58 / 0.05), 0 16px 34px -16px rgb(21 18 58 / 0.42);
+    outline-color: rgb(21 18 58 / 0.18);
   }
 
   .header__logo {
@@ -436,13 +363,8 @@
 {% schema %}
 {
   "name": "t:general.header",
+  "class": "site-header-section",
   "settings": [
-    {
-      "type": "text",
-      "id": "announcement",
-      "label": "t:labels.announcement",
-      "info": "t:info.announcement"
-    },
     {
       "type": "image_picker",
       "id": "logo",

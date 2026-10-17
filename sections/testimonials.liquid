@@ -1,5 +1,8 @@
 <script src="{{ 'carousel.js' | asset_url }}" defer></script>
 
+<link rel="stylesheet" href="{{ 'section-testimonials.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'section-testimonials.css' | asset_url | stylesheet_tag }}</noscript>
+
 <div class="testimonials paper paper--cobalt full-width">
   <scroll-carousel class="testimonials__inner section-spacing">
     <div class="testimonials__header">
@@ -28,11 +31,8 @@
                 class="testimonials__stars"
                 role="img"
                 aria-label="{{ 'sections.testimonials.rating' | t: rating: block.settings.rating }}"
-              >
-                {%- for i in (1..5) -%}
-                  <span {% if i > block.settings.rating %}class="is-empty"{% endif %}>{{ 'icon-star.svg' | inline_asset_content }}</span>
-                {%- endfor -%}
-              </p>
+                style="--rating: {{ block.settings.rating }}"
+              ></p>
               <blockquote class="testimonials__quote">{{ block.settings.quote }}</blockquote>
               <figcaption class="testimonials__author">
                 <span class="testimonials__name">{{ block.settings.author }}</span>
@@ -48,195 +48,6 @@
     </div>
   </scroll-carousel>
 </div>
-
-{% stylesheet %}
-  .testimonials__inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: clamp(1.75rem, 1rem + 2vw, 2.75rem);
-    width: min(calc(var(--page-width) - var(--page-margin) * 2), calc(100% - var(--page-margin) * 2));
-    margin-inline: auto;
-  }
-
-  .testimonials__header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: end;
-    justify-content: space-between;
-    gap: 1.25rem 2rem;
-  }
-
-  .testimonials__intro {
-    display: grid;
-    gap: 0.9rem;
-    max-width: 40rem;
-  }
-
-  .testimonials__lede {
-    color: color-mix(in srgb, var(--color-accent-ink) 82%, transparent);
-    font-size: 1.1rem;
-  }
-
-  .testimonials__controls {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .testimonials__control {
-    display: grid;
-    place-items: center;
-    width: 3rem;
-    height: 3rem;
-    border: 0;
-    border-radius: 50%;
-    background: var(--color-background);
-    color: var(--color-foreground);
-    cursor: pointer;
-    transition: transform 0.35s var(--ease-spring), opacity 0.2s ease;
-  }
-
-  .testimonials__control:hover:not(:disabled) {
-    transform: scale(1.08);
-  }
-
-  .testimonials__control:disabled {
-    opacity: 0.35;
-    cursor: default;
-  }
-
-  .testimonials__control svg {
-    width: 1.2rem;
-    height: 1.2rem;
-  }
-
-  .testimonials__line {
-    position: relative;
-    margin-inline: calc(-1 * var(--page-margin));
-  }
-
-  .testimonials__line::before {
-    content: '';
-    position: absolute;
-    top: 0.9rem;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: repeating-linear-gradient(90deg, rgb(255 255 255 / 0.7) 0 10px, rgb(255 255 255 / 0.35) 10px 14px);
-  }
-
-  .testimonials__track {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(17rem, 22rem);
-    gap: clamp(1rem, 2vw, 1.75rem);
-    margin: 0;
-    padding: 0.9rem var(--page-margin) 2.5rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--page-margin);
-    scrollbar-width: none;
-    list-style: none;
-  }
-
-  .testimonials__track::-webkit-scrollbar {
-    display: none;
-  }
-
-  .testimonials__card {
-    position: relative;
-    scroll-snap-align: start;
-    padding-top: 1.6rem;
-  }
-
-  .testimonials__card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 2rem;
-    width: 2px;
-    height: 2.35rem;
-    background: rgb(255 255 255 / 0.75);
-    transform-origin: top;
-  }
-
-  .testimonials__tag {
-    position: relative;
-    display: grid;
-    gap: 0.9rem;
-    height: 100%;
-    padding: 2rem 1.5rem 1.5rem;
-    border-radius: 0.9rem 0.9rem 1.25rem 1.25rem;
-    background: var(--color-background);
-    color: var(--color-foreground);
-    box-shadow: 0 18px 30px -18px rgb(10 10 40 / 0.6);
-    transform-origin: 2rem 0;
-    -webkit-mask: radial-gradient(circle at 2.05rem 0.85rem, transparent 0.32rem, #000 calc(0.32rem + 0.5px));
-    mask: radial-gradient(circle at 2.05rem 0.85rem, transparent 0.32rem, #000 calc(0.32rem + 0.5px));
-    transition: transform 0.6s var(--ease-spring);
-  }
-
-  .testimonials__card:nth-child(4n + 1) .testimonials__tag {
-    transform: rotate(-2deg);
-  }
-
-  .testimonials__card:nth-child(4n + 2) .testimonials__tag {
-    transform: rotate(1.5deg);
-    background: var(--color-lemon);
-  }
-
-  .testimonials__card:nth-child(4n + 3) .testimonials__tag {
-    transform: rotate(-1deg);
-    background: var(--color-pink);
-  }
-
-  .testimonials__card:nth-child(4n) .testimonials__tag {
-    transform: rotate(2deg);
-    background: var(--color-mint);
-  }
-
-  .testimonials__card:hover .testimonials__tag {
-    transform: rotate(0deg) translateY(-4px);
-  }
-
-  .testimonials__stars {
-    display: flex;
-    gap: 0.15rem;
-    color: var(--color-foreground);
-  }
-
-  .testimonials__stars svg {
-    width: 1.05rem;
-    height: 1.05rem;
-  }
-
-  .testimonials__stars .is-empty {
-    opacity: 0.25;
-  }
-
-  .testimonials__quote {
-    margin: 0;
-    font-family: var(--font-display--family);
-    font-weight: 800;
-    font-size: 1.2rem;
-    line-height: 1.2;
-    letter-spacing: -0.03em;
-  }
-
-  .testimonials__author {
-    display: grid;
-    gap: 0.1rem;
-    align-self: end;
-    font-size: 0.9rem;
-  }
-
-  .testimonials__name {
-    font-weight: 700;
-  }
-
-  .testimonials__meta {
-    color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
-  }
-{% endstylesheet %}
 
 {% schema %}
 {

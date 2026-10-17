@@ -10,7 +10,11 @@
       this.next?.addEventListener('click', () => this.step(1));
       this.track.addEventListener('scroll', () => this.update(), { passive: true });
       window.addEventListener('resize', () => this.update(), { passive: true });
-      this.update();
+      new IntersectionObserver(([entry], observer) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        this.update();
+      }).observe(this);
     }
 
     step(direction) {

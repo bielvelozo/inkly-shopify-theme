@@ -5,6 +5,8 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
+{{ 'collection.css' | asset_url | stylesheet_tag }}
+
 {%- liquid
   assign sort_by = collection.sort_by | default: collection.default_sort_by
   assign papers = 'dots,stripes,gingham' | split: ','
@@ -72,116 +74,10 @@
   {% endpaginate %}
 </div>
 
-{% stylesheet %}
-  .collection-hero {
-    padding: calc(var(--header-height) + 1.5rem + clamp(2rem, 1rem + 3vw, 4rem)) var(--page-margin) clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
-    border-radius: 0 0 clamp(1.75rem, 1rem + 2vw, 3rem) clamp(1.75rem, 1rem + 2vw, 3rem);
-  }
-
-  .collection-hero__inner {
-    display: grid;
-    justify-items: start;
-    gap: 1rem;
-    max-width: calc(var(--page-width) - var(--page-margin) * 2);
-    margin-inline: auto;
-  }
-
-  .collection-hero__title {
-    font-size: clamp(2.6rem, 1.2rem + 5vw, 5.5rem);
-  }
-
-  .collection-hero__text {
-    max-width: 40rem;
-    font-size: 1.1rem;
-  }
-
-  .collection-hero__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
-  }
-
-  .collection-hero__chip {
-    padding: 0.55rem 1.05rem;
-    border-radius: 999px;
-    background: rgb(255 255 255 / 0.85);
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.3s var(--ease-spring), background-color 0.2s ease;
-  }
-
-  .collection-hero__chip:hover {
-    transform: translateY(-2px);
-  }
-
-  .collection-hero__chip:active {
-    transform: scale(0.95);
-  }
-
-  .collection-hero__chip[aria-current='page'] {
-    background: var(--color-foreground);
-    color: var(--color-background);
-  }
-
-  .collection {
-    display: grid;
-    gap: 1.75rem;
-  }
-
-  .collection__toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .collection__count {
-    color: var(--color-muted);
-    font-weight: 600;
-  }
-
-  .collection__sort {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-
-  .collection__sort-label {
-    font-weight: 600;
-  }
-
-  .collection__sort select {
-    min-height: 2.75rem;
-    padding: 0 2.25rem 0 1rem;
-    border: 2px solid var(--color-border);
-    border-radius: 999px;
-    font-weight: 600;
-    cursor: pointer;
-    appearance: none;
-    background: var(--color-background)
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2315123A' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
-      no-repeat right 0.85rem center / 1rem;
-  }
-
-  .collection__empty {
-    padding: 3rem 0;
-    color: var(--color-muted);
-  }
-
-  .collection__pagination {
-    display: flex;
-    justify-content: center;
-    gap: 0.75rem;
-    font-weight: 700;
-  }
-{% endstylesheet %}
-
 {% schema %}
 {
   "name": "t:general.collection",
+  "class": "under-header-section",
   "settings": [
     {
       "type": "link_list",

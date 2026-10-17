@@ -16,7 +16,7 @@
         <h2 class="cart-drawer__title" id="CartDrawerTitle">
           {{ 'cart.title' | t }}
           {% if cart.item_count > 0 %}
-            <span class="cart-drawer__count">({{ cart.item_count }})</span>
+            <span class="cart-drawer__count">{{ cart.item_count }}</span>
           {% endif %}
         </h2>
         <button type="button" class="cart-drawer__close" data-cart-close aria-label="{{ 'cart.close' | t }}">

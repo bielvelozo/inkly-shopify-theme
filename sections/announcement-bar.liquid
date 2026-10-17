@@ -1,0 +1,81 @@
+{% if section.settings.announcement != blank %}
+  {%- assign messages = section.settings.announcement | split: '·' -%}
+  <div class="announcement ribbon full-width">
+    <p class="visually-hidden">{{ section.settings.announcement }}</p>
+    <div class="announcement__track" aria-hidden="true">
+      {%- for copy in (1..6) -%}
+        <div class="announcement__group">
+          {%- for message in messages -%}
+            <span class="announcement__item">{{ message | strip }}</span>
+            <span class="announcement__bow"></span>
+          {%- endfor -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .announcement {
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    overflow: hidden;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  .announcement__track {
+    display: flex;
+    width: max-content;
+    animation: marquee 38s linear infinite;
+  }
+
+  .announcement:hover .announcement__track {
+    animation-play-state: paused;
+  }
+
+  .is-dressing .announcement__track {
+    animation: none;
+  }
+
+  .announcement__group {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding-inline-end: 1.25rem;
+  }
+
+  .announcement__item {
+    white-space: nowrap;
+  }
+
+  .announcement__bow {
+    width: 0.4rem;
+    height: 0.4rem;
+    flex: none;
+    border-radius: 50%;
+    background: var(--color-lemon);
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.announcement",
+  "settings": [
+    {
+      "type": "text",
+      "id": "announcement",
+      "label": "t:labels.announcement",
+      "info": "t:info.announcement"
+    }
+  ]
+}
+{% endschema %}

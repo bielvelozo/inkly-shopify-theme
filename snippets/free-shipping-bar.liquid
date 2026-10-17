@@ -33,15 +33,23 @@
         <span>{{ 'cart.free_shipping_remaining_html' | t: amount: remaining_money }}</span>
       {% endif %}
     </p>
-    <div
-      class="shipping-bar__track"
-      role="progressbar"
-      aria-label="{{ 'cart.free_shipping_progress' | t }}"
-      aria-valuemin="0"
-      aria-valuemax="100"
-      aria-valuenow="{{ progress }}"
-    >
-      <span class="shipping-bar__fill" style="width: {{ progress }}%"></span>
+    <div class="shipping-bar__ribbon">
+      <div
+        class="shipping-bar__track"
+        role="progressbar"
+        aria-label="{{ 'cart.free_shipping_progress' | t }}"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="{{ progress }}"
+      >
+        <span class="shipping-bar__fill" style="width: {{ progress }}%"></span>
+      </div>
+      <svg class="shipping-bar__bow" viewBox="0 0 120 80" aria-hidden="true">
+        <path d="M60 40C44 14 14 6 10 24c-4 17 22 26 50 16Z" fill="currentColor"/>
+        <path d="M60 40c16-26 46-34 50-16 4 17-22 26-50 16Z" fill="currentColor"/>
+        <path d="M60 40 44 76l10-4 6 8 6-8 10 4Z" fill="currentColor" opacity=".85"/>
+        <circle cx="60" cy="40" r="9" fill="currentColor"/>
+      </svg>
     </div>
   </div>
 {% endif %}

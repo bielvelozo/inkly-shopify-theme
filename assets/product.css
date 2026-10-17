@@ -173,6 +173,15 @@ input:focus-visible + .variant-picker__chip {
 }
 
 /* Personalizer stage */
+.personalizer-stage inkly-3d button[data-mode] {
+  min-width: 3rem;
+  min-height: 2.75rem;
+}
+
+.personalizer-stage:not(.inkly-3d-on) .inkly-3d__hint {
+  opacity: 0;
+}
+
 .personalizer-stage {
   position: relative;
   display: grid;
@@ -377,12 +386,12 @@ input:focus-visible + .variant-picker__chip {
 }
 
 .personalizer__option-name {
-  overflow: hidden;
   max-width: 100%;
   color: var(--color-muted);
   font-size: 0.75rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: anywhere;
 }
 
 .personalizer__swatch {
@@ -593,7 +602,8 @@ input:focus-visible + .variant-picker__chip {
 }
 
 .quantity__input {
-  width: 2.25rem;
+  align-self: stretch;
+  width: 2.5rem;
   border: 0;
   background: transparent;
   font-weight: 700;

@@ -594,9 +594,12 @@
 }
 
 .cart-page__empty {
-  display: grid;
-  justify-items: start;
-  gap: 1rem;
+  min-height: 55svh;
+  padding-block: clamp(3rem, 2rem + 4vw, 6rem);
+}
+
+.cart-page__empty .cart-drawer__empty-title {
+  font-size: clamp(1.9rem, 1.4rem + 2vw, 2.8rem);
 }
 
 @media (min-width: 990px) {

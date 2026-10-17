@@ -5,7 +5,7 @@
     {% render 'css-variables' %}
 
     <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-    {{ settings.type_heading_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+    {{ 'archivo-expanded-800.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
     {{ settings.type_primary_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
 
     {% # Load and preload the critical CSS %}
@@ -26,6 +26,12 @@
         currency: {{ cart.currency.iso_code | json }},
         dataLayer: {{ settings.analytics_datalayer | json }}
       };
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+        document.documentElement.classList.add('js-motion');
+        setTimeout(() => {
+          if (!window.theme.motionReady) document.documentElement.classList.remove('js-motion');
+        }, 3000);
+      }
     </script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
     {% if settings.cart_type == 'drawer' %}

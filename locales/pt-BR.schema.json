@@ -40,7 +40,9 @@
     "testimonials": "Depoimentos",
     "text": "Texto",
     "theme": "Tema",
-    "typography": "Tipografia"
+    "typography": "Tipografia",
+    "bento": "Bento de presentes",
+    "bento_tile": "Bloco"
   },
   "labels": {
     "accent": "Destaque",
@@ -108,7 +110,28 @@
     "text_style": "Estilo do texto",
     "title": "Título",
     "upsell": "Sugestões (upsell)",
-    "upsell_products": "Produtos sugeridos"
+    "upsell_products": "Produtos sugeridos",
+    "paper_pink": "Papel de presente: rosa",
+    "paper_lemon": "Papel de presente: amarelo",
+    "paper_mint": "Papel de presente: verde-menta",
+    "menu_heading": "Título do menu",
+    "tile_size": "Tamanho",
+    "paper": "Papel de presente",
+    "tile_visual": "Visual",
+    "tile_sample": "Texto de exemplo",
+    "testimonial_product": "Produto",
+    "hero_product": "Produto do campo de teste",
+    "hero_input_label": "Texto de ajuda do campo",
+    "hero_hint": "Letras miúdas abaixo do campo",
+    "hero_demo_names": "Nomes de demonstração",
+    "hero_print": "Texto impresso na foto",
+    "hero_print_x": "Posição horizontal",
+    "hero_print_y": "Posição vertical",
+    "hero_print_curve": "Curva",
+    "hero_print_color": "Cor da tinta",
+    "hero_tag": "Etiqueta de presente",
+    "hero_chip": "Nota flutuante",
+    "collection_chips": "Menu mostrado como botões"
   },
   "info": {
     "analytics": "O tema publica add_to_cart, remove_from_cart, view_cart, view_item_list, upsell_added e free_shipping_unlocked nos eventos de cliente da Shopify. Leia num pixel personalizado para mandar ao GA4 ou à Meta.",
@@ -119,7 +142,10 @@
     "swatch_colors": "Pares nome:hex separados por vírgula, usados quando a variante não tem amostra de cor da Shopify.",
     "text_colors": "Pares nome:hex separados por vírgula.",
     "upsell_heading": "Deixe vazio para usar o texto padrão.",
-    "upsell_products": "Aparecem até 3, pulando o que já está no carrinho."
+    "upsell_products": "Aparecem até 3, pulando o que já está no carrinho.",
+    "announcement": "Separe as mensagens com um ponto médio (·). Elas correm como uma fita.",
+    "hero_product": "O que o visitante digita abre este produto com o texto preenchido.",
+    "hero_demo_names": "Separados por vírgula. São digitados na foto até o visitante digitar o dele."
   },
   "options": {
     "alignment": {
@@ -160,6 +186,27 @@
       "title": "Título",
       "subtitle": "Subtítulo",
       "normal": "Texto normal"
+    },
+    "tile_size": {
+      "small": "Pequeno",
+      "wide": "Largo",
+      "large": "Grande"
+    },
+    "paper": {
+      "dots": "Bolinhas rosa",
+      "stripes": "Listras amarelas",
+      "gingham": "Xadrez menta",
+      "cobalt": "Cobalto",
+      "ink": "Tinta",
+      "tissue": "Papel de seda"
+    },
+    "tile_visual": {
+      "none": "Nenhum",
+      "editor": "Editor",
+      "quality": "Qualidade da foto",
+      "order": "Pedido com prévia",
+      "timeline": "Imprimir, embalar, enviar",
+      "image": "Imagem"
     }
   }
 }

@@ -6,9 +6,9 @@
 -%}
 
 <div class="featured section-spacing">
-  <div class="featured__header">
-    <h2>{{ section.settings.heading }}</h2>
-    <a class="featured__link" href="{{ source.url }}">
+  <div class="section-heading">
+    <h2 class="reveal">{{ section.settings.heading }}</h2>
+    <a class="link-arrow reveal" href="{{ source.url }}">
       {{- 'sections.featured_products.view_all' | t -}}
       {{ 'icon-arrow-right.svg' | inline_asset_content }}
     </a>
@@ -16,33 +16,10 @@
 
   <ul class="product-grid" role="list">
     {% for product in source.products limit: section.settings.products_to_show %}
-      <li>{% render 'product-card', product: product %}</li>
+      <li class="reveal" data-reveal-stagger>{% render 'product-card', product: product, index: forloop.index %}</li>
     {% endfor %}
   </ul>
 </div>
-
-{% stylesheet %}
-  .featured__header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.5rem 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .featured__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-weight: 600;
-  }
-
-  .featured__link svg {
-    width: 1.1rem;
-    height: 1.1rem;
-  }
-{% endstylesheet %}
 
 {% schema %}
 {

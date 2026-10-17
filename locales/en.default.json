@@ -22,11 +22,16 @@
     "cart_count": {
       "one": "Cart, {{ count }} item",
       "other": "Cart, {{ count }} items"
-    }
+    },
+    "cart": "Cart"
   },
   "footer": {
     "menu": "Footer links",
-    "payment_methods": "Payment methods"
+    "payment_methods": "Payment methods",
+    "newsletter_title": "Little notes, rarely",
+    "newsletter_label": "Your email",
+    "newsletter_submit": "Subscribe",
+    "newsletter_success": "Thanks! You're on the list."
   },
   "products": {
     "product": {
@@ -41,7 +46,11 @@
       "sale": "Sale",
       "sale_price": "Sale price",
       "sold_out": "Sold out",
-      "unavailable": "Unavailable"
+      "unavailable": "Unavailable",
+      "colors_count": {
+        "one": "{{ count }} color",
+        "other": "{{ count }} colors"
+      }
     }
   },
   "personalizer": {
@@ -121,7 +130,14 @@
   },
   "collections": {
     "title": "Collections",
-    "empty": "No products here yet."
+    "empty": "No products here yet.",
+    "browse": "Browse",
+    "product_count": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    },
+    "sort_by": "Sort by",
+    "apply": "Apply"
   },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",
@@ -150,6 +166,21 @@
       "previous": "Previous testimonial",
       "next": "Next testimonial",
       "rating": "Rated {{ rating }} out of 5"
+    },
+    "bento": {
+      "tool_text": "Text",
+      "tool_photo": "Photo",
+      "tool_font": "Font",
+      "tool_color": "Color",
+      "quality_low": "May print blurry:",
+      "quality_ok": "Looks sharp:",
+      "order_tag": "Preview attached",
+      "step_print": "Print",
+      "step_pack": "Pack",
+      "step_ship": "Ship"
+    },
+    "steps": {
+      "step": "Step {{ number }}"
     }
   }
 }

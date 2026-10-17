@@ -1,37 +1,56 @@
 {% doc %}
-  Product card used in grids. The image is decorative because the title
+  Product card used in grids. The images are decorative because the title
   link right below names the product.
 
   @param {product} product - The product to show
   @param {string} [sizes] - The sizes attribute for the image
+  @param {number} [index] - Position in the grid, used to pick the paper behind the photo
 {% enddoc %}
 
 {%- liquid
   assign image = product.featured_image
+  assign second_image = product.images[1]
   assign image_sizes = sizes | default: '(min-width: 990px) 22vw, 45vw'
   assign price_min = product.price_min | money
+  assign papers = 'pink,lemon,mint,surface' | split: ','
+  assign paper_index = index | default: 1 | minus: 1 | modulo: 4
+  assign paper = papers[paper_index]
+  assign color_option = product.options_with_values | where: 'name', 'Color' | first
 -%}
 
 <div class="product-card">
-  <div class="product-card__media">
+  <div class="product-card__media" style="background: var(--color-{{ paper }})">
     {%- if image -%}
       {{
         image
         | image_url: width: 900
         | image_tag:
-          widths: '200, 300, 400, 500, 600, 700, 900',
+          widths: '240, 360, 480, 600, 720, 900',
           sizes: image_sizes,
           loading: 'lazy',
           alt: ''
       }}
     {%- endif -%}
-  </div>
+    {%- if second_image -%}
+      {{
+        second_image
+        | image_url: width: 900
+        | image_tag:
+          widths: '240, 360, 480, 600, 720, 900',
+          sizes: image_sizes,
+          loading: 'lazy',
+          alt: ''
+      }}
+    {%- endif -%}
 
-  {%- if product.compare_at_price > product.price -%}
-    <span class="badge product-card__badge">{{ 'products.product.sale' | t }}</span>
-  {%- elsif product.template_suffix == 'personalized' -%}
-    <span class="badge product-card__badge">{{ 'products.product.personalizable' | t }}</span>
-  {%- endif -%}
+    {%- if product.available == false -%}
+      <span class="tag tag--ink product-card__tag">{{ 'products.product.sold_out' | t }}</span>
+    {%- elsif product.compare_at_price > product.price -%}
+      <span class="tag tag--lemon product-card__tag">{{ 'products.product.sale' | t }}</span>
+    {%- elsif product.template_suffix == 'personalized' -%}
+      <span class="tag product-card__tag">{{ 'products.product.personalizable' | t }}</span>
+    {%- endif -%}
+  </div>
 
   <h3 class="product-card__title">
     <a class="product-card__link" href="{{ product.url }}">{{ product.title }}</a>
@@ -42,6 +61,32 @@
       <span class="price">{{ 'products.product.from_price_html' | t: price: price_min }}</span>
     {%- else -%}
       {% render 'price', variant: product.selected_or_first_available_variant %}
+    {%- endif -%}
+
+    {%- if color_option and color_option.values.size > 1 -%}
+      <ul class="product-card__swatches" role="list" aria-label="{{ 'products.product.colors_count' | t: count: color_option.values.size }}">
+        {%- for value in color_option.values limit: 5 -%}
+          {%- liquid
+            assign swatch = value.swatch.color
+            if swatch == blank
+              assign name = value.name | downcase
+              case name
+                when 'white'
+                  assign swatch = '#F6F4EF'
+                when 'black'
+                  assign swatch = '#26231F'
+                when 'sand'
+                  assign swatch = '#E4D6BD'
+                when 'natural'
+                  assign swatch = '#EFE6D2'
+                else
+                  assign swatch = '#D9D6E8'
+              endcase
+            endif
+          -%}
+          <li style="--swatch: {{ swatch }}"></li>
+        {%- endfor -%}
+      </ul>
     {%- endif -%}
   </div>
 </div>

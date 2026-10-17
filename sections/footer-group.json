@@ -14,8 +14,12 @@
     "footer": {
       "type": "footer",
       "settings": {
+        "heading": "Wrap your words around something they'll keep.",
+        "button_label": "Make yours",
+        "button_link": "/collections/all",
+        "menu_heading": "Shop",
+        "menu": "main-menu",
         "notice": "Demo store from Gabriel Velozo's portfolio. Products, prices and reviews are fictional, and no orders are fulfilled.",
-        "menu": "",
         "show_payment_icons": true
       }
     }

@@ -40,7 +40,9 @@
     "testimonials": "Testimonials",
     "text": "Text",
     "theme": "Theme",
-    "typography": "Typography"
+    "typography": "Typography",
+    "bento": "Gift bento",
+    "bento_tile": "Tile"
   },
   "labels": {
     "accent": "Accent",
@@ -108,7 +110,28 @@
     "text_style": "Text style",
     "title": "Title",
     "upsell": "Upsell",
-    "upsell_products": "Products to suggest"
+    "upsell_products": "Products to suggest",
+    "paper_pink": "Wrapping paper: pink",
+    "paper_lemon": "Wrapping paper: lemon",
+    "paper_mint": "Wrapping paper: mint",
+    "menu_heading": "Menu heading",
+    "tile_size": "Size",
+    "paper": "Wrapping paper",
+    "tile_visual": "Visual",
+    "tile_sample": "Sample text",
+    "testimonial_product": "Product",
+    "hero_product": "Product for the try-it field",
+    "hero_input_label": "Try-it field placeholder",
+    "hero_hint": "Small print under the field",
+    "hero_demo_names": "Demo names",
+    "hero_print": "Text printed on the photo",
+    "hero_print_x": "Horizontal position",
+    "hero_print_y": "Vertical position",
+    "hero_print_curve": "Curve",
+    "hero_print_color": "Ink color",
+    "hero_tag": "Gift tag",
+    "hero_chip": "Floating note",
+    "collection_chips": "Menu shown as chips"
   },
   "info": {
     "analytics": "The theme publishes add_to_cart, remove_from_cart, view_cart, view_item_list, upsell_added and free_shipping_unlocked to Shopify customer events. Read them in a custom pixel to send to GA4 or Meta.",
@@ -119,7 +142,10 @@
     "swatch_colors": "Name:hex pairs separated by commas, used when the option value has no Shopify swatch.",
     "text_colors": "Name:hex pairs separated by commas.",
     "upsell_heading": "Leave empty to use the default text.",
-    "upsell_products": "Up to 3 are shown, skipping what is already in the cart."
+    "upsell_products": "Up to 3 are shown, skipping what is already in the cart.",
+    "announcement": "Separate messages with a middle dot (·). They scroll like a ribbon.",
+    "hero_product": "What the visitor types opens this product with the text filled in.",
+    "hero_demo_names": "Comma-separated. They are typed on the photo until the visitor types their own."
   },
   "options": {
     "alignment": {
@@ -160,6 +186,27 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
+    },
+    "tile_size": {
+      "small": "Small",
+      "wide": "Wide",
+      "large": "Large"
+    },
+    "paper": {
+      "dots": "Pink polka dots",
+      "stripes": "Lemon stripes",
+      "gingham": "Mint gingham",
+      "cobalt": "Cobalt",
+      "ink": "Ink",
+      "tissue": "Tissue"
+    },
+    "tile_visual": {
+      "none": "None",
+      "editor": "Editor",
+      "quality": "Photo quality",
+      "order": "Order with preview",
+      "timeline": "Print, pack, ship",
+      "image": "Image"
     }
   }
 }

@@ -22,6 +22,7 @@ PRODUCTS = [
         "descriptionHtml": "<p>11 oz ceramic mug with your words and your photo. Microwave and dishwasher safe.</p>",
         "options": {"Color": ["White", "Black"]},
         "images": {"White": "mug-white.jpg", "Black": "mug-black.jpg"},
+        "extra_images": ["mug-lifestyle.jpg"],
     },
     {
         "handle": "custom-t-shirt",
@@ -144,17 +145,79 @@ def wait_for_media(store, pid):
     raise StoreError(f"media not ready on {pid}")
 
 
-def create_product(store, p, publication):
-    if product_id(store, p["handle"]):
-        print("already exists:", p["handle"])
-        return
-
-    options = p.get("options", {})
+def media_input(store, p):
     media = [
         {"originalSource": upload(store, IMAGES / file, "IMAGE"), "mediaContentType": "IMAGE",
          "alt": f"{p['title']} {color}" if color else p["title"]}
         for color, file in p["images"].items()
     ]
+    media += [
+        {"originalSource": upload(store, IMAGES / file, "IMAGE"), "mediaContentType": "IMAGE", "alt": p["title"]}
+        for file in p.get("extra_images", [])
+    ]
+    return media
+
+
+def link_variant_media(store, pid, p, variants, ready):
+    by_color = {m["alt"].removeprefix(p["title"]).strip(): m["id"] for m in ready}
+    links = [
+        {"variantId": v["id"], "mediaIds": [by_color[o["value"]]]}
+        for v in variants
+        for o in v["selectedOptions"]
+        if o["name"] == "Color" and o["value"] in by_color
+    ]
+    if links:
+        gql(
+            store,
+            """mutation($id: ID!, $media: [ProductVariantAppendMediaInput!]!) {
+              productVariantAppendMedia(productId: $id, variantMedia: $media) { userErrors { field message } }
+            }""",
+            {"id": pid, "media": links},
+            mutation=True,
+        )
+
+
+def refresh_media(store, p, pid):
+    current = gql(
+        store,
+        "query($id: ID!) { product(id: $id) { media(first: 20) { nodes { id } } variants(first: 50) { nodes { id selectedOptions { name value } } } } }",
+        {"id": pid},
+    )["product"]
+    old = [m["id"] for m in current["media"]["nodes"]]
+    if old:
+        gql(
+            store,
+            """mutation($id: ID!, $ids: [ID!]!) {
+              productDeleteMedia(productId: $id, mediaIds: $ids) { deletedMediaIds mediaUserErrors { field message } }
+            }""",
+            {"id": pid, "ids": old},
+            mutation=True,
+        )
+    gql(
+        store,
+        """mutation($id: ID!, $media: [CreateMediaInput!]!) {
+          productCreateMedia(productId: $id, media: $media) { media { id } mediaUserErrors { field message } }
+        }""",
+        {"id": pid, "media": media_input(store, p)},
+        mutation=True,
+    )
+    ready = wait_for_media(store, pid)
+    if p.get("options"):
+        link_variant_media(store, pid, p, current["variants"]["nodes"], ready)
+    print("photos refreshed:", p["handle"], len(ready), "images")
+
+
+def create_product(store, p, publication):
+    existing = product_id(store, p["handle"])
+    if existing:
+        if "--refresh-photos" in sys.argv:
+            refresh_media(store, p, existing)
+        else:
+            print("already exists:", p["handle"])
+        return
+
+    options = p.get("options", {})
+    media = media_input(store, p)
     product_input = {
         "title": p["title"],
         "handle": p["handle"],
@@ -215,21 +278,7 @@ def create_product(store, p, publication):
 
     ready = wait_for_media(store, created["id"])
     if options:
-        by_color = {m["alt"].removeprefix(p["title"]).strip(): m["id"] for m in ready}
-        links = [
-            {"variantId": v["id"], "mediaIds": [by_color[o["value"]]]}
-            for v in saved
-            for o in v["selectedOptions"]
-            if o["name"] == "Color" and o["value"] in by_color
-        ]
-        gql(
-            store,
-            """mutation($id: ID!, $media: [ProductVariantAppendMediaInput!]!) {
-              productVariantAppendMedia(productId: $id, variantMedia: $media) { userErrors { field message } }
-            }""",
-            {"id": created["id"], "media": links},
-            mutation=True,
-        )
+        link_variant_media(store, created["id"], p, saved, ready)
 
     gql(
         store,
@@ -250,22 +299,28 @@ def online_store(store):
     raise StoreError("Online Store publication not found")
 
 
-def upload_hero(store):
-    existing = gql(store, '{ files(first: 1, query: "filename:inkly-hero.jpg") { nodes { id } } }')
-    if existing["files"]["nodes"]:
-        print("hero already uploaded")
-        return
-    source = upload(store, IMAGES / "inkly-hero.jpg", "FILE")
-    gql(
-        store,
-        """mutation($files: [FileCreateInput!]!) {
-          fileCreate(files: $files) { files { id } userErrors { field message } }
-        }""",
-        {"files": [{"originalSource": source, "contentType": "IMAGE", "filename": "inkly-hero.jpg",
-                    "alt": "Personalized mug, tee and tote bag on a table"}]},
-        mutation=True,
-    )
-    print("hero uploaded")
+SHOP_IMAGES = {
+    "inkly-hero-mug.jpg": "Plain white ceramic mug on a grey background",
+    "inkly-gift-wrap.jpg": "Kraft paper, twine and a small wrapped gift on marble",
+}
+
+
+def upload_shop_images(store):
+    for filename, alt in SHOP_IMAGES.items():
+        existing = gql(store, "query($q: String!) { files(first: 1, query: $q) { nodes { id } } }", {"q": f"filename:{filename}"})
+        if existing["files"]["nodes"]:
+            print("already uploaded:", filename)
+            continue
+        source = upload(store, IMAGES / filename, "FILE")
+        gql(
+            store,
+            """mutation($files: [FileCreateInput!]!) {
+              fileCreate(files: $files) { files { id } userErrors { field message } }
+            }""",
+            {"files": [{"originalSource": source, "contentType": "IMAGE", "filename": filename, "alt": alt}]},
+            mutation=True,
+        )
+        print("uploaded:", filename)
 
 
 def build_menu(store):
@@ -299,14 +354,15 @@ def check_store(store):
 
 
 def main():
-    if len(sys.argv) != 2:
-        sys.exit("usage: python demo/seed.py <store>.myshopify.com")
-    store = sys.argv[1]
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    if len(args) != 1:
+        sys.exit("usage: python demo/seed.py <store>.myshopify.com [--refresh-photos]")
+    store = args[0]
     check_store(store)
     publication = online_store(store)
     for p in PRODUCTS:
         create_product(store, p, publication)
-    upload_hero(store)
+    upload_shop_images(store)
     build_menu(store)
 
 

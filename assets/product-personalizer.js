@@ -85,6 +85,11 @@
       });
 
       document.fonts?.addEventListener?.('loadingdone', () => this.render());
+
+      const prefill = new URLSearchParams(location.search).get('text');
+      if (prefill && this.textInput && !this.textInput.value) {
+        this.textInput.value = prefill.slice(0, Number(this.textInput.maxLength) > 0 ? this.textInput.maxLength : 40);
+      }
       this.render();
     }
 

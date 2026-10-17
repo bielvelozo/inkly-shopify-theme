@@ -20,3 +20,6 @@ scripts/*
 README.md
 package.json
 package-lock.json
+PRODUCT.md
+DESIGN.md
+.impeccable/*

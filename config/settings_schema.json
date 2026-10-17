@@ -16,14 +16,8 @@
       },
       {
         "type": "font_picker",
-        "id": "type_heading_font",
-        "default": "bricolage_grotesque_n7",
-        "label": "t:labels.heading_font"
-      },
-      {
-        "type": "font_picker",
         "id": "type_primary_font",
-        "default": "dm_sans_n4",
+        "default": "archivo_n4",
         "label": "t:labels.body_font"
       }
     ]
@@ -65,38 +59,56 @@
       {
         "type": "color",
         "id": "background_color",
-        "default": "#FBF7F1",
+        "default": "#FFFFFF",
         "label": "t:labels.background"
       },
       {
         "type": "color",
         "id": "surface_color",
-        "default": "#FFFFFF",
+        "default": "#F3F1FF",
         "label": "t:labels.surface"
       },
       {
         "type": "color",
         "id": "foreground_color",
-        "default": "#1D1A16",
+        "default": "#15123A",
         "label": "t:labels.foreground"
       },
       {
         "type": "color",
         "id": "muted_color",
-        "default": "#655E55",
+        "default": "#4D4970",
         "label": "t:labels.muted"
       },
       {
         "type": "color",
         "id": "accent_color",
-        "default": "#D9481F",
+        "default": "#2B44E6",
         "label": "t:labels.accent"
       },
       {
         "type": "color",
         "id": "border_color",
-        "default": "#E6DDD0",
+        "default": "#E1DEF3",
         "label": "t:labels.border"
+      },
+      {
+        "type": "color",
+        "id": "paper_pink",
+        "default": "#FF9FCB",
+        "label": "t:labels.paper_pink"
+      },
+      {
+        "type": "color",
+        "id": "paper_lemon",
+        "default": "#FFE55C",
+        "label": "t:labels.paper_lemon"
+      },
+      {
+        "type": "color",
+        "id": "paper_mint",
+        "default": "#A6EBCB",
+        "label": "t:labels.paper_mint"
       },
       {
         "type": "range",

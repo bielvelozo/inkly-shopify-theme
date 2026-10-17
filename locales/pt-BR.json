@@ -22,11 +22,16 @@
     "cart_count": {
       "one": "Carrinho, {{ count }} item",
       "other": "Carrinho, {{ count }} itens"
-    }
+    },
+    "cart": "Carrinho"
   },
   "footer": {
     "menu": "Links do rodapé",
-    "payment_methods": "Formas de pagamento"
+    "payment_methods": "Formas de pagamento",
+    "newsletter_title": "Novidades, de vez em quando",
+    "newsletter_label": "Seu e-mail",
+    "newsletter_submit": "Assinar",
+    "newsletter_success": "Obrigado! Você está na lista."
   },
   "products": {
     "product": {
@@ -41,7 +46,11 @@
       "sale": "Oferta",
       "sale_price": "Preço promocional",
       "sold_out": "Esgotado",
-      "unavailable": "Indisponível"
+      "unavailable": "Indisponível",
+      "colors_count": {
+        "one": "{{ count }} cor",
+        "other": "{{ count }} cores"
+      }
     }
   },
   "personalizer": {
@@ -121,7 +130,14 @@
   },
   "collections": {
     "title": "Coleções",
-    "empty": "Ainda não há produtos aqui."
+    "empty": "Ainda não há produtos aqui.",
+    "browse": "Navegar",
+    "product_count": {
+      "one": "{{ count }} produto",
+      "other": "{{ count }} produtos"
+    },
+    "sort_by": "Ordenar por",
+    "apply": "Aplicar"
   },
   "gift_card": {
     "add_to_apple_wallet": "Adicionar à Apple Wallet",
@@ -150,6 +166,21 @@
       "previous": "Depoimento anterior",
       "next": "Próximo depoimento",
       "rating": "Nota {{ rating }} de 5"
+    },
+    "bento": {
+      "tool_text": "Texto",
+      "tool_photo": "Foto",
+      "tool_font": "Fonte",
+      "tool_color": "Cor",
+      "quality_low": "Pode sair borrada:",
+      "quality_ok": "Nítida:",
+      "order_tag": "Prévia anexada",
+      "step_print": "Impressão",
+      "step_pack": "Embalagem",
+      "step_ship": "Envio"
+    },
+    "steps": {
+      "step": "Passo {{ number }}"
     }
   }
 }

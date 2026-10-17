@@ -1,112 +1,396 @@
-<div class="hero full-width">
-  {% if section.settings.image %}
-    {{
-      section.settings.image
-      | image_url: width: 2400
-      | image_tag:
-        widths: '600, 900, 1200, 1600, 2000, 2400',
-        sizes: '100vw',
-        loading: 'eager',
-        fetchpriority: 'high',
-        preload: true,
-        class: 'hero__image',
-        alt: section.settings.image.alt
-    }}
-  {% endif %}
+{%- liquid
+  assign product = section.settings.product
+  assign action = routes.all_products_collection_url
+  if product
+    assign action = product.url
+  endif
+  assign names = section.settings.demo_names | split: ','
+  assign first_name = names.first | strip
+-%}
 
+<div class="hero paper paper--dots full-width under-header">
   <div class="hero__inner">
-    <h1 class="hero__title">{{ section.settings.heading }}</h1>
-    <p class="hero__text">{{ section.settings.subheading }}</p>
-    {% if section.settings.button_label != blank %}
-      <a class="button hero__button" href="{{ section.settings.button_link }}">
-        {{ section.settings.button_label }}
-        {{ 'icon-arrow-right.svg' | inline_asset_content }}
-      </a>
-    {% endif %}
+    <div class="hero__copy">
+      <h1 class="hero__title">{{ section.settings.heading }}</h1>
+      <p class="hero__text">{{ section.settings.subheading }}</p>
+
+      <form class="hero__try" action="{{ action }}" method="get" data-hero-form>
+        <label class="visually-hidden" for="HeroName-{{ section.id }}">{{ section.settings.input_label }}</label>
+        <input
+          class="hero__input"
+          id="HeroName-{{ section.id }}"
+          type="text"
+          name="text"
+          maxlength="18"
+          autocomplete="off"
+          placeholder="{{ section.settings.input_label }}"
+          data-hero-input
+        >
+        <button class="button hero__button" type="submit">
+          {{ section.settings.button_label }}
+          {{ 'icon-arrow-right.svg' | inline_asset_content }}
+        </button>
+      </form>
+      <p class="hero__hint">{{ section.settings.hint }}</p>
+    </div>
+
+    <div class="hero__visual">
+      <div class="hero__frame">
+        {% if section.settings.image %}
+          {{
+            section.settings.image
+            | image_url: width: 1600
+            | image_tag:
+              widths: '480, 640, 800, 1000, 1200, 1600',
+              sizes: '(min-width: 990px) 40vw, 92vw',
+              loading: 'eager',
+              fetchpriority: 'high',
+              preload: true,
+              class: 'hero__image',
+              alt: section.settings.image.alt
+          }}
+        {% endif %}
+
+        <svg
+          class="hero__print"
+          viewBox="0 0 800 1000"
+          preserveAspectRatio="xMidYMid slice"
+          aria-hidden="true"
+          style="--print-color: {{ section.settings.print_color }}"
+        >
+          <defs>
+            <path
+              id="HeroArc-{{ section.id }}"
+              d="M {{ section.settings.print_x | times: 8 | minus: 150 }} {{ section.settings.print_y | times: 10 }} Q {{ section.settings.print_x | times: 8 }} {{ section.settings.print_y | times: 10 | plus: section.settings.print_curve }} {{ section.settings.print_x | times: 8 | plus: 150 }} {{ section.settings.print_y | times: 10 }}"
+            />
+          </defs>
+          <text class="hero__print-text" text-anchor="middle" data-hero-print>
+            <textPath href="#HeroArc-{{ section.id }}" startOffset="50%" data-hero-print-path>{{ first_name }}</textPath>
+          </text>
+        </svg>
+
+        <div class="hero__ribbon" aria-hidden="true">
+          <span class="hero__ribbon-band"></span>
+          <svg class="hero__bow" viewBox="0 0 120 80" aria-hidden="true">
+            <path d="M60 40C44 14 14 6 10 24c-4 17 22 26 50 16Z" fill="currentColor"/>
+            <path d="M60 40c16-26 46-34 50-16 4 17-22 26-50 16Z" fill="currentColor"/>
+            <path d="M60 40 44 76l10-4 6 8 6-8 10 4Z" fill="currentColor" opacity=".85"/>
+            <circle cx="60" cy="40" r="9" fill="currentColor"/>
+            <path d="M22 22c8-4 22 2 32 14M98 22c-8-4-22 2-32 14" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        {% if section.settings.tag != blank %}
+          <span class="tag tag--lemon hero__tag">{{ section.settings.tag }}</span>
+        {% endif %}
+
+        {% if section.settings.chip != blank %}
+          <p class="hero__chip">
+            <span class="hero__chip-icon">{{ 'icon-check.svg' | inline_asset_content }}</span>
+            {{ section.settings.chip }}
+          </p>
+        {% endif %}
+      </div>
+    </div>
   </div>
 </div>
 
+<script type="application/json" data-hero-names>{{ names | json }}</script>
+<script src="{{ 'hero.js' | asset_url }}" defer></script>
+
 {% stylesheet %}
   .hero {
-    display: grid;
-    min-height: min(82vh, 52rem);
-    background: #f1ebe2;
-  }
-
-  .hero > *,
-  .hero::before {
-    grid-area: 1 / 1;
-  }
-
-  .hero::before {
-    content: '';
-    z-index: 1;
-    background: linear-gradient(90deg, #f1ebe2 0%, rgb(241 235 226 / 0.85) 32%, rgb(241 235 226 / 0) 58%);
-  }
-
-  .hero__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 70% center;
+    padding: calc(var(--header-height) + 1.5rem + clamp(1.5rem, 1rem + 2vw, 3rem)) var(--page-margin) clamp(2.5rem, 1.5rem + 4vw, 5rem);
+    overflow: hidden;
   }
 
   .hero__inner {
-    z-index: 2;
-    align-self: center;
-    width: min(36rem, 100%);
-    padding: 4rem var(--page-margin);
-    margin-inline-start: max(var(--page-margin), calc((100% - var(--page-width)) / 2));
+    display: grid;
+    gap: clamp(2rem, 1rem + 3vw, 3.5rem);
+    align-items: center;
+    max-width: calc(var(--page-width) - var(--page-margin) * 2);
+    margin-inline: auto;
+  }
+
+  .hero__copy {
+    display: grid;
+    justify-items: start;
+    gap: 1.25rem;
   }
 
   .hero__title {
-    font-size: clamp(2.6rem, 1.6rem + 4vw, 4.25rem);
-    line-height: 1.02;
+    max-width: 11ch;
+    font-size: clamp(2.6rem, 1rem + 6vw, 6rem);
+    line-height: 0.92;
   }
 
   .hero__text {
-    margin-top: 1.25rem;
-    font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
-    color: var(--color-muted);
+    max-width: 30rem;
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem);
+    color: color-mix(in srgb, var(--color-foreground) 82%, transparent);
+  }
+
+  .hero__try {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    width: min(100%, 30rem);
+    margin-top: 0.5rem;
+    padding: 0.35rem;
+    border-radius: 999px;
+    background: var(--color-background);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .hero__input {
+    flex: 1;
+    min-width: 0;
+    min-height: 3.25rem;
+    padding: 0 1.1rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .hero__input:focus-visible {
+    outline: none;
+  }
+
+  .hero__try:focus-within {
+    box-shadow: var(--shadow-lift), 0 0 0 3px var(--color-accent);
   }
 
   .hero__button {
-    margin-top: 2rem;
-    background: var(--color-accent);
-    border-color: var(--color-accent);
+    flex: none;
   }
 
-  .hero__button svg {
-    width: 1.2rem;
-    height: 1.2rem;
+  .hero__hint {
+    font-size: 0.9rem;
+    color: color-mix(in srgb, var(--color-foreground) 75%, transparent);
+  }
+
+  .hero__visual {
+    position: relative;
+    display: grid;
+    justify-items: center;
+  }
+
+  .hero__frame {
+    position: relative;
+    width: min(100%, calc(min(74svh, 44rem) * 0.8));
+    aspect-ratio: 4 / 5;
+    border-radius: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    background: var(--color-background);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .hero__image,
+  .hero__print {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+  }
+
+  .hero__image {
+    object-fit: cover;
+  }
+
+  .hero__print {
+    overflow: hidden;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+
+  .hero__print-text {
+    fill: var(--print-color);
+    font-family: var(--font-display--family);
+    font-weight: 800;
+    font-size: 64px;
+    letter-spacing: -1px;
+    transition: opacity 0.2s ease;
+  }
+
+  .hero__ribbon {
+    position: absolute;
+    top: -1.25rem;
+    bottom: 0;
+    right: 5%;
+    width: clamp(2rem, 1.4rem + 1.2vw, 2.75rem);
+    color: var(--color-accent);
+    pointer-events: none;
+  }
+
+  .hero__ribbon-band {
+    position: absolute;
+    inset: 1.25rem 0 0;
+    box-shadow: 0 6px 14px -6px rgb(21 18 58 / 0.5);
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-accent) 78%, #000) 0%,
+      var(--color-accent) 22%,
+      color-mix(in srgb, var(--color-accent) 72%, #fff) 50%,
+      var(--color-accent) 78%,
+      color-mix(in srgb, var(--color-accent) 78%, #000) 100%
+    );
+  }
+
+  .hero__ribbon-band::before,
+  .hero__ribbon-band::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-left: 1px dashed rgb(255 255 255 / 0.45);
+  }
+
+  .hero__ribbon-band::before {
+    left: 4px;
+  }
+
+  .hero__ribbon-band::after {
+    right: 4px;
+  }
+
+  .hero__bow {
+    position: absolute;
+    top: -2.6rem;
+    left: 50%;
+    width: clamp(6.5rem, 4.5rem + 3vw, 8.5rem);
+    max-width: none;
+    transform: translateX(-50%) rotate(-6deg);
+    filter: drop-shadow(0 8px 10px rgb(21 18 58 / 0.3));
+  }
+
+  .hero__tag {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    font-size: 0.85rem;
+    transform: rotate(-4deg);
+    transform-origin: 0.62rem 50%;
+  }
+
+  .hero__chip {
+    position: absolute;
+    left: clamp(-1.5rem, -2vw, -0.5rem);
+    bottom: 12%;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    max-width: 16rem;
+    padding: 0.7rem 1rem 0.7rem 0.7rem;
+    border-radius: 1rem;
+    background: var(--color-background);
+    box-shadow: var(--shadow-lift);
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .hero__chip-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--color-mint);
+    color: var(--color-success);
+  }
+
+  .hero__chip-icon svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .js-motion .hero__ribbon {
+    animation: ribbon-drop 1s var(--ease-out) 0.2s backwards;
+  }
+
+  .js-motion .hero__chip {
+    animation: chip-pop 0.7s var(--ease-spring) 0.9s backwards;
+  }
+
+  @keyframes ribbon-drop {
+    from {
+      transform: translateY(-110%);
+    }
+  }
+
+  @keyframes chip-pop {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem) scale(0.9);
+    }
   }
 
   @media (max-width: 749px) {
-    .hero {
-      min-height: 0;
+    .hero__inner {
+      gap: 1rem;
     }
 
-    .hero > *,
-    .hero::before {
-      grid-area: auto;
+    .hero__copy {
+      display: contents;
     }
 
-    .hero::before {
+    .hero__title {
+      order: 1;
+      font-size: clamp(2.4rem, 1rem + 7vw, 3.2rem);
+    }
+
+    .hero__text {
       display: none;
     }
 
-    .hero__inner {
-      order: -1;
-      width: 100%;
-      margin-inline-start: 0;
-      padding: 2.25rem var(--page-margin) 1.75rem;
+    .hero__visual {
+      order: 2;
+      margin-top: 1.6rem;
     }
 
-    .hero__image {
-      height: auto;
-      aspect-ratio: 4 / 3;
-      object-position: 74% 65%;
+    .hero__bow {
+      top: -2.1rem;
+      width: 5.5rem;
     }
+
+    .hero__frame {
+      width: 100%;
+      aspect-ratio: 1;
+    }
+
+    .hero__try {
+      order: 3;
+      width: 100%;
+      margin-top: 0.25rem;
+    }
+
+    .hero__input {
+      padding-inline: 0.9rem;
+    }
+
+    .hero__button {
+      padding-inline: 1.1rem;
+    }
+
+    .hero__hint {
+      order: 4;
+    }
+
+    .hero__chip {
+      left: 0.75rem;
+      bottom: 0.75rem;
+      font-size: 0.82rem;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .hero__inner {
+      grid-template-columns: 1fr 1.08fr;
+    }
+
   }
 {% endstylesheet %}
 
@@ -130,14 +414,82 @@
       "label": "t:labels.subheading"
     },
     {
+      "type": "product",
+      "id": "product",
+      "label": "t:labels.hero_product",
+      "info": "t:info.hero_product"
+    },
+    {
+      "type": "text",
+      "id": "input_label",
+      "label": "t:labels.hero_input_label",
+      "default": "Type a name"
+    },
+    {
       "type": "text",
       "id": "button_label",
       "label": "t:labels.button_label"
     },
     {
-      "type": "url",
-      "id": "button_link",
-      "label": "t:labels.button_link"
+      "type": "text",
+      "id": "hint",
+      "label": "t:labels.hero_hint"
+    },
+    {
+      "type": "text",
+      "id": "demo_names",
+      "label": "t:labels.hero_demo_names",
+      "info": "t:info.hero_demo_names",
+      "default": "For Grandpa,Team Leo"
+    },
+    {
+      "type": "header",
+      "content": "t:labels.hero_print"
+    },
+    {
+      "type": "range",
+      "id": "print_x",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "t:labels.hero_print_x",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "print_y",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "t:labels.hero_print_y",
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "print_curve",
+      "min": -60,
+      "max": 60,
+      "step": 2,
+      "label": "t:labels.hero_print_curve",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "print_color",
+      "label": "t:labels.hero_print_color",
+      "default": "#2B44E6"
+    },
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "t:labels.hero_tag"
+    },
+    {
+      "type": "text",
+      "id": "chip",
+      "label": "t:labels.hero_chip"
     }
   ],
   "presets": [

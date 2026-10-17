@@ -1,39 +1,114 @@
-<div class="steps section-spacing">
-  <h2 class="steps__heading">{{ section.settings.heading }}</h2>
-  <ol class="steps__list" role="list">
-    {% for block in section.blocks %}
-      {%- assign icon = 'icon-step-' | append: block.settings.icon | append: '.svg' -%}
-      <li class="steps__item" {{ block.shopify_attributes }}>
-        <span class="steps__icon">{{ icon | inline_asset_content }}</span>
-        <h3>{{ block.settings.title }}</h3>
-        <p>{{ block.settings.text }}</p>
-      </li>
-    {% endfor %}
-  </ol>
+<div class="steps paper paper--stripes full-width">
+  <div class="steps__inner section-spacing">
+    <div class="section-heading">
+      <h2 class="reveal">{{ section.settings.heading }}</h2>
+      {% if section.settings.text != blank %}
+        <p class="reveal">{{ section.settings.text }}</p>
+      {% endif %}
+    </div>
+
+    <div class="steps__rail">
+      <svg class="steps__ribbon" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+        <path
+          class="steps__ribbon-path"
+          d="M0 70 C 150 10, 260 110, 400 60 S 650 0, 800 60 S 1060 120, 1200 40"
+          pathLength="1"
+        />
+      </svg>
+
+      <ol class="steps__list" role="list">
+        {% for block in section.blocks %}
+          {%- assign icon = 'icon-step-' | append: block.settings.icon | append: '.svg' -%}
+          <li class="steps__item reveal" data-reveal-stagger {{ block.shopify_attributes }}>
+            <span class="tag tag--ink steps__number">{{ 'sections.steps.step' | t: number: forloop.index }}</span>
+            <span class="steps__icon">{{ icon | inline_asset_content }}</span>
+            <h3 class="steps__title">{{ block.settings.title }}</h3>
+            <p class="steps__text">{{ block.settings.text }}</p>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
 </div>
 
 {% stylesheet %}
-  .steps__heading {
-    text-align: center;
+  .steps__inner {
+    width: min(calc(var(--page-width) - var(--page-margin) * 2), calc(100% - var(--page-margin) * 2));
+    margin-inline: auto;
+  }
+
+  .steps__rail {
+    position: relative;
+  }
+
+  .steps__ribbon {
+    display: none;
+    position: absolute;
+    top: 3.25rem;
+    left: 0;
+    width: 100%;
+    height: 7rem;
+    overflow: visible;
+  }
+
+  .steps__ribbon-path {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 16;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    filter: drop-shadow(0 6px 6px rgb(21 18 58 / 0.22));
+  }
+
+  .js-motion .steps__ribbon-path {
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 1.8s var(--ease-out) 0.2s;
+  }
+
+  .js-motion .steps__rail:has(.is-revealed) .steps__ribbon-path {
+    stroke-dashoffset: 0;
+  }
+
+  @supports (animation-timeline: view()) {
+    .js-motion .steps__ribbon-path {
+      transition: none;
+      animation: ribbon-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 55%;
+    }
+  }
+
+  @keyframes ribbon-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
   }
 
   .steps__list {
+    position: relative;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
-    gap: 1.25rem;
-    margin-top: 2.5rem;
+    gap: 1rem;
     padding: 0;
     list-style: none;
   }
 
   .steps__item {
     display: grid;
-    justify-items: center;
-    gap: 0.6rem;
-    padding: 2rem 1.5rem;
-    border-radius: 20px;
-    background: var(--color-surface);
-    text-align: center;
+    justify-items: start;
+    align-content: start;
+    gap: 0.7rem;
+    padding: clamp(1.25rem, 1rem + 1vw, 1.9rem);
+    border-radius: var(--radius-card);
+    background: var(--color-background);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .steps__number {
+    font-size: 0.8rem;
   }
 
   .steps__icon {
@@ -41,9 +116,17 @@
     place-items: center;
     width: 3.5rem;
     height: 3.5rem;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
-    color: var(--color-accent);
+    margin-top: 0.35rem;
+    border-radius: 1rem;
+    background: var(--color-pink);
+  }
+
+  .steps__item:nth-child(2) .steps__icon {
+    background: var(--color-mint);
+  }
+
+  .steps__item:nth-child(3) .steps__icon {
+    background: var(--color-lemon);
   }
 
   .steps__icon svg {
@@ -51,8 +134,35 @@
     height: 1.75rem;
   }
 
-  .steps__item p {
+  .steps__title {
+    font-family: var(--font-display--family);
+    font-weight: 800;
+    font-size: clamp(1.3rem, 1.1rem + 0.6vw, 1.6rem);
+    letter-spacing: -0.035em;
+  }
+
+  .steps__text {
     color: var(--color-muted);
+  }
+
+  @media (min-width: 990px) {
+    .steps__ribbon {
+      display: block;
+    }
+
+    .steps__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(1.25rem, 3vw, 3rem);
+      padding-top: 1rem;
+    }
+
+    .steps__item:nth-child(2) {
+      margin-top: 4rem;
+    }
+
+    .steps__item:nth-child(3) {
+      margin-top: 1.5rem;
+    }
   }
 {% endstylesheet %}
 
@@ -64,6 +174,11 @@
       "type": "text",
       "id": "heading",
       "label": "t:labels.heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:labels.text"
     }
   ],
   "blocks": [

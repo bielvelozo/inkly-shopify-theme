@@ -173,15 +173,6 @@ input:focus-visible + .variant-picker__chip {
 }
 
 /* Personalizer stage */
-.personalizer-stage inkly-3d button[data-mode] {
-  min-width: 3rem;
-  min-height: 2.75rem;
-}
-
-.personalizer-stage:not(.inkly-3d-on) .inkly-3d__hint {
-  opacity: 0;
-}
-
 .personalizer-stage {
   position: relative;
   display: grid;

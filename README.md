@@ -21,7 +21,8 @@ The whole store is wrapping paper. Each part of the home owns one paper (pink po
 - **Motion:** the steps ribbon draws itself as you scroll, the hero gets dressed (ribbon, bow, tags) right after load, tags swing on hover, "Add to cart" pops into "Added!", the cart badge bumps, and the free-shipping ribbon ties a bow with a burst of confetti. All of it is off under `prefers-reduced-motion`.
 - **State shows on the paper:** on the product page the stage tag turns into a mint "Ready to print" once there is text or a sharp photo, and the stage paper turns lemon for dark products.
 - **Pages:** home (hero, bestsellers, gift bento, how it works, reviews), collection, product, cart drawer and cart page, password page and a 404 shaped like "4[mug]4".
-- **Photos** are free stock photos (Burst, Unsplash, Pexels), cropped by `demo/photos.py`; sources and licenses are in `demo/CREDITS.md` and in each file's metadata. The hero mug is cut out of its studio backdrop by `demo/cutout.py` and laid on a lemon card, so it ships as a 13 KB image instead of a heavy transparent one.
+- **Built for thumbs and keyboards:** every tap target is at least 44 px on phones, every keyboard stop shows a focus ring, and Lighthouse accessibility is 100 on the home. Checked page by page at 375, 768 and 1440 px.
+- **Photos** are free stock photos (Burst, Unsplash, Pexels), cropped by `demo/photos.py`; sources and licenses are in `demo/CREDITS.md` and in each file's metadata. The hero mug is cut out of its studio backdrop by `demo/cutout.py` (the body drawn from its measured geometry, the edge recoloured so no grey fringe shows) and laid on a lemon card, so a phone loads a 12 KB image instead of a heavy transparent one.
 
 ---
 
@@ -55,6 +56,7 @@ Files: `sections/product.liquid`, `snippets/personalizer-controls.liquid`, `snip
 - Native `<dialog>` (focus trapped, Esc closes, focus returns where it was), refreshed with the **Section Rendering API**: adding, changing quantity and removing return the drawer HTML in the same response, with no page reload.
 - **Free-shipping ribbon** driven by a theme setting and compared with the cart total after discounts; when it fills, it ties a bow.
 - **Upsell** of up to three products picked in the theme editor, skipping what's already in the cart or sold out; products with options or personalization link to their page.
+- **Same gift twice, one line:** adding the same personalization again raises that line's quantity. Shopify alone would add a duplicate line, because the uploaded photo and preview get a new URL on every add.
 - **Checkout button with the total** in it.
 - **Pix price** for Brazilian stores ("or R$ X with Pix") from a percentage setting. Display only, off by default and off in the demo store.
 - **Events:** `add_to_cart`, `remove_from_cart`, `view_cart`, `view_item_list`, `upsell_added` and `free_shipping_unlocked` are published to Shopify customer events (`Shopify.analytics.publish`) and, when the setting is on, to `dataLayer` in GA4 ecommerce format.

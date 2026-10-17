@@ -14,7 +14,8 @@
   const render = (value) => {
     path.textContent = value;
     text.style.fontSize = `${BASE_SIZE}px`;
-    const length = path.getComputedTextLength?.() || 0;
+    const current = parseFloat(getComputedStyle(text).fontSize) || BASE_SIZE;
+    const length = (path.getComputedTextLength?.() || 0) * (BASE_SIZE / current);
     if (length > MAX_LENGTH) text.style.fontSize = `${Math.max(26, (BASE_SIZE * MAX_LENGTH) / length)}px`;
   };
 

@@ -371,9 +371,11 @@
       this.textEl.style.fontStyle = font.style;
       this.textEl.style.fontSize = `${baseSize}px`;
 
-      const length = this.textEl.getComputedTextLength();
+      // A CSS transition on font-size would make this measure the previous size, so scale by the size actually laid out.
+      const current = parseFloat(getComputedStyle(this.textEl).fontSize) || baseSize;
+      const length = this.textEl.getComputedTextLength() * (baseSize / current);
       const fit = length > 0 ? Math.min(1, (area.w * 0.86) / length) : 1;
-      const size = baseSize * fit;
+      const size = Math.round(baseSize * fit * 100) / 100;
       this.textEl.style.fontSize = `${size}px`;
       this.textState = { text, font, color, size, x: area.x + area.w / 2, y };
 

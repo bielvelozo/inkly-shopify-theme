@@ -28,13 +28,13 @@ The whole store is wrapping paper. Each part of the home owns one paper (pink po
 
 ## 1. Product personalizer with live preview
 
-![Personalizing a mug: the name typed on the home page arrives in the personalizer, the preview turns 3D, then font, color and position change and the item goes to the cart](docs/demo-personalizer-to-cart.gif)
+![Personalizing a mug in 3D: font, color and position change and the print follows](docs/demo-personalizer-to-cart.gif)
 
 ![Product page on desktop](docs/01-product-desktop.jpg)
 
 <img src="docs/03-product-mobile.jpg" alt="Product page on mobile" width="260"> <img src="docs/04-product-photo-quality.jpg" alt="Low-resolution photo warning" width="560">
 
-<img src="docs/demo-3d-preview.gif" alt="3D preview: the mug turns, the light follows the pointer and the print changes as the text is typed" width="560"> <img src="docs/13-product-3d-mobile.jpg" alt="3D preview on mobile" width="260">
+<img src="docs/demo-3d-preview.gif" alt="3D preview on the product page: the mug turns with a drag and the print changes as the name is typed" width="560"> <img src="docs/13-product-3d-mobile.jpg" alt="3D preview on mobile" width="260">
 
 The customer types a line of text, picks a font, a color and a position, uploads a photo, drags and zooms it, and watches the mockup update as they go. On mobile the preview stays pinned to the top while they fill in the form.
 
@@ -97,7 +97,7 @@ Theme Check: 4 errors and 8 warnings in the slow version (`ParserBlockingScript`
 
 ### Measured numbers
 
-![The slow version and the redesign loading side by side on the same emulated phone](docs/demo-speed.gif)
+![The slow version and the final store loading side by side on the same emulated phone](docs/demo-speed.gif)
 
 Lighthouse 13.5.0 with its default mobile emulation and its desktop preset (simulated throttling in both), 5 runs per version, the median of each metric, all on 2026-10-17 against the same store and products. **Chrome runs without a GPU (`--disable-gpu`), like the PageSpeed Insights servers:** on this machine a cold GPU makes the first canvas call in Shopify's perf-kit about 4x slower, and Lighthouse's CPU slowdown turns that into a long task no theme can avoid. PageSpeed Insights itself can't reach the store, a development store behind a password.
 

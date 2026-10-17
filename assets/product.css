@@ -554,7 +554,7 @@ input:focus-visible + .variant-picker__chip {
 
 .product-form__added span {
   display: inline-block;
-  animation: letter-pop 0.5s var(--ease-spring) both;
+  animation: letter-pop 0.45s var(--ease-out) both;
   animation-delay: calc(var(--i) * 28ms);
 }
 

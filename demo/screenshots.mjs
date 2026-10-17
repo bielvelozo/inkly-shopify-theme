@@ -136,9 +136,9 @@ async function home(browser) {
 async function pages(browser) {
   const { context, page } = await newPage(browser, 'desktop');
   await open(page, '/collections/all');
-  await save(page, '09-collection-desktop');
+  await save(page, '11-collection-desktop');
   await open(page, '/pages/missing-page');
-  await save(page, '10-not-found-desktop');
+  await save(page, '12-not-found-desktop');
   await context.close();
 }
 

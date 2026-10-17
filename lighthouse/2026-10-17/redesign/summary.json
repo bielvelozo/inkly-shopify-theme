@@ -1,0 +1,168 @@
+{
+  "url": "http://127.0.0.1:9292/",
+  "runs": 5,
+  "measured_at": "2026-10-17T05:31:36.488Z",
+  "lighthouse": "13.5.0",
+  "mobile": {
+    "median": {
+      "performance": 66,
+      "accessibility": 100,
+      "lcp_ms": 4883,
+      "fcp_ms": 2129,
+      "tbt_ms": 529,
+      "cls": 0,
+      "speed_index_ms": 3364,
+      "bytes_kb": 3501,
+      "requests": 167
+    },
+    "median_run": {
+      "performance": 66,
+      "accessibility": 100,
+      "lcp_ms": 4883,
+      "fcp_ms": 2115,
+      "tbt_ms": 529,
+      "cls": 0,
+      "speed_index_ms": 3187,
+      "bytes_kb": 3473,
+      "requests": 160
+    },
+    "all": [
+      {
+        "performance": 63,
+        "accessibility": 100,
+        "lcp_ms": 4988,
+        "fcp_ms": 2159,
+        "tbt_ms": 639,
+        "cls": 0,
+        "speed_index_ms": 3364,
+        "bytes_kb": 3501,
+        "requests": 165
+      },
+      {
+        "performance": 64,
+        "accessibility": 100,
+        "lcp_ms": 4944,
+        "fcp_ms": 2112,
+        "tbt_ms": 576,
+        "cls": 0,
+        "speed_index_ms": 3734,
+        "bytes_kb": 3497,
+        "requests": 167
+      },
+      {
+        "performance": 66,
+        "accessibility": 100,
+        "lcp_ms": 4883,
+        "fcp_ms": 2115,
+        "tbt_ms": 529,
+        "cls": 0,
+        "speed_index_ms": 3187,
+        "bytes_kb": 3473,
+        "requests": 160
+      },
+      {
+        "performance": 70,
+        "accessibility": 100,
+        "lcp_ms": 4398,
+        "fcp_ms": 2129,
+        "tbt_ms": 461,
+        "cls": 0,
+        "speed_index_ms": 3392,
+        "bytes_kb": 3503,
+        "requests": 168
+      },
+      {
+        "performance": 68,
+        "accessibility": 100,
+        "lcp_ms": 4497,
+        "fcp_ms": 2294,
+        "tbt_ms": 524,
+        "cls": 0,
+        "speed_index_ms": 3156,
+        "bytes_kb": 3950,
+        "requests": 193
+      }
+    ]
+  },
+  "desktop": {
+    "median": {
+      "performance": 89,
+      "accessibility": 100,
+      "lcp_ms": 1219,
+      "fcp_ms": 598,
+      "tbt_ms": 218,
+      "cls": 0,
+      "speed_index_ms": 1100,
+      "bytes_kb": 3472,
+      "requests": 159
+    },
+    "median_run": {
+      "performance": 90,
+      "accessibility": 100,
+      "lcp_ms": 1187,
+      "fcp_ms": 598,
+      "tbt_ms": 211,
+      "cls": 0,
+      "speed_index_ms": 1109,
+      "bytes_kb": 3457,
+      "requests": 157
+    },
+    "all": [
+      {
+        "performance": 94,
+        "accessibility": 100,
+        "lcp_ms": 1199,
+        "fcp_ms": 604,
+        "tbt_ms": 158,
+        "cls": 0,
+        "speed_index_ms": 1013,
+        "bytes_kb": 3505,
+        "requests": 167
+      },
+      {
+        "performance": 89,
+        "accessibility": 100,
+        "lcp_ms": 1279,
+        "fcp_ms": 588,
+        "tbt_ms": 218,
+        "cls": 0,
+        "speed_index_ms": 1100,
+        "bytes_kb": 3472,
+        "requests": 159
+      },
+      {
+        "performance": 90,
+        "accessibility": 100,
+        "lcp_ms": 1187,
+        "fcp_ms": 598,
+        "tbt_ms": 211,
+        "cls": 0,
+        "speed_index_ms": 1109,
+        "bytes_kb": 3457,
+        "requests": 157
+      },
+      {
+        "performance": 87,
+        "accessibility": 100,
+        "lcp_ms": 1219,
+        "fcp_ms": 573,
+        "tbt_ms": 249,
+        "cls": 0,
+        "speed_index_ms": 1087,
+        "bytes_kb": 3479,
+        "requests": 161
+      },
+      {
+        "performance": 87,
+        "accessibility": 100,
+        "lcp_ms": 1305,
+        "fcp_ms": 606,
+        "tbt_ms": 243,
+        "cls": 0,
+        "speed_index_ms": 1158,
+        "bytes_kb": 3410,
+        "requests": 146
+      }
+    ]
+  }
+}

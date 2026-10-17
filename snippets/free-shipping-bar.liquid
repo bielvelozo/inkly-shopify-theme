@@ -42,7 +42,7 @@
         aria-valuemax="100"
         aria-valuenow="{{ progress }}"
       >
-        <span class="shipping-bar__fill" style="width: {{ progress }}%"></span>
+        <span class="shipping-bar__fill" style="--progress: {{ progress }}"></span>
       </div>
       <svg class="shipping-bar__bow" viewBox="0 0 120 80" aria-hidden="true">
         <path d="M60 40C44 14 14 6 10 24c-4 17 22 26 50 16Z" fill="currentColor"/>

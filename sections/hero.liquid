@@ -82,7 +82,7 @@
         </div>
 
         {% if section.settings.tag != blank %}
-          <span class="tag tag--lemon hero__tag">{{ section.settings.tag }}</span>
+          <span class="tag hero__tag">{{ section.settings.tag }}</span>
         {% endif %}
 
         {% if section.settings.chip != blank %}
@@ -186,7 +186,6 @@
     width: min(100%, calc(min(74svh, 44rem) * 0.8));
     aspect-ratio: 4 / 5;
     border-radius: clamp(1.5rem, 1rem + 2vw, 2.5rem);
-    background: var(--color-background);
   }
 
   .hero__frame::before {
@@ -195,8 +194,8 @@
     z-index: -1;
     inset: 0;
     border-radius: inherit;
-    background: var(--color-lemon);
-    transform: rotate(-4deg) translate(-3%, 2%);
+    background: var(--color-background);
+    transform: rotate(-5deg) translate(-3%, 2%);
   }
 
   .hero__visual {

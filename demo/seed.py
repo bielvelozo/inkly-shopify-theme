@@ -107,7 +107,7 @@ def gql(store, query, variables=None, mutation=False):
     return data
 
 
-def upload(store, path, resource):
+def upload(store, path, resource, mime="image/jpeg"):
     data = gql(
         store,
         """mutation($input: [StagedUploadInput!]!) {
@@ -116,13 +116,13 @@ def upload(store, path, resource):
             userErrors { field message }
           }
         }""",
-        {"input": [{"filename": path.name, "mimeType": "image/jpeg", "httpMethod": "POST", "resource": resource}]},
+        {"input": [{"filename": path.name, "mimeType": mime, "httpMethod": "POST", "resource": resource}]},
         mutation=True,
     )
     target = data["stagedUploadsCreate"]["stagedTargets"][0]
     fields = {p["name"]: p["value"] for p in target["parameters"]}
     with path.open("rb") as content:
-        sent = requests.post(target["url"], data=fields, files={"file": (path.name, content, "image/jpeg")}, timeout=120)
+        sent = requests.post(target["url"], data=fields, files={"file": (path.name, content, mime)}, timeout=120)
     sent.raise_for_status()
     return target["resourceUrl"]
 
@@ -302,16 +302,22 @@ def online_store(store):
 SHOP_IMAGES = {
     "inkly-hero-mug.jpg": "Plain white ceramic mug on a grey background",
     "inkly-gift-wrap.jpg": "Kraft paper, twine and a small wrapped gift on marble",
+    "inkly-hero-lemon.jpg": "Plain white ceramic mug on lemon yellow paper",
 }
 
 
 def upload_shop_images(store):
     for filename, alt in SHOP_IMAGES.items():
-        existing = gql(store, "query($q: String!) { files(first: 1, query: $q) { nodes { id } } }", {"q": f"filename:{filename}"})
-        if existing["files"]["nodes"]:
+        existing = gql(
+            store,
+            "query($q: String!) { files(first: 10, query: $q) { nodes { ... on MediaImage { image { url } } } } }",
+            {"q": f"filename:{filename}"},
+        )
+        urls = [(n.get("image") or {}).get("url", "") for n in existing["files"]["nodes"]]
+        if any(url.split("?")[0].rsplit("/", 1)[-1] == filename for url in urls):
             print("already uploaded:", filename)
             continue
-        source = upload(store, IMAGES / filename, "FILE")
+        source = upload(store, IMAGES / filename, "FILE", "image/png" if filename.endswith(".png") else "image/jpeg")
         gql(
             store,
             """mutation($files: [FileCreateInput!]!) {

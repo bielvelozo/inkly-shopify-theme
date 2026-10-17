@@ -4,7 +4,7 @@ The product and lifestyle photos in `demo/images/` are free stock photos, croppe
 
 | File | Photo | Photographer | Source and license |
 |---|---|---|---|
-| `mug-white.jpg`, `inkly-hero-mug.jpg` | A white coffee mug (3D render) | Mediamodifier | [Unsplash](https://unsplash.com/photos/a-white-coffee-mug-xf38DdLyBvI), Unsplash License |
+| `mug-white.jpg`, `inkly-hero-mug.jpg`, `inkly-hero-lemon.jpg` (cut out by `demo/cutout.py`) | A white coffee mug (3D render) | Mediamodifier | [Unsplash](https://unsplash.com/photos/a-white-coffee-mug-xf38DdLyBvI), Unsplash License |
 | `mug-black.jpg` | A person holding a black ceramic mug | Katrin Bolovtsova | [Pexels](https://www.pexels.com/photo/a-person-holding-black-ceramic-mug-6312154/), Pexels License |
 | `mug-lifestyle.jpg` | Woman's hands holding coffee | Matthew Henry | [Burst](https://www.shopify.com/stock-photos/photos/womans-hands-holding-coffee), Creative Commons (CC0) |
 | `tshirt-white.jpg`, `tshirt-sand.jpg` | Torso of a person wearing a white shirt | Samantha Hurley | [Burst](https://www.shopify.com/stock-photos/photos/torso-of-a-person-wearing-white-shirt-product-mockup), Burst Some Rights Reserved |

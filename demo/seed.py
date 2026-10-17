@@ -340,6 +340,10 @@ BUILD_VIDEOS = {
     "05-erp-sync-app.mp4": "Inkly ERP Sync: an order going from Shopify to the ERP and back",
 }
 
+# Shopify can't replace a video file's content, so a re-recorded set goes up under new names
+# and templates/collection.build-notes.json points to them.
+BUILD_VIDEO_SUFFIX = "-v2"
+
 BUILD_PAGE = {
     "handle": "how-this-store-was-built",
     "title": "How this store was built",
@@ -351,13 +355,14 @@ BUILD_PAGE = {
 def upload_build_videos(store, folder):
     for filename, alt in BUILD_VIDEOS.items():
         path = folder / filename
+        stored = f"{path.stem}{BUILD_VIDEO_SUFFIX}{path.suffix}"
         existing = gql(
             store,
             "query($q: String!) { files(first: 10, query: $q) { nodes { ... on Video { filename } } } }",
-            {"q": f"filename:{path.stem}"},
+            {"q": f"filename:{path.stem}{BUILD_VIDEO_SUFFIX}"},
         )
-        if any(node.get("filename") == filename for node in existing["files"]["nodes"]):
-            print("already uploaded:", filename)
+        if any(node.get("filename") == stored for node in existing["files"]["nodes"]):
+            print("already uploaded:", stored)
             continue
         source = upload(store, path, "VIDEO", "video/mp4")
         gql(
@@ -365,10 +370,10 @@ def upload_build_videos(store, folder):
             """mutation($files: [FileCreateInput!]!) {
               fileCreate(files: $files) { files { id } userErrors { field message } }
             }""",
-            {"files": [{"originalSource": source, "contentType": "VIDEO", "alt": alt}]},
+            {"files": [{"originalSource": source, "contentType": "VIDEO", "alt": alt, "filename": stored}]},
             mutation=True,
         )
-        print("uploaded:", filename)
+        print("uploaded:", stored)
 
 
 # Built as a collection with its own template: the store CLI's scopes cover products and

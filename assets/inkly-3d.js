@@ -2,8 +2,8 @@
 (()=>{(()=>{if(!window.customElements||customElements.get("inkly-3d"))return;let l=document.currentScript?.src||location.href,a=["pointermove","pointerdown","touchstart","keydown","wheel","scroll","focusin"],d=["mug","tshirt","tote"],h=matchMedia("(prefers-reduced-motion: reduce)").matches,r=matchMedia("(pointer: coarse)").matches,c=`
 inkly-3d{position:absolute;z-index:2;display:block;pointer-events:none;border-radius:inherit}
 inkly-3d[hidden]{display:none}
-.inkly-3d__viewport{position:absolute;inset:0;opacity:0;transition:opacity .55s ease;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,#0000,#000 7%,#000 93%,#0000),linear-gradient(#0000,#000 5%,#000 93%,#0000);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,#0000,#000 7%,#000 93%,#0000),linear-gradient(#0000,#000 5%,#000 93%,#0000);mask-composite:intersect}
-.inkly-3d-on .inkly-3d__viewport{opacity:1;pointer-events:auto}
+.inkly-3d__viewport{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .55s ease,visibility 0s linear .55s;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,#0000,#000 7%,#000 93%,#0000),linear-gradient(#0000,#000 5%,#000 93%,#0000);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,#0000,#000 7%,#000 93%,#0000),linear-gradient(#0000,#000 5%,#000 93%,#0000);mask-composite:intersect}
+.inkly-3d-on .inkly-3d__viewport{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .55s ease,visibility 0s}
 .inkly-3d__canvas{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab;outline:none;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
 .inkly-3d__canvas.is-grabbing{cursor:grabbing}
 .inkly-3d__canvas:focus-visible{outline:2px solid currentColor;outline-offset:-4px;border-radius:18px}

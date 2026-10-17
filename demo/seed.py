@@ -302,7 +302,7 @@ def online_store(store):
 SHOP_IMAGES = {
     "inkly-hero-mug.jpg": "Plain white ceramic mug on a grey background",
     "inkly-gift-wrap.jpg": "Kraft paper, twine and a small wrapped gift on marble",
-    "inkly-hero-lemon.jpg": "Plain white ceramic mug on lemon yellow paper",
+    "inkly-hero-cutout.jpg": "Plain white ceramic mug on lemon yellow paper",
 }
 
 

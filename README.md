@@ -87,7 +87,7 @@ The home page was first built the way many slow stores reach a freelancer, measu
 - fixed contrast, named icon buttons and screen-reader-friendly ratings.
 
 **What kept the redesign fast**, found by measuring each change:
-- **No blurred `box-shadow`s.** Depth comes from outlines, color fields and a tilted paper sheet. Blurred shadows alone cost about 7 points on mobile.
+- **No blurred `box-shadow`s.** Depth comes from outlines, color fields and a tilted paper sheet. Blurred shadows alone cost about 7 points on mobile (measured with a GPU at the time, before the method below).
 - **A cheap first paint.** The hero's ribbon, bow, tags and polka dots are added right after `load`, and the announcement marquee starts then too; the first paint is the photo, the heading and the field. This matters more than it looks: Shopify's own `perf-kit` script draws to a small canvas and reads it back during load (a bot check). On a computer with a GPU that first read waits for the GPU to start and for the page's first paint, so an expensive first paint showed up as a longer `perf-kit` task; even on a blank page the read took 120 to 290 ms on this machine. That is also why the numbers below are measured without a GPU.
 - **Patterns as tiny repeating images** instead of CSS gradients, and a plain ribbon band instead of a gradient with dashed stitching.
 - **Below-the-fold CSS doesn't block rendering:** the bento, steps, reviews and footer load their stylesheets with `media="print"` swapped on load, and those sections use `content-visibility: auto`.

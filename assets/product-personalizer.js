@@ -86,12 +86,29 @@
       });
 
       document.fonts?.addEventListener?.('loadingdone', () => this.render());
+      this.keepChosenMode();
 
       const prefill = new URLSearchParams(location.search).get('text');
       if (prefill && this.textInput && !this.textInput.value) {
         this.textInput.value = prefill.slice(0, Number(this.textInput.maxLength) > 0 ? this.textInput.maxLength : 40);
       }
       this.render();
+    }
+
+    // The 3D loader turns 3D on when its scene finishes loading, even if the shopper picked 2D while it loaded.
+    keepChosenMode() {
+      const preview = this.stage?.querySelector('inkly-3d');
+      if (!preview) return;
+      let wants2d = false;
+      preview.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-mode]');
+        if (button) wants2d = button.dataset.mode === '2d' && preview.classList.contains('is-loading');
+      }, true);
+      new MutationObserver(() => {
+        if (!wants2d || !this.stage.classList.contains('inkly-3d-on')) return;
+        wants2d = false;
+        preview.querySelector('button[data-mode="2d"]')?.click();
+      }).observe(this.stage, { attributes: true, attributeFilter: ['class'] });
     }
 
     get previewProperty() {

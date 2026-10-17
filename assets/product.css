@@ -359,12 +359,6 @@ html:has(.personalizer-stage) body {
   transform: scale(0.92);
 }
 
-/* An invisible WebGL layer over the mockup makes Chrome send the photo's touchstart as uncancelable, so the page scrolls instead of the photo moving. */
-.personalizer-stage:not(.inkly-3d-on) .inkly-3d__viewport {
-  visibility: hidden;
-  transition: opacity 0.55s ease, visibility 0s linear 0.55s;
-}
-
 /* Personalizer controls */
 .personalizer {
   display: grid;
@@ -734,9 +728,24 @@ html:has(.personalizer-stage) body {
   transition: background-color 0.2s ease, color 0.2s ease, transform 0.3s var(--ease-spring);
 }
 
-.shopify-payment-button__button--unbranded:hover:not([disabled]) {
+/* Shopify's own accelerated-checkout.css darkens this button on :hover, which sticks after a tap on touch screens. */
+.shopify-payment-button .shopify-payment-button__button--unbranded:hover:not([disabled]) {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shopify-payment-button .shopify-payment-button__button--unbranded:hover:not([disabled]) {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
+}
+
+.shopify-payment-button .shopify-payment-button__button--unbranded:active:not([disabled]) {
   background: var(--color-foreground);
   color: var(--color-background);
+  transform: scale(0.97);
+  transition-duration: 0.12s;
 }
 
 .shopify-payment-button__button--unbranded:focus-visible {

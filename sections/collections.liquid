@@ -81,8 +81,15 @@
     transition: transform 0.35s var(--ease-spring);
   }
 
-  .collection-card:hover {
-    transform: translateY(-4px) rotate(-0.6deg);
+  @media (hover: hover) and (pointer: fine) {
+    .collection-card:hover {
+      transform: translateY(-4px) rotate(-0.6deg);
+    }
+  }
+
+  .collection-card:active {
+    transform: scale(0.98);
+    transition-duration: 0.12s;
   }
 
   .collection-card:focus-visible {

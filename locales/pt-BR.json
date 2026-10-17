@@ -165,10 +165,14 @@
   },
   "search": {
     "title": "Busca",
-    "placeholder": "Buscar produtos, páginas ou artigos",
+    "label": "Buscar na loja",
+    "placeholder": "Tente “caneca” ou “sacola”",
     "submit": "Buscar",
-    "no_results_html": "Nenhum resultado para {{ terms }}",
-    "results_for_html": "{{ count }} resultados para {{ terms }}"
+    "start": "Que presente você procura?",
+    "no_results_html": "Nada encontrado para “{{ terms }}”",
+    "no_results_hint": "Confira a grafia, tente uma palavra mais curta ou veja os presentes abaixo.",
+    "results_for_html": "{{ count }} resultados para “{{ terms }}”",
+    "popular": "Mais vendidos"
   },
   "sections": {
     "featured_products": {

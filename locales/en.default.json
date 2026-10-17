@@ -165,10 +165,14 @@
   },
   "search": {
     "title": "Search",
-    "placeholder": "Search articles, pages, or products",
+    "label": "Search the shop",
+    "placeholder": "Try “mug” or “tote”",
     "submit": "Search",
-    "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "start": "What gift are you looking for?",
+    "no_results_html": "Nothing matches “{{ terms }}” yet",
+    "no_results_hint": "Check the spelling, try a shorter word like “mug”, or browse the gifts below.",
+    "results_for_html": "{{ count }} results for “{{ terms }}”",
+    "popular": "Bestsellers"
   },
   "sections": {
     "featured_products": {

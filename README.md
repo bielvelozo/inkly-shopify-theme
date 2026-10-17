@@ -4,7 +4,7 @@ A Shopify Online Store 2.0 theme for a fictional personalized-gifts store, built
 
 ![Home page on desktop](docs/08-home-desktop.jpg)
 
-- Demo store: `inkly-demo.myshopify.com` (a development store, so it's password protected; ask for the password).
+- Demo store: `inkly-demo.myshopify.com` (a development store, so it's password protected; ask for the password). Inside it, **How this store was built** (`/collections/how-this-store-was-built`, linked from the footer) walks through the five pieces with videos: the 3D preview, the personalizer, the cart drawer, the speed work and the companion app [Inkly ERP Sync](https://github.com/bielvelozo/inkly-erp-sync).
 - Products, prices and reviews are fictional. No orders are fulfilled.
 - Base: [Shopify Skeleton Theme](https://github.com/Shopify/skeleton-theme) v1.0.0 (commit `8b8a1f4`, license in `LICENSE.md`). Everything else was written from scratch for this repository.
 - Storefront strings ship in English (default) and Brazilian Portuguese.
@@ -28,11 +28,13 @@ The whole store is wrapping paper. Each part of the home owns one paper (pink po
 
 ## 1. Product personalizer with live preview
 
+![Personalizing a mug: the name typed on the home page arrives in the personalizer, the preview turns 3D, then font, color and position change and the item goes to the cart](docs/demo-personalizer-to-cart.gif)
+
 ![Product page on desktop](docs/01-product-desktop.jpg)
 
 <img src="docs/03-product-mobile.jpg" alt="Product page on mobile" width="260"> <img src="docs/04-product-photo-quality.jpg" alt="Low-resolution photo warning" width="560">
 
-<img src="docs/13-product-3d-desktop.jpg" alt="3D preview of the mug" width="560"> <img src="docs/13-product-3d-mobile.jpg" alt="3D preview on mobile" width="260">
+<img src="docs/demo-3d-preview.gif" alt="3D preview: the mug turns, the light follows the pointer and the print changes as the text is typed" width="560"> <img src="docs/13-product-3d-mobile.jpg" alt="3D preview on mobile" width="260">
 
 The customer types a line of text, picks a font, a color and a position, uploads a photo, drags and zooms it, and watches the mockup update as they go. On mobile the preview stays pinned to the top while they fill in the form.
 
@@ -40,7 +42,7 @@ The customer types a line of text, picks a font, a color and a position, uploads
 - **Print quality check:** the theme computes DPI from the real print width (a setting) and warns before checkout when the photo will print blurry.
 - **Contrast warning** when the text color nearly disappears on the product color.
 - **Everything goes into the order** as line item properties: text, font, color, the original photo (uploaded through Shopify) and, hidden from the customer, the text position, the photo adjustment and a **preview image rendered in the browser** (canvas), which shows up in the cart and reaches production.
-- **Live 3D preview** on top of the 2D mockup: a procedural three.js mug, tee and tote that print the customer's text and photo by mirroring the mockup `<svg>`, with light and reflections that follow the pointer and drag (or swipe) to turn the product. A 3D/2D switch sits on the stage; photo dragging stays in 2D. The page loads a 3 KB loader (`assets/inkly-3d.js`); three.js and the models (`assets/inkly-3d-scene.js`, 155 KB gzip) are only requested after the shopper first interacts with the page. Without WebGL2 the 2D preview simply stays. Measured on the product page (5 runs each, mobile / desktop): 54 / 73 before adding it and 52 / 75 after (`lighthouse/2026-10-17/product-2d` and `product-3d`); the spread between runs is larger than that difference. The font samples in the personalizer switch to their own fonts right after load, which keeps about 150 KB of fonts off the first paint.
+- **Live 3D preview** on top of the 2D mockup: a procedural three.js mug, tee and tote that print the customer's text and photo by mirroring the mockup `<svg>`, with light and reflections that follow the pointer and drag (or swipe) to turn the product. A 3D/2D switch sits on the stage; photo dragging stays in 2D. The page loads a 3 KB loader (`assets/inkly-3d.js`); three.js and the models (`assets/inkly-3d-scene.js`, 155 KB gzip) are only requested after the shopper first interacts with the page. Without WebGL2 the 2D preview simply stays. Measured on the product page (5 runs each, mobile / desktop): 54 / 73 before adding it and 52 / 75 after (`lighthouse/2026-10-17/product-2d` and `product-3d`); the spread between runs is larger than that difference. With the current loader, after the quality pass: 57 / 75 (`after-review-product`). The font samples in the personalizer switch to their own fonts right after load, which keeps about 150 KB of fonts off the first paint.
 - **Prefill from a link:** `?text=` on the product URL fills the text field (used by the home hero).
 - Keyboard support: the photo also moves with the arrow keys; controls are `fieldset`s with `legend`s and errors go to `role="alert"`.
 - Configurable in the theme editor: fonts (three pickers from the Shopify font library), text colors, required fields, character limit, minimum DPI and maximum file size.
@@ -48,6 +50,8 @@ The customer types a line of text, picks a font, a color and a position, uploads
 Files: `sections/product.liquid`, `snippets/personalizer-controls.liquid`, `snippets/mockup.liquid`, `snippets/inkly-3d.liquid`, `assets/product-personalizer.js`, `assets/product-form.js`, `assets/inkly-3d.js`, `assets/inkly-3d-scene.js`, `assets/product.css`, `templates/product.personalized.json`.
 
 ## 2. Cart drawer with upsell and free-shipping bar
+
+![Cart drawer: an add-on goes in with one click and the free-shipping ribbon ties a bow](docs/demo-cart-drawer.gif)
 
 ![Cart drawer with free shipping unlocked](docs/06-cart-free-shipping.jpg)
 
@@ -93,9 +97,11 @@ Theme Check: 4 errors and 8 warnings in the slow version (`ParserBlockingScript`
 
 ### Measured numbers
 
+![The slow version and the redesign loading side by side on the same emulated phone](docs/demo-speed.gif)
+
 Lighthouse 13.5.0, 5 runs per version, **median** (the run chosen by `computeMedianRun`), all three on 2026-10-17, against the same store and products.
 
-| Mobile | Slow version | After the fix | Redesign (now) |
+| Mobile | Slow version | After the fix | Redesign |
 |---|---|---|---|
 | Performance | **44** (42–48) | **67** (62–69) | **66** (64–68) |
 | LCP | **12.7 s** (11.8–13.4) | **4.8 s** (4.5–6.0) | **4.5 s** (4.4–5.1) |
@@ -104,12 +110,14 @@ Lighthouse 13.5.0, 5 runs per version, **median** (the run chosen by `computeMed
 | CLS | 0 | 0 | 0 |
 | Accessibility | **91** | **96** | **100** |
 
-| Desktop | Slow version | After the fix | Redesign (now) |
+| Desktop | Slow version | After the fix | Redesign |
 |---|---|---|---|
 | Performance | 82 (82–83) | 93 (86–96) | 95 (93–97) |
 | LCP | 2.4 s | 1.3 s | 1.2 s |
 | Total Blocking Time | 163 ms | 141 ms (79–277) | 130 ms (82–157) |
 | Accessibility | 91 | 96 | 100 |
+
+Measured again later the same day, after a page-by-page quality pass (touch targets, mobile menu, cart page, a cleaner hero cutout): mobile **68** (64–68), LCP 4.5 s, TBT 543 ms, accessibility 100; desktop 93 (`lighthouse/2026-10-17/after-review`). An interleaved run against the redesign column, alternating the two themes, came out even (68 vs 67).
 
 In parentheses: the lowest and highest value across the 5 runs. The run-to-run spread is wide, mostly from the Shopify scripts described below, so read the mobile scores of the last two columns as a tie: the redesign is a much richer page and kept the fixed version's speed, with a faster LCP, full accessibility marks and a better desktop score.
 

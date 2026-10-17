@@ -17,6 +17,12 @@
               {{ 'icon-arrow-right.svg' | inline_asset_content }}
             </a>
           {% endfor %}
+          {% if shop.customer_accounts_enabled %}
+            <a class="header__drawer-account" href="{{ routes.account_url }}">
+              {{ 'icon-account.svg' | inline_asset_content }}
+              {{- 'header.account' | t -}}
+            </a>
+          {% endif %}
         </nav>
       </details>
 
@@ -282,7 +288,8 @@
     padding: 0.75rem;
     border-radius: 1.75rem;
     background: var(--color-background);
-    box-shadow: var(--shadow-lift);
+    outline: 2px solid var(--color-foreground);
+    outline-offset: -2px;
     animation: sheet-in 0.45s var(--ease-out);
   }
 
@@ -322,6 +329,19 @@
   .header__drawer-nav svg {
     width: 1.3rem;
     height: 1.3rem;
+  }
+
+  .header__drawer-nav .header__drawer-account {
+    justify-content: flex-start;
+    gap: 0.6rem;
+    margin-top: 0.4rem;
+    padding-top: 1.1rem;
+    border-top: 2px solid var(--color-border);
+    border-radius: 0 0 1.1rem 1.1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0;
   }
 
   @keyframes sheet-in {

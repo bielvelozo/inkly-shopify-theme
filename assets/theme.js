@@ -70,6 +70,19 @@
     sentinel.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:80px;pointer-events:none';
     document.body.prepend(sentinel);
     new IntersectionObserver(([entry]) => header.classList.toggle('is-scrolled', !entry.isIntersecting)).observe(sentinel);
+
+    const drawer = header.querySelector('.header__drawer');
+    const closeDrawer = (returnFocus) => {
+      if (!drawer?.open) return;
+      drawer.open = false;
+      if (returnFocus) drawer.querySelector('summary')?.focus();
+    };
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeDrawer(drawer?.contains(document.activeElement));
+    });
+    document.addEventListener('click', (event) => {
+      if (drawer && !drawer.contains(event.target)) closeDrawer(false);
+    });
   }
 
   const dress = () => document.documentElement.classList.remove('is-dressing');

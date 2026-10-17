@@ -241,6 +241,25 @@ input:focus-visible + .variant-picker__chip {
   opacity: 0.7;
 }
 
+@media (min-width: 990px) {
+  .product--personalized .product__media {
+    grid-template-columns: clamp(3.5rem, 4.5vw, 4.75rem) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .product--personalized .product__gallery {
+    order: -1;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .personalizer-stage .mockup {
+    width: auto;
+    max-width: 100%;
+    max-height: max(17rem, calc(100svh - var(--header-height) - 14.5rem));
+    margin-inline: auto;
+  }
+}
+
 .personalizer-stage__note {
   justify-self: center;
   padding: 0.35rem 0.85rem;

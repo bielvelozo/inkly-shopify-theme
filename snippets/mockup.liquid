@@ -5,7 +5,7 @@
   use `currentColor`, which the parent <svg> sets from the selected variant.
 
   @param {string} type - mug, tshirt or tote
-  @param {string} layer - base or shade
+  @param {string} layer - defs, base or shade
 {% enddoc %}
 
 {%- case type -%}
@@ -18,7 +18,7 @@
         <path d="M222 66c14 34 44 54 78 54s64-20 78-54" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="7"/>
         <path d="M162 224v-56M438 224v-56" stroke="#000" stroke-opacity=".08" stroke-width="2"/>
       </g>
-    {%- else -%}
+    {%- elsif layer == 'shade' -%}
       <g data-layer="shade" pointer-events="none">
         <path d="M222 66 168 84 62 150l46 98 54-24v314h276V224l54 24 46-98-106-66-54-18c-14 34-44 54-78 54s-64-20-78-54Z" fill="url(#MockupFabric)" opacity=".5"/>
       </g>
@@ -33,25 +33,74 @@
         <path d="M128 200h344l14 346H114Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
         <path d="M128 222h344" stroke="#000" stroke-opacity=".12" stroke-width="2" stroke-dasharray="6 6"/>
       </g>
-    {%- else -%}
+    {%- elsif layer == 'shade' -%}
       <g data-layer="shade" pointer-events="none">
         <path d="M128 200h344l14 346H114Z" fill="url(#MockupFabric)" opacity=".5"/>
       </g>
     {%- endif -%}
   {%- else -%}
-    {%- if layer == 'base' -%}
+    {%- if layer == 'defs' -%}
+      <linearGradient id="MockupCeramic" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#000" stop-opacity=".3"/>
+        <stop offset=".06" stop-color="#000" stop-opacity=".1"/>
+        <stop offset=".11" stop-color="#fff" stop-opacity=".18"/>
+        <stop offset=".145" stop-color="#fff" stop-opacity=".55"/>
+        <stop offset=".18" stop-color="#fff" stop-opacity=".12"/>
+        <stop offset=".42" stop-color="#fff" stop-opacity="0"/>
+        <stop offset=".72" stop-color="#000" stop-opacity=".02"/>
+        <stop offset=".9" stop-color="#000" stop-opacity=".14"/>
+        <stop offset=".965" stop-color="#000" stop-opacity=".24"/>
+        <stop offset="1" stop-color="#000" stop-opacity=".12"/>
+      </linearGradient>
+      <linearGradient id="MockupCeramicDepth" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#000" stop-opacity=".08"/>
+        <stop offset=".06" stop-color="#000" stop-opacity="0"/>
+        <stop offset=".8" stop-color="#000" stop-opacity="0"/>
+        <stop offset="1" stop-color="#000" stop-opacity=".16"/>
+      </linearGradient>
+      <linearGradient id="MockupInside" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#000" stop-opacity=".05"/>
+        <stop offset=".55" stop-color="#000" stop-opacity=".16"/>
+        <stop offset="1" stop-color="#000" stop-opacity=".36"/>
+      </linearGradient>
+      <linearGradient id="MockupInsideSheen" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#fff" stop-opacity=".2"/>
+        <stop offset=".6" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="MockupHandle" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#fff" stop-opacity=".22"/>
+        <stop offset=".45" stop-color="#fff" stop-opacity="0"/>
+        <stop offset=".7" stop-color="#000" stop-opacity=".06"/>
+        <stop offset="1" stop-color="#000" stop-opacity=".24"/>
+      </linearGradient>
+      <radialGradient id="MockupFloor" cx=".5" cy=".5" r=".5">
+        <stop offset="0" stop-color="#000" stop-opacity=".26"/>
+        <stop offset=".55" stop-color="#000" stop-opacity=".1"/>
+        <stop offset="1" stop-color="#000" stop-opacity="0"/>
+      </radialGradient>
+    {%- elsif layer == 'base' -%}
       <g data-layer="base">
-        <ellipse cx="290" cy="528" rx="190" ry="20" fill="#000" opacity=".1"/>
-        <path d="M424 236c78-6 106 32 106 84s-32 92-112 88" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="44" stroke-linecap="round"/>
-        <path d="M424 236c78-6 106 32 106 84s-32 92-112 88" fill="none" stroke="currentColor" stroke-width="34" stroke-linecap="round"/>
-        <path d="M124 150h312v334c0 22-18 38-40 38H164c-22 0-40-16-40-38Z" fill="currentColor"/>
-        <path d="M124 150h312v334c0 22-18 38-40 38H164c-22 0-40-16-40-38Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
-        <ellipse cx="280" cy="150" rx="156" ry="18" fill="currentColor"/>
-        <ellipse cx="280" cy="151" rx="146" ry="12" fill="#000" opacity=".22"/>
+        <ellipse cx="294" cy="521" rx="214" ry="24" fill="url(#MockupFloor)"/>
+        <ellipse cx="280" cy="519" rx="150" ry="8" fill="#000" opacity=".14"/>
+        <path d="M420 204c74-10 128 20 132 96 4 76-46 138-132 138v-40c62 0 92-38 90-94-2-52-32-68-90-60Z" fill="currentColor"/>
+        <path d="M420 204c74-10 128 20 132 96 4 76-46 138-132 138v-40c62 0 92-38 90-94-2-52-32-68-90-60Z" fill="url(#MockupHandle)"/>
+        <path d="M420 204c74-10 128 20 132 96 4 76-46 138-132 138v-40c62 0 92-38 90-94-2-52-32-68-90-60Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
+        <path d="M420 244c58-8 88 8 90 60 2 56-28 94-90 94v9c68 0 102-42 100-103-2-58-36-77-100-69Z" fill="#000" opacity=".08"/>
+        <path d="M440 220c48-4 84 18 90 66" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/>
+        <path d="M124 150v336c0 11 4 17 12 21a152 22 0 0 0 288 0c8-4 12-10 12-21V150Z" fill="currentColor"/>
+        <path d="M124 150v336c0 11 4 17 12 21a152 22 0 0 0 288 0c8-4 12-10 12-21V150Z" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="2"/>
+        <ellipse cx="280" cy="150" rx="156" ry="20" fill="currentColor"/>
+        <ellipse cx="280" cy="150" rx="156" ry="20" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>
+        <ellipse cx="280" cy="151" rx="146" ry="15" fill="url(#MockupInside)"/>
+        <ellipse cx="280" cy="151" rx="146" ry="15" fill="url(#MockupInsideSheen)"/>
+        <path d="M134 151a146 15 0 0 1 292 0" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="1.5"/>
       </g>
     {%- else -%}
       <g data-layer="shade" pointer-events="none">
-        <path d="M124 166h312v318c0 22-18 38-40 38H164c-22 0-40-16-40-38Z" fill="url(#MockupCeramic)"/>
+        <path d="M124 150v336c0 11 4 17 12 21a152 22 0 0 0 288 0c8-4 12-10 12-21V150a156 20 0 0 1-312 0Z" fill="url(#MockupCeramic)"/>
+        <path d="M124 150v336c0 11 4 17 12 21a152 22 0 0 0 288 0c8-4 12-10 12-21V150a156 20 0 0 1-312 0Z" fill="url(#MockupCeramicDepth)"/>
+        <path d="M128 162a152 20 0 0 0 304 0" fill="none" stroke="#000" stroke-opacity=".05" stroke-width="4"/>
+        <path d="M126 152a154 20 0 0 0 308 0" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2.5" stroke-linecap="round"/>
       </g>
     {%- endif -%}
 {%- endcase -%}

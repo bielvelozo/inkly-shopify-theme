@@ -109,14 +109,7 @@
             {{- 'personalizer.preview_label' | t: product: product.title -}}
           </title>
           <defs>
-            <linearGradient id="MockupCeramic" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0" stop-color="#000" stop-opacity=".24"/>
-              <stop offset=".16" stop-color="#000" stop-opacity=".04"/>
-              <stop offset=".32" stop-color="#fff" stop-opacity=".32"/>
-              <stop offset=".46" stop-color="#fff" stop-opacity="0"/>
-              <stop offset=".82" stop-color="#000" stop-opacity=".06"/>
-              <stop offset="1" stop-color="#000" stop-opacity=".28"/>
-            </linearGradient>
+            {% render 'mockup', type: mockup, layer: 'defs' %}
             <linearGradient id="MockupFabric" x1="0" x2="1" y1="0" y2="0">
               <stop offset="0" stop-color="#000" stop-opacity=".14"/>
               <stop offset=".4" stop-color="#fff" stop-opacity=".08"/>

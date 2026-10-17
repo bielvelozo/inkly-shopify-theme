@@ -392,8 +392,8 @@
 .cart-item__remove {
   display: grid;
   place-items: center;
-  width: 2.35rem;
-  height: 2.35rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
   color: var(--color-foreground);
   transition: background-color 0.2s ease;
@@ -567,9 +567,12 @@
 }
 
 .cart-summary__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
   font-size: 0.9rem;
   font-weight: 600;
-  text-align: center;
 }
 
 /* Cart page */

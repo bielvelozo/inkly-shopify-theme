@@ -63,10 +63,16 @@
 
 .footer__column ul {
   display: grid;
-  gap: 0.6rem;
+  gap: 0;
   padding: 0;
   list-style: none;
   font-size: 1.05rem;
+}
+
+.footer__column li a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
 }
 
 .footer__field {
@@ -146,6 +152,12 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.footer__legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
 }
 
 .footer__payment {

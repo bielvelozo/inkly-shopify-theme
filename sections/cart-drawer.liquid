@@ -1,6 +1,6 @@
 <noscript>{{ 'cart.css' | asset_url | stylesheet_tag }}</noscript>
 
-<cart-drawer class="cart-drawer" data-cart-section="{{ section.id }}" data-stylesheet="{{ 'cart.css' | asset_url }}">
+<cart-drawer class="cart-drawer" data-cart-section="{{ section.id }}" data-stylesheet="{{ 'cart.css' | asset_url }}" data-script="{{ 'cart-drawer.js' | asset_url }}">
   <dialog class="cart-drawer__dialog" scroll-lock aria-labelledby="CartDrawerTitle" data-cart-dialog>
     <p class="cart-drawer__error" role="alert" data-cart-error hidden></p>
 

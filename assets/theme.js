@@ -32,9 +32,38 @@
   theme.sectionIds = () =>
     Array.from(document.querySelectorAll('[data-cart-section]'), (el) => el.dataset.cartSection);
 
-  theme.publishCart = (detail) => {
+  theme.loadCartDrawer = () => {
+    const drawer = document.querySelector('cart-drawer');
+    if (!drawer?.dataset.script) return Promise.resolve();
+    theme.cartDrawerReady ||= new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = drawer.dataset.script;
+      script.onload = script.onerror = () => resolve();
+      document.head.append(script);
+    });
+    return theme.cartDrawerReady;
+  };
+
+  theme.publishCart = async (detail) => {
+    await theme.loadCartDrawer();
     document.dispatchEvent(new CustomEvent('cart:updated', { detail }));
   };
+
+  document.addEventListener('click', (event) => {
+    const toggle = event.target.closest('[data-cart-toggle]');
+    if (!toggle || event.metaKey || event.ctrlKey || customElements.get('cart-drawer')) return;
+    const drawer = document.querySelector('cart-drawer');
+    if (!drawer?.dataset.script) return;
+    event.preventDefault();
+    theme.loadCartDrawer().then(() => drawer.open?.(toggle));
+  });
+
+  const warmCartDrawer = () =>
+    'requestIdleCallback' in window
+      ? requestIdleCallback(() => theme.loadCartDrawer(), { timeout: 3000 })
+      : setTimeout(() => theme.loadCartDrawer(), 1500);
+  if (document.readyState === 'complete') warmCartDrawer();
+  else addEventListener('load', warmCartDrawer, { once: true });
 
   theme.observeReveals = (root = document) => {
     const targets = root.querySelectorAll('.reveal:not(.is-revealed)');

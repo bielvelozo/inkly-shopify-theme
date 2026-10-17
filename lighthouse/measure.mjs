@@ -6,13 +6,36 @@ import lighthouse from 'lighthouse';
 import desktopConfig from 'lighthouse/core/config/desktop-config.js';
 import { computeMedianRun } from 'lighthouse/core/lib/median-run.js';
 
-const [label, url, runsArg] = process.argv.slice(2);
+const args = process.argv.slice(2);
+const withoutShopifyScripts = args.includes('--without-shopify-scripts');
+const [label, url, runsArg] = args.filter((arg) => !arg.startsWith('--'));
 if (!label || !url) {
-  console.error('usage: node lighthouse/measure.mjs <label> <url> [runs]');
+  console.error('usage: node lighthouse/measure.mjs <label> <url> [runs] [--without-shopify-scripts]');
   process.exit(1);
 }
 
 const runs = Number(runsArg) || 5;
+
+// No GPU, like the PageSpeed Insights servers: on a desktop GPU the first canvas
+// read in Shopify's perf-kit pays the GPU's cold start, which Lighthouse's 4x CPU
+// slowdown then turns into a long task that no theme can avoid.
+const chromeFlags = ['--headless=new', '--no-first-run', '--disable-gpu'];
+
+// Diagnostic only: what the theme scores without the scripts Shopify injects
+// through content_for_header. Never a result to publish as the store's score.
+const shopifyScripts = [
+  '*perf-kit*',
+  '*trekkie*',
+  '*/wpm/*',
+  '*shop-js*',
+  '*preloads.js*',
+  '*checkout-web*',
+  '*shop_events_listener*',
+  '*load_feature*',
+  '*standard-actions*',
+  '*origin_trials*',
+];
+const blockedUrlPatterns = withoutShopifyScripts ? shopifyScripts : [];
 const folder = path.join(path.dirname(fileURLToPath(import.meta.url)), label);
 await fs.mkdir(folder, { recursive: true });
 
@@ -33,7 +56,15 @@ const median = (values) => {
   return sorted[Math.floor(sorted.length / 2)];
 };
 
-const summary = { url, runs, measured_at: new Date().toISOString(), lighthouse: null };
+const summary = {
+  url,
+  runs,
+  measured_at: new Date().toISOString(),
+  lighthouse: null,
+  chrome_flags: chromeFlags,
+  diagnostic_without_shopify_scripts: withoutShopifyScripts,
+  blocked_url_patterns: blockedUrlPatterns,
+};
 
 for (const [mode, config] of [
   ['mobile', undefined],
@@ -41,11 +72,17 @@ for (const [mode, config] of [
 ]) {
   const results = [];
   for (let i = 1; i <= runs; i += 1) {
-    const chrome = await chromeLauncher.launch({ chromeFlags: ['--headless=new', '--no-first-run'] });
+    const chrome = await chromeLauncher.launch({ chromeFlags });
     try {
       const { lhr, report } = await lighthouse(
         url,
-        { port: chrome.port, output: 'html', logLevel: 'error', onlyCategories: ['performance', 'accessibility'] },
+        {
+          port: chrome.port,
+          output: 'html',
+          logLevel: 'error',
+          onlyCategories: ['performance', 'accessibility'],
+          blockedUrlPatterns,
+        },
         config
       );
       results.push({ lhr, report });

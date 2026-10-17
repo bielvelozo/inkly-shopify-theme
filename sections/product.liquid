@@ -81,8 +81,22 @@
 <div class="product section-spacing{% if personalizer %} product--personalized{% endif %}" data-section-id="{{ section.id }}">
   <div class="product__media">
     {% if personalizer %}
-      <div class="personalizer-stage" id="PersonalizerStage-{{ section.id }}">
-        <span class="tag tag--lemon personalizer-stage__tag">{{ 'personalizer.live_tag' | t }}</span>
+      {%- liquid
+        assign stage_tone = 'light'
+        assign mockup_brightness = mockup_color | color_brightness
+        if mockup_brightness < 110
+          assign stage_tone = 'dark'
+        endif
+      -%}
+      <div class="personalizer-stage" id="PersonalizerStage-{{ section.id }}" data-tone="{{ stage_tone }}">
+        <span
+          class="tag personalizer-stage__tag"
+          data-stage-tag
+          data-label-live="{{ 'personalizer.live_tag' | t | escape }}"
+          data-label-ready="{{ 'personalizer.ready_tag' | t | escape }}"
+        >
+          {{- 'personalizer.live_tag' | t -}}
+        </span>
         <svg
           class="mockup"
           viewBox="0 0 600 600"

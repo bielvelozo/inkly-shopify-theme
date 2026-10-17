@@ -99,7 +99,8 @@
     "property_position": "Text position",
     "property_adjust": "Photo adjustment",
     "property_preview": "Preview",
-    "live_tag": "Live preview"
+    "live_tag": "Live preview",
+    "ready_tag": "Ready to print"
   },
   "cart": {
     "title": "Your gift box",

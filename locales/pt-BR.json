@@ -99,7 +99,8 @@
     "property_position": "Posição do texto",
     "property_adjust": "Ajuste da foto",
     "property_preview": "Prévia",
-    "live_tag": "Prévia ao vivo"
+    "live_tag": "Prévia ao vivo",
+    "ready_tag": "Pronto para imprimir"
   },
   "cart": {
     "title": "Sua caixa de presente",

@@ -183,6 +183,11 @@ input:focus-visible + .variant-picker__chip {
   background-color: var(--color-pink);
   background-image: var(--tile-dots);
   background-size: 24px 24px;
+  transition: background-color 0.4s ease;
+}
+
+.personalizer-stage[data-tone='dark'] {
+  background-color: var(--color-lemon);
 }
 
 .personalizer-stage > * {
@@ -195,6 +200,13 @@ input:focus-visible + .variant-picker__chip {
   top: clamp(0.9rem, 2vw, 1.4rem);
   left: clamp(0.9rem, 2vw, 1.4rem);
   transform: rotate(-4deg);
+  transform-origin: 0.62rem 50%;
+  transition: background-color 0.3s ease;
+}
+
+.personalizer-stage__tag.is-ready {
+  --tag-bg: var(--color-mint);
+  animation: tag-swing 1.1s var(--ease-out);
 }
 
 .personalizer-stage .mockup {
@@ -259,7 +271,7 @@ input:focus-visible + .variant-picker__chip {
     top: calc(var(--header-height) + 1.25rem);
     margin-inline: calc(var(--page-margin) * -1);
     border-radius: 0 0 1.75rem 1.75rem;
-    box-shadow: 0 8px 12px -8px rgb(21 18 58 / 0.4);
+    border-bottom: 2px solid var(--color-foreground);
   }
 
   .personalizer-stage .mockup {
@@ -351,7 +363,6 @@ input:focus-visible + .variant-picker__chip {
 .personalizer__option:has(input:checked) {
   border-color: var(--color-accent);
   background: color-mix(in srgb, var(--color-accent) 8%, var(--color-background));
-  box-shadow: 0 6px 14px -10px var(--color-accent);
 }
 
 .personalizer__option:has(input:focus-visible),

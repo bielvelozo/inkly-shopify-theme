@@ -81,6 +81,7 @@
       document.addEventListener('variant:change', (event) => {
         if (event.detail.sectionId !== this.sectionId || !event.detail.swatch) return;
         this.svg.style.color = event.detail.swatch;
+        this.stage.dataset.tone = this.brightness(event.detail.swatch) < 110 ? 'dark' : 'light';
         this.render();
       });
 
@@ -309,6 +310,23 @@
       this.renderPhoto();
       const empty = !this.photo && !this.textState;
       this.guideEl.classList.toggle('is-visible', empty);
+      this.renderStageTag(empty);
+    }
+
+    renderStageTag(empty) {
+      const tag = this.stage.querySelector('[data-stage-tag]');
+      if (!tag) return;
+      const lowQuality = this.qualityEl && !this.qualityEl.hidden && this.qualityEl.classList.contains('is-low');
+      const ready = !empty && !lowQuality;
+      tag.classList.toggle('is-ready', ready);
+      tag.textContent = ready ? tag.dataset.labelReady : tag.dataset.labelLive;
+    }
+
+    brightness(color) {
+      const hex = color.replace('#', '');
+      if (!/^[0-9a-f]{6}$/i.test(hex)) return 255;
+      const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16));
+      return (r * 299 + g * 587 + b * 114) / 1000;
     }
 
     renderText() {

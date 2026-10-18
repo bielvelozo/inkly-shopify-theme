@@ -6,6 +6,8 @@
 <title>Gabriel Velozo · Shopify developer for personalized products</title>
 <meta name="description" content="I help Shopify stores that sell personalized products with live previews, cart upsells and fast mobile pages. Four cases from a demo store and fixed prices.">
 <link rel="canonical" href="https://gabrielvelozo.pages.dev/">
+<link rel="alternate" hreflang="en" href="https://gabrielvelozo.pages.dev/">
+<link rel="alternate" hreflang="pt-BR" href="https://gabrielvelozo.pages.dev/br/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://gabrielvelozo.pages.dev/">
 <meta property="og:title" content="Gabriel Velozo · Shopify developer for personalized products">
@@ -15,172 +17,11 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FFFFFF">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preload" href="fonts/archivo-expanded-800.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/archivo-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/archivo-700.woff2" as="font" type="font/woff2" crossorigin>
-<style>
-@font-face{font-family:Archivo;src:url(fonts/archivo-400.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:Archivo;src:url(fonts/archivo-700.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:"Archivo Expanded";src:url(fonts/archivo-expanded-800.woff2) format("woff2");font-weight:800;font-style:normal;font-display:swap}
-@font-face{font-family:"Expanded Fallback";src:local("Arial Black"),local("Arial Bold"),local("Helvetica Neue Bold");size-adjust:104%;ascent-override:88%;descent-override:22%}
-
-:root{
-  --bg:#FFFFFF;
-  --surface:#F3F1FF;
-  --ink:#15123A;
-  --muted:#4D4970;
-  --accent:#2B44E6;
-  --accent-ink:#FFFFFF;
-  --border:#E1DEF3;
-  --pink:#FF9FCB;
-  --lemon:#FFE55C;
-  --mint:#A6EBCB;
-  --display:"Archivo Expanded","Expanded Fallback",sans-serif;
-  --body:Archivo,system-ui,-apple-system,"Segoe UI",sans-serif;
-  --gutter:max(16px,4vw);
-  --section:clamp(3.5rem,2rem + 5vw,6.5rem);
-  --radius:1.5rem;
-  --dots:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='4' cy='4' r='1.7' fill='%23fff' fill-opacity='.6'/%3E%3C/svg%3E");
-  color-scheme:light;
-}
-*,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-img{display:block;max-width:100%;height:auto}
-a{color:inherit}
-p{margin:0}
-h1,h2,h3{margin:0;font-family:var(--display);font-weight:800;letter-spacing:-.03em;text-wrap:balance}
-:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
-.wrap{max-width:74rem;margin-inline:auto;padding-inline:var(--gutter)}
-.skip{position:absolute;left:-999px;top:.5rem;background:var(--ink);color:#fff;padding:.6rem 1rem;border-radius:999px;z-index:10}
-.skip:focus{left:.5rem}
-
-.label{font:700 .8rem/1.2 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.tag{display:inline-flex;align-items:center;gap:.45rem;font:700 .8rem/1.2 var(--body);background:var(--bg);color:var(--ink);border-radius:.6rem;padding:.38rem .7rem;box-shadow:0 0 0 1.5px var(--ink)}
-.tag::before{content:"";width:.45rem;height:.45rem;border-radius:50%;background:var(--accent)}
-.tag--lemon{background:var(--lemon)}
-
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:3.1rem;padding:.75rem 1.5rem;border-radius:999px;font:700 1rem/1 var(--body);text-decoration:none;transition:transform .15s ease,background-color .15s ease}
-.btn--primary{background:var(--accent);color:var(--accent-ink)}
-.btn--primary:hover{background:#1F35C9}
-.btn--ghost{box-shadow:inset 0 0 0 2px var(--ink)}
-.btn--ghost:hover{background:var(--surface)}
-.btn:active{transform:translateY(1px)}
-
-.top{padding-block:1.1rem}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.brand{display:flex;flex-direction:column;text-decoration:none;line-height:1.15}
-.brand b{font:800 1.05rem/1.1 var(--display);letter-spacing:-.02em}
-.brand span{font-size:.85rem;color:var(--muted)}
-.nav{display:flex;gap:.25rem}
-.nav a{display:inline-flex;align-items:center;min-height:2.75rem;padding:0 .8rem;border-radius:999px;font-weight:700;font-size:.95rem;text-decoration:none}
-.nav a:hover{background:var(--surface)}
-@media (max-width:420px){.nav a:nth-child(3){display:none}.nav a{padding:0 .6rem}}
-
-.hero{padding-block:clamp(1.5rem,1rem + 3vw,4rem) var(--section)}
-.hero .wrap{display:grid;gap:2.25rem}
-.hero h1{margin-top:.8rem;font-size:clamp(1.6rem,1rem + 1.9vw,2.6rem);line-height:1.06}
-.hero h1 em{font-style:normal;color:var(--accent)}
-.hero__lead{margin-top:1.25rem;max-width:36rem;font-size:1.125rem;color:var(--muted)}
-.hero__cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem}
-.lock{display:flex;align-items:flex-start;gap:.7rem;margin-top:1.75rem;max-width:36rem;padding:.85rem 1rem;border-radius:1rem;background:var(--surface);font-size:.98rem;line-height:1.45}
-.lock svg{flex:none;margin-top:.1rem}
-.hero__media{margin:0}
-@media (min-width:960px){
-  .hero .wrap{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:center;gap:3.5rem}
-}
-
-.paper{position:relative;border-radius:var(--radius);padding:clamp(.85rem,.6rem + 1.2vw,1.6rem);background-color:var(--pink);background-image:var(--dots)}
-.paper--lemon{background-color:var(--lemon)}
-.paper--mint{background-color:var(--mint)}
-.paper--cobalt{background-color:var(--accent);--dots:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='4' cy='4' r='1.7' fill='%23fff' fill-opacity='.22'/%3E%3C/svg%3E")}
-.paper .tag{margin-bottom:.85rem}
-.video{position:relative;display:block;aspect-ratio:16/9;border-radius:.9rem;overflow:hidden;background:var(--ink);box-shadow:0 0 0 2px var(--ink)}
-.video img,.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.video img{object-fit:cover;transition:transform .35s ease}
-a.video:hover img{transform:scale(1.02)}
-.play{position:absolute;left:.75rem;bottom:.75rem;display:inline-flex;align-items:center;gap:.5rem;padding:.55rem .95rem .55rem .65rem;border-radius:999px;background:var(--ink);color:#fff;font:700 .9rem/1 var(--body)}
-.play i{display:grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:50%;background:var(--accent)}
-a.video:hover .play{background:var(--accent)}
-a.video:hover .play i{background:var(--ink)}
-.caption{margin-top:.8rem;font-size:.9rem;font-weight:700}
-.paper--cobalt .caption{color:#fff}
-
-.section{padding-block:var(--section)}
-.section--tint{background:var(--surface)}
-.section__head{max-width:44rem;margin-bottom:clamp(2rem,1.5rem + 2vw,3.5rem)}
-.section__head h2{font-size:clamp(1.75rem,1.1rem + 2.4vw,3rem);line-height:1.02;margin-top:.6rem}
-.section__head p{margin-top:1rem;color:var(--muted);font-size:1.0625rem}
-
-.case{display:grid;gap:1.75rem;padding-block:clamp(2rem,1.5rem + 2vw,3.5rem);border-top:2px solid var(--border)}
-.case:first-of-type{border-top:0;padding-top:0}
-.case h3{font-size:clamp(1.4rem,1.1rem + 1.2vw,2.1rem);line-height:1.05;margin-top:.55rem}
-.case__body{display:grid;gap:1.15rem;align-content:start}
-.beat h4{margin:0 0 .25rem;font:700 1rem/1.3 var(--body);display:flex;align-items:center;gap:.5rem}
-.beat h4::before{content:"";width:.6rem;height:.6rem;border-radius:3px;background:var(--beat,var(--accent))}
-.beat--problem{--beat:var(--pink)}
-.beat--built{--beat:var(--lemon)}
-.beat--result{--beat:var(--mint)}
-.beat p,.note{color:var(--muted)}
-.note{font-size:.95rem}
-.beat--result p{color:var(--ink)}
-.more{display:flex;flex-wrap:wrap;gap:.4rem 1.25rem;font-weight:700;font-size:.95rem}
-.more a{display:inline-flex;align-items:center;gap:.35rem;min-height:2.75rem;text-decoration-thickness:2px;text-underline-offset:4px}
-.more a:hover{color:var(--accent)}
-@media (min-width:960px){
-  .case{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:3.25rem;align-items:start}
-  .case--flip .case__media{order:2}
-}
-
-.stats{display:grid;gap:.6rem;margin:0}
-.stat{display:grid;grid-template-columns:auto auto 1fr;align-items:center;column-gap:.6rem;row-gap:.2rem;padding:.85rem 1.1rem;border-radius:1rem;background:var(--bg);box-shadow:inset 0 0 0 2px var(--border)}
-.stat__from{font:700 1.15rem/1 var(--body);color:var(--muted)}
-.stat__to{font:800 clamp(1.5rem,1.2rem + 1vw,2rem)/1 var(--display);color:var(--accent);letter-spacing:-.03em}
-.stat dd{margin:0;grid-column:1/-1;font-size:.95rem;color:var(--muted)}
-.stat dt{display:contents}
-.stat svg{color:var(--muted)}
-
-.prices{display:grid;gap:1rem}
-.price{display:flex;flex-direction:column;gap:1rem;padding:clamp(1.25rem,1rem + 1vw,2rem);border-radius:var(--radius);background:var(--bg);box-shadow:inset 0 0 0 2px var(--border)}
-.price--main{box-shadow:inset 0 0 0 3px var(--accent)}
-.price h3{font-size:1.35rem;line-height:1.1}
-.price .price__amount{color:var(--ink);font:800 clamp(2.2rem,1.8rem + 1.5vw,2.9rem)/1 var(--display);letter-spacing:-.04em}
-.price__amount small{font:700 1rem/1 var(--body);letter-spacing:0;color:var(--muted);margin-left:.3rem}
-.price .price__amount--quote{font-size:clamp(1.6rem,1.4rem + .8vw,2rem)}
-.price p{color:var(--muted)}
-.price ul{margin:0;padding:0;list-style:none;display:grid;gap:.55rem}
-.price li{position:relative;padding-left:1.6rem;line-height:1.45}
-.price li::before{content:"";position:absolute;left:0;top:.35em;width:1rem;height:.75rem;background:var(--accent);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 12'%3E%3Cpath d='M1.5 6.5l4 4L14.5 1.5' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 12'%3E%3Cpath d='M1.5 6.5l4 4L14.5 1.5' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
-.price .price__terms{margin-top:auto;padding-top:1rem;border-top:2px dashed var(--border);font-size:.92rem;font-weight:700;color:var(--ink)}
-.fine{margin-top:1.5rem;color:var(--muted);font-size:.95rem}
-@media (min-width:900px){.prices{grid-template-columns:repeat(3,minmax(0,1fr))}}
-
-.steps{display:grid;gap:1rem;margin:0;padding:0;list-style:none;counter-reset:step}
-.steps li{counter-increment:step;display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:start;padding:1.15rem 1.25rem;border-radius:1.1rem;background:var(--bg);box-shadow:inset 0 0 0 2px var(--border)}
-.steps li::before{content:counter(step);display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--lemon);font:800 .95rem/1 var(--display)}
-@media (min-width:760px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
-
-.duo{display:grid;gap:2rem}
-.about__title{font-size:clamp(1.75rem,1.1rem + 2.4vw,3rem);line-height:1.02;margin:.6rem 0 1.25rem}
-.about__bio{color:var(--muted)}
-.about__bio+.about__bio{margin-top:1rem}
-.about__bio--lead{color:var(--ink)}
-.contact{border-radius:var(--radius);padding:clamp(1.5rem,1.1rem + 1.6vw,2.5rem);background-color:var(--accent);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='4' cy='4' r='1.7' fill='%23fff' fill-opacity='.18'/%3E%3C/svg%3E");color:#fff}
-.contact h2{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.4rem);line-height:1.04}
-.contact p{margin-top:1rem;color:#E4E7FF}
-.contact .lock{background:rgba(255,255,255,.12);color:#fff;margin-top:1.5rem}
-@media (min-width:960px){.duo{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3.5rem;align-items:start}}
-
-.foot{padding-block:2rem 2.5rem;border-top:2px solid var(--border);font-size:.92rem;color:var(--muted)}
-.foot .wrap{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;justify-content:space-between}
-.foot a{font-weight:700;color:var(--ink)}
-
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *,*::before,*::after{transition:none!important}
-}
-</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/archivo-expanded-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/site.css">
 </head>
 <body>
 <a class="skip" href="#work">Skip to the work</a>
@@ -192,9 +33,11 @@ a.video:hover .play i{background:var(--ink)}
       <span>Shopify developer</span>
     </a>
     <nav class="nav" aria-label="Sections">
-      <a href="#work">Work</a>
+      <a class="nav__opt" href="#work">Work</a>
       <a href="#prices">Prices</a>
-      <a href="#how">How I work</a>
+      <a class="nav__opt" href="#how">How I work</a>
+      <a href="#contact">Contact</a>
+      <a class="nav__lang" href="/br/" hreflang="pt-BR" lang="pt-BR">PT</a>
     </nav>
   </div>
 </header>
@@ -218,7 +61,7 @@ a.video:hover .play i{background:var(--ink)}
       <figure class="paper paper--lemon hero__media">
         <span class="tag">Demo store · fictional products</span>
         <a class="video" href="https://www.youtube.com/watch?v=NEYUIo16DfA" data-yt="NEYUIo16DfA" data-title="Inkly, the demo store, in 22 seconds">
-          <img src="img/tour-640.webp" srcset="img/tour-640.webp 640w, img/tour-1280.webp 1280w" sizes="(min-width:960px) 32rem, calc(100vw - 64px)" width="1280" height="720" alt="The Inkly demo store's home page: a mug with a customer's text printed on it" fetchpriority="high">
+          <img src="/img/tour-640.webp" srcset="/img/tour-640.webp 640w, /img/tour-1280.webp 1280w" sizes="(min-width:960px) 32rem, calc(100vw - 64px)" width="1280" height="720" alt="The Inkly demo store's home page: a mug with a customer's text printed on it" fetchpriority="high">
           <span class="play"><i><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M3 1.5v9l7.5-4.5z"/></svg></i>Watch the store · 0:22</span>
         </a>
         <figcaption class="caption">Inkly, the store I built from scratch to show this work in public.</figcaption>
@@ -239,7 +82,7 @@ a.video:hover .play i{background:var(--ink)}
           <div class="paper">
             <span class="tag">Demo store · fictional products</span>
             <a class="video" href="https://www.youtube.com/watch?v=W7rQXUFeLF0" data-yt="W7rQXUFeLF0" data-title="Live 3D product preview on the Inkly demo store">
-              <img src="img/personalizer-640.webp" srcset="img/personalizer-640.webp 640w, img/personalizer-1280.webp 1280w" sizes="(min-width:960px) 36rem, calc(100vw - 64px)" width="1280" height="720" alt="A mug on the product page with the customer's text printed on it, next to font and color choices" loading="lazy" decoding="async">
+              <img src="/img/personalizer-640.webp" srcset="/img/personalizer-640.webp 640w, /img/personalizer-1280.webp 1280w" sizes="(min-width:960px) 36rem, calc(100vw - 64px)" width="1280" height="720" alt="A mug on the product page with the customer's text printed on it, next to font and color choices" loading="lazy" decoding="async">
               <span class="play"><i><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M3 1.5v9l7.5-4.5z"/></svg></i>Watch · 1:14</span>
             </a>
           </div>
@@ -270,7 +113,7 @@ a.video:hover .play i{background:var(--ink)}
           <div class="paper paper--mint">
             <span class="tag">Demo store · fictional products</span>
             <a class="video" href="https://www.youtube.com/watch?v=DsRWHmc-3K0" data-yt="DsRWHmc-3K0" data-title="Cart drawer with a free-shipping bar and one-click add-ons">
-              <img src="img/cart-640.webp" srcset="img/cart-640.webp 640w, img/cart-1280.webp 1280w" sizes="(min-width:960px) 36rem, calc(100vw - 64px)" width="1280" height="720" alt="The cart drawer open over the store, showing free shipping unlocked" loading="lazy" decoding="async">
+              <img src="/img/cart-640.webp" srcset="/img/cart-640.webp 640w, /img/cart-1280.webp 1280w" sizes="(min-width:960px) 36rem, calc(100vw - 64px)" width="1280" height="720" alt="The cart drawer open over the store, showing free shipping unlocked" loading="lazy" decoding="async">
               <span class="play"><i><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M3 1.5v9l7.5-4.5z"/></svg></i>Watch · 0:43</span>
             </a>
           </div>
@@ -300,7 +143,7 @@ a.video:hover .play i{background:var(--ink)}
           <div class="paper paper--lemon">
             <span class="tag">Demo store · fictional products</span>
             <a class="video" href="https://www.youtube.com/watch?v=Vpt_8GRCpnU" data-yt="Vpt_8GRCpnU" data-title="Store speed on mobile, before and after">
-              <img src="img/speed-640.webp" srcset="img/speed-640.webp 640w, img/speed-1280.webp 1280w" sizes="(min-width:960px) 36rem, calc(100vw - 64px)" width="1280" height="720" alt="The slow version and the final store loading side by side on the same phone" loading="lazy" decoding="async">
+              <img src="/img/speed-640.webp" srcset="/img/speed-640.webp 640w, /img/speed-1280.webp 1280w" sizes="(min-width:960px) 36rem, calc(100vw - 64px)" width="1280" height="720" alt="The slow version and the final store loading side by side on the same phone" loading="lazy" decoding="async">
               <span class="play"><i><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M3 1.5v9l7.5-4.5z"/></svg></i>Watch · 0:57</span>
             </a>
           </div>
@@ -344,7 +187,7 @@ a.video:hover .play i{background:var(--ink)}
           <div class="paper paper--cobalt">
             <span class="tag tag--lemon">Demo store · simulated ERP</span>
             <a class="video" href="https://www.youtube.com/watch?v=J6ymdCDhGMs" data-yt="J6ymdCDhGMs" data-title="Inkly ERP Sync: orders to the ERP, tracking numbers back">
-              <img src="img/erp-640.webp" srcset="img/erp-640.webp 640w, img/erp-1280.webp 1280w" sizes="(min-width:960px) 36rem, calc(100vw - 64px)" width="1280" height="720" alt="Diagram: an order leaves Shopify, goes through the app to the ERP, and the tracking number comes back" loading="lazy" decoding="async">
+              <img src="/img/erp-640.webp" srcset="/img/erp-640.webp 640w, /img/erp-1280.webp 1280w" sizes="(min-width:960px) 36rem, calc(100vw - 64px)" width="1280" height="720" alt="Diagram: an order leaves Shopify, goes through the app to the ERP, and the tracking number comes back" loading="lazy" decoding="async">
               <span class="play"><i><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M3 1.5v9l7.5-4.5z"/></svg></i>Watch · 0:47</span>
             </a>
           </div>
@@ -377,13 +220,13 @@ a.video:hover .play i{background:var(--ink)}
       <div class="section__head">
         <p class="label">Prices</p>
         <h2 id="prices-title">Fixed prices, agreed before I start</h2>
-        <p>You know the price and what's included before any work begins. Prices in US dollars.</p>
+        <p>You know the price and what's included before any work begins. Prices in US dollars. <a href="/br/#precos" hreflang="pt-BR" lang="pt-BR">Preços em reais para lojas no Brasil</a>.</p>
       </div>
       <div class="prices">
         <article class="price">
           <h3>Quick fix</h3>
-          <p class="price__amount">$60</p>
-          <p>One fix or small change in your theme, up to 5 hours of work. For example:</p>
+          <p class="price__amount">$30</p>
+          <p>One small fix or change in your theme, up to 2 hours of work. For example:</p>
           <ul>
             <li>a section that breaks on mobile</li>
             <li>a block, button or text your theme doesn't offer</li>
@@ -392,12 +235,12 @@ a.video:hover .play i{background:var(--ink)}
           <p class="price__terms">Done in up to 3 days · 1 round of changes</p>
         </article>
         <article class="price price--main">
-          <h3>Weekend project</h3>
-          <p class="price__amount">$250</p>
-          <p>One bigger piece, built over a weekend. Pick one:</p>
+          <h3>One feature</h3>
+          <p class="price__amount">$120</p>
+          <p>One focused piece, about a day of work. Pick one:</p>
           <ul>
-            <li>a speed pass on your home and product pages, measured before and after</li>
-            <li>a cart drawer with a free-shipping bar and one-click add-ons</li>
+            <li>a speed pass on one page (home or product), measured before and after</li>
+            <li>a free-shipping bar and one-click add-ons in your cart</li>
             <li>a live text preview on one personalized product, saved with the order</li>
           </ul>
           <p class="price__terms">Done in up to 7 days · 2 rounds of changes</p>
@@ -438,7 +281,12 @@ a.video:hover .play i{background:var(--ink)}
       </div>
       <div class="contact">
         <h2 id="contact-title">Want this on your store?</h2>
-        <p>Reply to the message or proposal that brought you here with your store's address and what you need. I'll answer with the scope and a fixed price.</p>
+        <p>Send me your store's address and what you need. I'll answer with the scope and a fixed price.</p>
+        <div class="contact__actions">
+          <a class="btn btn--light" href="mailto:gabrielvelozodev@gmail.com?subject=Shopify%20project">Email me</a>
+          <a class="btn btn--outline-light" href="https://www.fiverr.com/bielvelozo" target="_blank" rel="noopener">Hire me on Fiverr</a>
+        </div>
+        <p class="contact__mail">gabrielvelozodev@gmail.com, or reply to the message or proposal that brought you here.</p>
         <p class="lock">
           <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm-3 8V7a3 3 0 1 1 6 0v3H9Z"/></svg>
           <span>The demo store is password protected; ask for a 2-day preview link and click around it yourself.</span>
@@ -455,36 +303,6 @@ a.video:hover .play i{background:var(--ink)}
   </div>
 </footer>
 
-<script>
-(function () {
-  var warmed = false;
-  function warm() {
-    if (warmed) return;
-    warmed = true;
-    var l = document.createElement('link');
-    l.rel = 'preconnect';
-    l.href = 'https://www.youtube-nocookie.com';
-    document.head.appendChild(l);
-  }
-  document.addEventListener('pointerover', function (e) {
-    if (e.target.closest && e.target.closest('a[data-yt]')) warm();
-  }, { passive: true });
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[data-yt]');
-    if (!a || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    e.preventDefault();
-    var box = document.createElement('div');
-    box.className = 'video';
-    var f = document.createElement('iframe');
-    f.src = 'https://www.youtube-nocookie.com/embed/' + a.dataset.yt + '?autoplay=1&mute=1&rel=0&playsinline=1';
-    f.title = a.dataset.title;
-    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-    f.allowFullscreen = true;
-    box.appendChild(f);
-    a.replaceWith(box);
-    f.focus();
-  });
-})();
-</script>
+<script src="/site.js" defer></script>
 </body>
 </html>

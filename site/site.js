@@ -17,6 +17,27 @@
     if (e.target.closest && e.target.closest('a[data-yt]')) warm();
   }, { passive: true });
   document.addEventListener('click', function (e) {
+    var m = e.target.closest && e.target.closest('a[data-mp4]');
+    if (!m || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    var poster = m.querySelector('img');
+    var box = document.createElement('div');
+    box.className = 'video';
+    var v = document.createElement('video');
+    v.src = m.dataset.mp4;
+    if (poster) v.poster = poster.currentSrc || poster.src;
+    v.controls = true;
+    v.muted = true;
+    v.playsInline = true;
+    v.autoplay = true;
+    v.setAttribute('aria-label', m.dataset.title);
+    box.appendChild(v);
+    m.replaceWith(box);
+    v.play().catch(function () {});
+    v.focus();
+  });
+
+  document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[data-yt]');
     if (!a || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();

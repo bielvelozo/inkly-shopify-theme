@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Gabriel Velozo · Shopify developer for personalized products</title>
 <meta name="description" content="I help Shopify stores that sell personalized products with live previews, cart upsells and fast mobile pages. Four cases from a demo store and fixed prices.">
 <link rel="canonical" href="https://gabrielvelozo.pages.dev/">
@@ -16,11 +16,12 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#2B44E6">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/fonts/archivo-expanded-800.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/archivo-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/archivo-700.woff2" as="font" type="font/woff2" crossorigin>
+<script>document.documentElement.classList.add("js")</script>
 <link rel="stylesheet" href="/site.css">
 </head>
 <body>
@@ -51,11 +52,11 @@
         <p class="label">Shopify developer · Brazil, UTC-3</p>
         <h1 id="hero-title">I help Shopify stores that sell personalized products <em>with live previews, cart upsells and fast mobile pages.</em></h1>
         <p class="hero__lead">Your customers see their name or photo on the product before they pay, the design arrives with the order, and the page shows up fast on a phone. Below are four pieces I built for Inkly, a demo store with fictional products.</p>
-        <div class="hero__cta">
+        <div class="hero__cta" id="hero-cta">
           <a class="btn btn--primary" href="#work">See the work</a>
           <a class="btn btn--ghost" href="#prices">Fixed prices</a>
         </div>
-        <p class="lock">
+        <p class="lock wide-only">
           <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm-3 8V7a3 3 0 1 1 6 0v3H9Z"/></svg>
           <span>The demo store is password protected; ask me for the password. The videos below show every piece working.</span>
         </p>
@@ -76,7 +77,7 @@
       <div class="section__head">
         <p class="label">Work</p>
         <h2 id="work-title">Four pieces from one demo store</h2>
-        <p>The store I work on every day can't be shown, so I built Inkly, a gift shop on Shopify, to show the same kind of work. The products are fictional and no orders are shipped. Everything else works, and each piece has a short video with no sound.</p>
+        <p class="wide-only">The store I work on every day can't be shown, so I built Inkly, a gift shop on Shopify, to show the same kind of work. The products are fictional and no orders are shipped. Everything else works, and each piece has a short video with no sound.</p>
       </div>
 
       <article class="case" aria-labelledby="case-1">
@@ -94,13 +95,16 @@
             <p class="label">01 · Product page</p>
             <h3 id="case-1">Customers see their gift before they pay</h3>
           </div>
-          <div class="beat beat--problem">
-            <h4>The problem</h4>
-            <p>Personalized gifts sell on trust. The customer wants to see their name or photo on the mug before paying, and the shop needs to know exactly what to print.</p>
-          </div>
-          <div class="beat beat--built">
-            <h4>What I built</h4>
-            <p>On the product page the customer types a line of text, picks the font, the color and where it goes, or uploads a photo. The mug, tee or tote bag changes as they type, in 2D or in a 3D view they can turn. A photo that would print blurry gets a warning before checkout.</p>
+          <button class="case__toggle" type="button" aria-expanded="false" aria-controls="story-1"><span>The problem and what I built</span><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 5l4.5 4.5L11.5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="story" id="story-1">
+            <div class="beat beat--problem">
+              <h4>The problem</h4>
+              <p>Personalized gifts sell on trust. The customer wants to see their name or photo on the mug before paying, and the shop needs to know exactly what to print.</p>
+            </div>
+            <div class="beat beat--built">
+              <h4>What I built</h4>
+              <p>On the product page the customer types a line of text, picks the font, the color and where it goes, or uploads a photo. The mug, tee or tote bag changes as they type, in 2D or in a 3D view they can turn. A photo that would print blurry gets a warning before checkout.</p>
+            </div>
           </div>
           <div class="beat beat--result">
             <h4>What it means for your store</h4>
@@ -125,13 +129,16 @@
             <p class="label">02 · Cart</p>
             <h3 id="case-2">A cart that sells a little more</h3>
           </div>
-          <div class="beat beat--problem">
-            <h4>The problem</h4>
-            <p>A cart that reloads the page breaks the shopping flow, and the upsell and free-shipping bars most stores use come from paid apps.</p>
-          </div>
-          <div class="beat beat--built">
-            <h4>What I built</h4>
-            <p>A cart that slides in without leaving the page. A ribbon shows how far the order is from free shipping and ties a bow when it passes $50. Suggested add-ons go in with one click, and quantity and removal update right there.</p>
+          <button class="case__toggle" type="button" aria-expanded="false" aria-controls="story-2"><span>The problem and what I built</span><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 5l4.5 4.5L11.5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="story" id="story-2">
+            <div class="beat beat--problem">
+              <h4>The problem</h4>
+              <p>A cart that reloads the page breaks the shopping flow, and the upsell and free-shipping bars most stores use come from paid apps.</p>
+            </div>
+            <div class="beat beat--built">
+              <h4>What I built</h4>
+              <p>A cart that slides in without leaving the page. A ribbon shows how far the order is from free shipping and ties a bow when it passes $50. Suggested add-ons go in with one click, and quantity and removal update right there.</p>
+            </div>
           </div>
           <div class="beat beat--result">
             <h4>What it means for your store</h4>
@@ -155,13 +162,16 @@
             <p class="label">03 · Speed</p>
             <h3 id="case-3">From 11.9 s to 3.5 s on a phone</h3>
           </div>
-          <div class="beat beat--problem">
-            <h4>The problem</h4>
-            <p>Many stores come to a developer already slow: heavy fonts, slider plugins and a banner image almost 4,000 pixels wide on every screen. On a phone, shoppers wait and stare at a blank page.</p>
-          </div>
-          <div class="beat beat--built">
-            <h4>What I built</h4>
-            <p>I built Inkly's home page the way those stores look, measured it, then fixed it: lighter fonts, no slider plugins, images sized for each screen, and the cart's code loaded only when it's needed.</p>
+          <button class="case__toggle" type="button" aria-expanded="false" aria-controls="story-3"><span>The problem and what I built</span><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 5l4.5 4.5L11.5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="story" id="story-3">
+            <div class="beat beat--problem">
+              <h4>The problem</h4>
+              <p>Many stores come to a developer already slow: heavy fonts, slider plugins and a banner image almost 4,000 pixels wide on every screen. On a phone, shoppers wait and stare at a blank page.</p>
+            </div>
+            <div class="beat beat--built">
+              <h4>What I built</h4>
+              <p>I built Inkly's home page the way those stores look, measured it, then fixed it: lighter fonts, no slider plugins, images sized for each screen, and the cart's code loaded only when it's needed.</p>
+            </div>
           </div>
           <div class="beat beat--result">
             <h4>The result</h4>
@@ -199,13 +209,16 @@
             <p class="label">04 · App</p>
             <h3 id="case-4">Orders reach the ERP, tracking numbers come back</h3>
           </div>
-          <div class="beat beat--problem">
-            <h4>The problem</h4>
-            <p>Someone copies each new order into the ERP and, once it ships, pastes the tracking number back into Shopify. It eats time every day, and mistakes slip in.</p>
-          </div>
-          <div class="beat beat--built">
-            <h4>What I built</h4>
-            <p>Inkly ERP Sync, a private app inside the Shopify admin. Every new order reaches the ERP in under half a second. When the ERP ships it, the tracking number comes back and the order is marked as fulfilled in Shopify.</p>
+          <button class="case__toggle" type="button" aria-expanded="false" aria-controls="story-4"><span>The problem and what I built</span><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 5l4.5 4.5L11.5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="story" id="story-4">
+            <div class="beat beat--problem">
+              <h4>The problem</h4>
+              <p>Someone copies each new order into the ERP and, once it ships, pastes the tracking number back into Shopify. It eats time every day, and mistakes slip in.</p>
+            </div>
+            <div class="beat beat--built">
+              <h4>What I built</h4>
+              <p>Inkly ERP Sync, a private app inside the Shopify admin. Every new order reaches the ERP in under half a second. When the ERP ships it, the tracking number comes back and the order is marked as fulfilled in Shopify.</p>
+            </div>
           </div>
           <div class="beat beat--result">
             <h4>What it means for your store</h4>
@@ -307,6 +320,11 @@
     <p>Inkly is a demo store: the products are fictional and no orders are shipped. Code: <a href="https://github.com/bielvelozo/inkly-shopify-theme" target="_blank" rel="noopener">theme</a> · <a href="https://github.com/bielvelozo/inkly-erp-sync" target="_blank" rel="noopener">app</a></p>
   </div>
 </footer>
+
+<div class="dock" data-from="hero-cta" data-skip="prices" data-until="contact">
+  <a class="btn btn--ghost" href="#prices">See prices</a>
+  <a class="btn btn--primary" href="mailto:gabrielvelozodev@gmail.com?subject=Shopify%20project">Email me</a>
+</div>
 
 <script src="/site.js" defer></script>
 </body>

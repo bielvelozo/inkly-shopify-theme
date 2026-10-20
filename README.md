@@ -4,8 +4,9 @@ A Shopify Online Store 2.0 theme for a fictional personalized-gifts store, built
 
 ![Home page on desktop](docs/08-home-desktop.jpg)
 
-- Demo store: `inkly-demo.myshopify.com` (a development store, so it's password protected; ask for the password). Inside it, **How this store was built** (`/collections/how-this-store-was-built`, linked from the footer) walks through the five pieces with videos: the 3D preview, the personalizer, the cart drawer, the speed work and the companion app [Inkly ERP Sync](https://github.com/bielvelozo/inkly-erp-sync).
+- Demo store: `inkly-demo.myshopify.com` (a development store, so it asks for a password: `inkly`). Inside it, **How this store was built** (`/collections/how-this-store-was-built`, linked from the footer) walks through the five pieces with videos: the 3D preview, the personalizer, the cart drawer, the speed work and the companion app [Inkly ERP Sync](https://github.com/bielvelozo/inkly-erp-sync).
 - The same videos on YouTube, no password needed: [the store in 22 s](https://youtu.be/NEYUIo16DfA), [3D preview](https://youtu.be/W7rQXUFeLF0), [personalizer to cart](https://youtu.be/1xQ_OlrZndw), [cart drawer](https://youtu.be/DsRWHmc-3K0), [speed before and after](https://youtu.be/Vpt_8GRCpnU) and [Inkly ERP Sync](https://youtu.be/J6ymdCDhGMs).
+- Inkly is one of four demo stores. The other three ([Arara](https://github.com/bielvelozo/arara-shopify-theme), [Dewlane](https://github.com/bielvelozo/dewlane-shopify-theme) and [Nocte](https://github.com/bielvelozo/nocte-shopify-theme)) and the work behind all four are at [gabrielvelozo.pages.dev](https://gabrielvelozo.pages.dev).
 - Products, prices and reviews are fictional. No orders are fulfilled.
 - Base: [Shopify Skeleton Theme](https://github.com/Shopify/skeleton-theme) v1.0.0 (commit `8b8a1f4`, license in `LICENSE.md`). Everything else was written from scratch for this repository.
 - Storefront strings ship in English (default) and Brazilian Portuguese.

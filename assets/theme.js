@@ -36,6 +36,13 @@
     const drawer = document.querySelector('cart-drawer');
     if (!drawer?.dataset.script) return Promise.resolve();
     theme.cartDrawerReady ||= new Promise((resolve) => {
+      if (drawer.dataset.stylesheet) {
+        const styles = document.createElement('link');
+        styles.rel = 'preload';
+        styles.as = 'style';
+        styles.href = drawer.dataset.stylesheet;
+        document.head.append(styles);
+      }
       const script = document.createElement('script');
       script.src = drawer.dataset.script;
       script.onload = script.onerror = () => resolve();
@@ -56,6 +63,10 @@
     if (!drawer?.dataset.script) return;
     event.preventDefault();
     theme.loadCartDrawer().then(() => drawer.open?.(toggle));
+  });
+
+  document.addEventListener('pointerdown', (event) => {
+    if (event.target.closest?.('[data-cart-toggle]')) theme.loadCartDrawer();
   });
 
   const warmCartDrawer = () =>
